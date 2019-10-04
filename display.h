@@ -8,4 +8,5 @@
 #include "labyrinthe.h"
 void displayMatrix(int matrix[NB_LIG][NB_COL]);
 
+
 #endif //PROJET1_DISPLAY_H
