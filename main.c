@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include "labyrinthe.h"
-#include "display.h"
+#include "includes/labyrinthe.h"
+#include "includes/display.h"
 
 int main() {
 
@@ -9,9 +9,6 @@ int main() {
     generateStaticMatrix(matrix);
     generatePath(matrix);
     displayMatrix(matrix);
-
-
-
 
     return 0;
 }

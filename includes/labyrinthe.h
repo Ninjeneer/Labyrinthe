@@ -8,7 +8,6 @@
 #define NB_LIG 9
 #define NB_COL 23
 
-#define VIDE 0
 #define MUR -1
 
 enum {NORTH, EAST, WEST, SOUTH};

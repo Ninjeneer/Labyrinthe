@@ -5,10 +5,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include "labyrinthe.h"
-#include "display.h"
+#include "includes/labyrinthe.h"
+#include "includes/display.h"
 
-
+/**
+ * Generate a static size matrix
+ * @param matrix
+ */
 void generateStaticMatrix(int matrix[NB_LIG][NB_COL]) {
     /* Matrix initialization and border wall construction */
     for (int i = 0; i < NB_LIG; i++)
@@ -30,16 +33,27 @@ void generateStaticMatrix(int matrix[NB_LIG][NB_COL]) {
 
 }
 
+/**
+ * Generate path through the matrix
+ * @param matrix
+ */
 void generatePath(int matrix[NB_LIG][NB_COL]) {
     Coordinate c;
     int nbBreakWalls = 0;
     srand(time(NULL));
 
+    /* Matrix entrance */
+    matrix[1][0] = 0;
+
+    /* Matrix exit */
+    matrix[NB_LIG-2][NB_COL-1] = 0;
 
     while (nbBreakWalls < (NB_LIG - 1) * (NB_COL - 1) - 1) {
+        /* Pick a random case */
         c.lig = (1 + (rand() % (NB_LIG - 2))) | 1;
         c.col = (1 + (rand() % (NB_COL - 2))) | 1;
 
+        /* Pick a random direction */
         int direction = rand() % 4;
 
         Coordinate shift = {0, 0};
@@ -66,10 +80,16 @@ void generatePath(int matrix[NB_LIG][NB_COL]) {
 //        printf("Direction : %d\n\tccase.lig = %d\tccase.col = %d\n\tcwall.lig = %d\tcwall.col = %d\n\tshift.lig = %d\tshift.col = %d", direction, c.lig, c.col, cWall.lig, cWall.col, shift.lig, shift.col);
 //        getchar();
 //
+
         if (breakWall(matrix, c, cWall, shift)) {
             nbBreakWalls++;
+
+            displayMatrix(matrix);
+            printf("==>%d\n", nbBreakWalls);
         }
     }
+
+//    printf("%d", nbBreakWalls);
 }
 
 /**
@@ -110,15 +130,19 @@ void updateCase(int matrix[NB_LIG][NB_COL], int lig, int col, int value) {
 
     matrix[lig][col] = value;
 
+    /* Update upper cases */
     if (lig - 1 > 0 && matrix[lig - 1][col] != matrix[lig][col])
         updateCase(matrix, lig - 1, col, value);
 
+    /* Update lower cases */
     if (lig + 1 < NB_LIG - 2 && matrix[lig + 1][col] != matrix[lig][col])
         updateCase(matrix, lig + 1, col, value);
 
+    /* Update left side cases */
     if (col - 1 > 0 && matrix[lig][col - 1] != matrix[lig][col])
         updateCase(matrix, lig, col - 1, value);
 
+    /* Update right side cases */
     if (col + 1 < NB_COL - 1 && matrix[lig][col + 1] != matrix[lig][col])
         updateCase(matrix, lig, col + 1, value);
 }
