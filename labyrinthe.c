@@ -7,6 +7,7 @@
 #include <time.h>
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
+#include "includes/deck.h"
 
 /**
  * Generate a static size matrix
@@ -91,40 +92,52 @@ void generatePath(int matrix[NB_LIG][NB_COL]) {
 }
 
 void generatePath2(int matrix[NB_LIG][NB_COL]) {
-    Coordinate c;
+    Deck deck;
+    deck.size = getWalls(matrix, &deck.walls);
 
-    do {
-        srand(time(NULL));
-        c.lig = 1 + (rand() % (NB_LIG - 2));
-        c.col = 1 + rand() % ((NB_COL - 2));
-    } while (matrix[c.lig][c.col] != MUR || (c.lig % 2 == 0 && c.col % 2 == 0));
+    int nbBreakWall = 0;
 
-    printf("%d;%d => %d\n", c.lig, c.col, matrix[c.lig][c.col]);
+    srand(time(NULL));
+    while (nbBreakWall < (NB_LIG - 2) * (NB_COL - 2) - 1) {
+        int wallIndex = rand() % deck.size;
+        Coordinate wall = deckPick(wallIndex, &deck);
 
 
+        int direction = rand() % 2;
+
+        if (direction == VERTICAL) {
+            if (breakWall2(matrix, wall, (Coordinate) {-1, 0})) nbBreakWall++;
+            if (breakWall2(matrix, wall, (Coordinate) {+1, 0})) nbBreakWall++;
+        } else {
+            if (breakWall2(matrix, wall, (Coordinate) {0, -1})) nbBreakWall++;
+            if (breakWall2(matrix, wall, (Coordinate) {0, +1})) nbBreakWall++;
+        }
+
+        nbBreakWall++;
+    }
+
+    printf("Broken walls : %d\nTotal walls : %d\n", nbBreakWall, (NB_LIG - 2) * (NB_COL - 2));
+    displayMatrix(matrix);
 }
 
 int breakWall2(int matrix[NB_LIG][NB_COL], Coordinate cWall, Coordinate shift) {
-    /* Avoid breaking border walls */
-    if (cWall.lig == 0 || cWall.lig == NB_LIG - 1 || cWall.col == 0 || cWall.col == NB_COL - 1) {
-        printf("Can't break %d %d because of border\n", cWall.lig, cWall.col);
+/* Avoid breaking border walls */
+    if (cWall.lig + shift.lig == 0 || cWall.lig + shift.lig == NB_LIG - 1 ||
+        cWall.col + shift.col == 0 || cWall.col + shift.col == NB_COL - 1) {
+        //printf("Can't break border %d;%d\n", cWall.lig, cWall.col);
         return 0;
     }
 
 
     /* Avoid breaking a wall having the same case value on the other side */
-    if (matrix[cWall.lig + shift.lig][cWall.col + shift.col] == matrix[cWall.lig - shift.lig][cWall.col - shift.col] &&
-        matrix[cWall.lig - shift.lig][cWall.col - shift.col] != MUR) {
-        printf("Can't break %d %d because of value %d\n", cWall.lig, cWall.col,
-               matrix[cWall.lig + shift.lig][cWall.col + shift.col]);
+    if (matrix[cWall.lig + shift.lig][cWall.col + shift.col] == matrix[cWall.lig - shift.lig][cWall.col - shift.col]) {
+        //printf("Can't break value %d\n", matrix[cWall.lig + shift.lig][cWall.col + shift.col]);
         return 0;
     }
 
-
     /* Breaking the wall */
     if (matrix[cWall.lig][cWall.col] == MUR) {
-        printf("Setting %d;%d (%d) to %d\n", cWall.lig, cWall.col, matrix[cWall.lig][cWall.col],
-               matrix[cWall.lig + shift.lig][cWall.col + shift.col]);
+//        printf("Break : %d;%d ==> %d\n", cWall.lig, cWall.col, matrix[cCase.lig][cCase.col]);
         matrix[cWall.lig][cWall.col] = matrix[cWall.lig + shift.lig][cWall.col + shift.col];
         updateCase(matrix, cWall.lig, cWall.col, matrix[cWall.lig][cWall.col]);
         return 1;
@@ -162,7 +175,10 @@ int breakWall(int matrix[NB_LIG][NB_COL], Coordinate cCase, Coordinate cWall, Co
         updateCase(matrix, cWall.lig, cWall.col, matrix[cWall.lig][cWall.col]);
         return 1;
     }
+
+    return 0;
 }
+
 
 /**
  * Recursively update available cases
@@ -192,4 +208,27 @@ void updateCase(int matrix[NB_LIG][NB_COL], int lig, int col, int value) {
     /* Update right side cases */
     if (col + 1 < NB_COL - 1 && matrix[lig][col + 1] != matrix[lig][col])
         updateCase(matrix, lig, col + 1, value);
+}
+
+int getWalls(int matrix[NB_LIG][NB_COL], Coordinate **walls) {
+
+    int nbWalls = 0;
+
+    for (int i = 1; i < NB_LIG - 1; i++)
+        for (int j = 1; j < NB_COL - 1; j++)
+            if (matrix[i][j] == MUR)
+                nbWalls++;
+
+
+    (*walls) = malloc(nbWalls * sizeof(Coordinate));
+
+    int indexWall = 0;
+    for (int i = 1; i < NB_LIG - 1; i++)
+        for (int j = 1; j < NB_COL - 1; j++)
+            if (matrix[i][j] == MUR) {
+                (*walls)[indexWall++] = (Coordinate) {i, j};
+            }
+
+
+    return nbWalls;
 }
