@@ -46,9 +46,9 @@ void generatePath(int matrix[NB_LIG][NB_COL]) {
     matrix[1][0] = 0;
 
     /* Matrix exit */
-    matrix[NB_LIG-2][NB_COL-1] = 0;
+    matrix[NB_LIG - 2][NB_COL - 1] = 0;
 
-    while (nbBreakWalls < (NB_LIG - 1) * (NB_COL - 1) - 1) {
+    while (nbBreakWalls < (NB_LIG) * (NB_COL) - 1) {
         /* Pick a random case */
         c.lig = (1 + (rand() % (NB_LIG - 2))) | 1;
         c.col = (1 + (rand() % (NB_COL - 2))) | 1;
@@ -88,8 +88,49 @@ void generatePath(int matrix[NB_LIG][NB_COL]) {
             printf("==>%d\n", nbBreakWalls);
         }
     }
+}
 
-//    printf("%d", nbBreakWalls);
+void generatePath2(int matrix[NB_LIG][NB_COL]) {
+    Coordinate c;
+
+    do {
+        srand(time(NULL));
+        c.lig = 1 + (rand() % (NB_LIG - 2));
+        c.col = 1 + rand() % ((NB_COL - 2));
+    } while (matrix[c.lig][c.col] != MUR || (c.lig % 2 == 0 && c.col % 2 == 0));
+
+    printf("%d;%d => %d\n", c.lig, c.col, matrix[c.lig][c.col]);
+
+
+}
+
+int breakWall2(int matrix[NB_LIG][NB_COL], Coordinate cWall, Coordinate shift) {
+    /* Avoid breaking border walls */
+    if (cWall.lig == 0 || cWall.lig == NB_LIG - 1 || cWall.col == 0 || cWall.col == NB_COL - 1) {
+        printf("Can't break %d %d because of border\n", cWall.lig, cWall.col);
+        return 0;
+    }
+
+
+    /* Avoid breaking a wall having the same case value on the other side */
+    if (matrix[cWall.lig + shift.lig][cWall.col + shift.col] == matrix[cWall.lig - shift.lig][cWall.col - shift.col] &&
+        matrix[cWall.lig - shift.lig][cWall.col - shift.col] != MUR) {
+        printf("Can't break %d %d because of value %d\n", cWall.lig, cWall.col,
+               matrix[cWall.lig + shift.lig][cWall.col + shift.col]);
+        return 0;
+    }
+
+
+    /* Breaking the wall */
+    if (matrix[cWall.lig][cWall.col] == MUR) {
+        printf("Setting %d;%d (%d) to %d\n", cWall.lig, cWall.col, matrix[cWall.lig][cWall.col],
+               matrix[cWall.lig + shift.lig][cWall.col + shift.col]);
+        matrix[cWall.lig][cWall.col] = matrix[cWall.lig + shift.lig][cWall.col + shift.col];
+        updateCase(matrix, cWall.lig, cWall.col, matrix[cWall.lig][cWall.col]);
+        return 1;
+    }
+
+    return 0;
 }
 
 /**
@@ -102,15 +143,21 @@ void generatePath(int matrix[NB_LIG][NB_COL]) {
  */
 int breakWall(int matrix[NB_LIG][NB_COL], Coordinate cCase, Coordinate cWall, Coordinate shift) {
     /* Avoid breaking border walls */
-    if (cWall.lig == 0 || cWall.lig == NB_LIG - 1 || cWall.col == 0 || cWall.col == NB_COL - 1)
+    if (cWall.lig == 0 || cWall.lig == NB_LIG - 1 || cWall.col == 0 || cWall.col == NB_COL - 1) {
+        printf("Can't break border %d;%d\n", cWall.lig, cWall.col);
         return 0;
+    }
+
 
     /* Avoid breaking a wall having the same case value on the other side */
-    if (matrix[cWall.lig + shift.lig][cWall.col + shift.col] == matrix[cCase.lig][cCase.col])
+    if (matrix[cWall.lig + shift.lig][cWall.col + shift.col] == matrix[cCase.lig][cCase.col]) {
+        printf("Can't break value %d\n", matrix[cWall.lig + shift.lig][cWall.col + shift.col]);
         return 0;
+    }
 
     /* Breaking the wall */
     if (matrix[cWall.lig][cWall.col] == MUR) {
+        printf("Break : %d;%d ==> %d\n", cWall.lig, cWall.col, matrix[cCase.lig][cCase.col]);
         matrix[cWall.lig][cWall.col] = matrix[cCase.lig][cCase.col];
         updateCase(matrix, cWall.lig, cWall.col, matrix[cWall.lig][cWall.col]);
         return 1;
