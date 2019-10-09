@@ -12,6 +12,11 @@ void deckAdd(Deck *deck, Coordinate c) {
 }
 
 Coordinate deckPick(int index, Deck *deck) {
+    return deck->walls[index];
+
+}
+
+Coordinate deckRemove(int index, Deck *deck) {
     Coordinate pickedWall = deck->walls[index];
 
     for (int i = index; i < deck->size; i++)
@@ -23,6 +28,7 @@ Coordinate deckPick(int index, Deck *deck) {
 }
 
 void deckDisplay(Deck d) {
+    printf("(%d) => ", d.size);
     for (int i = 0; i < d.size; i++)
         printf("[%d;%d] ", d.walls[i].lig, d.walls[i].col);
 

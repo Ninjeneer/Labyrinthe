@@ -5,9 +5,10 @@
 #ifndef PROJET1_LABYRINTHE_H
 #define PROJET1_LABYRINTHE_H
 
-#define NB_LIG 5
-#define NB_COL 7
+#define NB_LIG 9
+#define NB_COL 23
 
+#define VIDE 0
 #define MUR -1
 
 enum {NORTH, EAST, WEST, SOUTH};
@@ -25,7 +26,7 @@ void generatePath(int matrix[NB_LIG][NB_COL]);
 void generatePath2(int matrix[NB_LIG][NB_COL]);
 int breakWall(int matrix[NB_LIG][NB_COL], Coordinate cCase, Coordinate cWall, Coordinate shift);
 int breakWall2(int matrix[NB_LIG][NB_COL], Coordinate cWall, Coordinate shift);
-void updateCase(int matrix[NB_LIG][NB_COL], int lig, int col, int value);
+void updateCase(int matrix[NB_LIG][NB_COL], int lig, int col, int value, int override);
 int getWalls(int matrix[NB_LIG][NB_COL], Coordinate **walls);
 
 #endif //PROJET1_LABYRINTHE_H

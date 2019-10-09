@@ -15,6 +15,7 @@ typedef struct {
 
 void deckAdd(Deck *deck, Coordinate c);
 Coordinate deckPick(int index, Deck *deck);
+Coordinate deckRemove(int index, Deck *deck);
 void deckDisplay(Deck d);
 
 #endif //PROJET1_DECK_H
