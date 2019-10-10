@@ -54,6 +54,7 @@ void createMatrix(Map *m) {
 
     /* Create the matrix, generate the path */
     generateStaticMatrix(m);
+    displayMatrix(m);
 
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
     do {

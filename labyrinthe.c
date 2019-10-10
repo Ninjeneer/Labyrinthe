@@ -39,7 +39,7 @@ void generateStaticMatrix(Map *m) {
             m->matrix[i][j] = MUR;
 
 
-    //generatePath(m);
+    generatePath(m);
 }
 
 void generatePath(Map *m) {
