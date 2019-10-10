@@ -54,18 +54,20 @@ void createMatrix(Map *m) {
 
     /* Create the matrix, generate the path */
     generateStaticMatrix(m);
-    //displayMatrix(m);
 
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
-//    do {
-    printf("Nom du labyrinthe (20 car. max): ");
-    fgets(m->name, 20, stdin);
-//    } while (strlen(m->name) <= 0 || strlen(m->name) > 20);
-//
-//    if (saveMap(m))
-//        printf("Labyrinthe enregistré avec succès.\n");
-//    else
-//        printf("Impossible de sauvegarder le labyrinthe.\n");
+    do {
+        printf("Nom du labyrinthe (3 -> 20 car.): ");
+        fgets(m->name, 20, stdin);
+   } while (strlen(m->name) < 3 || strlen(m->name) > 20);
+
+   printf("%ld", strlen(m->name));
+
+
+    if (saveMap(m))
+        printf("Labyrinthe enregistré avec succès.\n");
+    else
+        printf("Impossible de sauvegarder le labyrinthe.\n");
 
 
 

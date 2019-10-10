@@ -7,8 +7,9 @@
 #ifndef PROJET1_FILE_H
 #define PROJET1_FILE_H
 
-#define FOLDER_NAME "maps/"
+#define MAP_FOLDER_NAME "maps/"
 #define MAP_NAME_SIZE 20
+#define MAP_FILE_EXTENSION ".cfg"
 
 int saveMap(Map *m);
 

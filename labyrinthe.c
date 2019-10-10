@@ -16,9 +16,9 @@
  */
 void generateStaticMatrix(Map *m) {
     /* Matrix memory allocation */
-    m->matrix = malloc(m->nbLig * sizeof(int*));
+    m->matrix = (int **) malloc(m->nbLig * sizeof(int *));
     for (int i = 0; i < m->nbLig; i++)
-        m->matrix[i] = malloc(m->nbCol * sizeof(int));
+        m->matrix[i] = (int *) malloc(m->nbCol * sizeof(int));
 
     /* Matrix initialization and border wall construction */
     for (int i = 0; i < m->nbLig; i++)
