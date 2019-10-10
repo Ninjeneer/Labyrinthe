@@ -1,37 +1,35 @@
 #include <stdio.h>
+#include <stdbool.h>
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
 
 int main() {
 
-    int **matrix;
-    int playerChoice = displayMenu();
+    Map m;
+
     int nbLig = 0, nbCol = 0;
 
-    switch (playerChoice) {
-        case CREATE:
-            createMatrix(&nbLig, &nbCol, &matrix);
-            break;
+    while (true) {
+        int playerChoice = displayMenu();
+        switch (playerChoice) {
+            case CREATE:
+                createMatrix(&m);
+                break;
 
-        case OPEN:
-            break;
+            case OPEN:
+                break;
 
-        case PLAY:
-            break;
+            case PLAY:
+                break;
 
-        case QUIT:
-            return 0;
+            case QUIT:
+                return 0;
 
-        default:
-            printf("Unknown choice.");
-            break;
+            default:
+                printf("Unknown choice.");
+                break;
+        }
     }
-
-//int matrix[NB_LIG][NB_COL];
-//
-//generateStaticMatrix(matrix);
-//generatePath2(matrix);
-//displayMatrix(matrix);
 
     return 0;
 }

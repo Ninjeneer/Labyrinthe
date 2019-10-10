@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/display.c
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+includes/display.h
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/display.h
+includes/labyrinthe.h
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/labyrinthe.h
+includes/file.h
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/file.h
+
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/display.h
+labyrinthe.h
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/labyrinthe.h
+
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/file.h
+labyrinthe.h
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/labyrinthe.h
+
+/home/loan/cours/ensicaen/1a/introProg/projet-c-1/includes/labyrinthe.h
+

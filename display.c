@@ -4,15 +4,17 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "includes/display.h"
 #include "includes/labyrinthe.h"
+#include "includes/file.h"
 
 
-void displayMatrix(int matrix[NB_LIG][NB_COL]) {
-    for (int i = 0; i < NB_LIG; i++) {
-        for (int j = 0; j < NB_COL; j++)
+void displayMatrix(Map *m) {
+    for (int i = 0; i < m->nbLig; i++) {
+        for (int j = 0; j < m->nbCol; j++)
 //            printf("%2d|", matrix[i][j]);
-            if (matrix[i][j] == MUR)
+            if (m->matrix[i][j] == MUR)
                 printf("#");
             else
                 printf(" ");
@@ -35,20 +37,43 @@ int displayMenu() {
     return choice - 1;
 }
 
-void createMatrix(int *lig, int *col, int **matrix) {
+void createMatrix(Map *m) {
     printf("=== Création d'un labyrinthe :\n");
 
     do {
         printf("\tLargeur (impair) : ");
-        scanf("%d", col);
-    } while (*col % 2 == 0 || col < 0);
+        scanf("%d", &m->nbCol);
+        clearBuffer();
+    } while (m->nbCol % 2 == 0 || m->nbCol < 0);
 
     do {
         printf("\tHauteur (impair) : ");
-        scanf("%d", lig);
-    } while (*lig % 2 == 0 || lig < 0);
+        scanf("%d", &m->nbLig);
+        clearBuffer();
+    } while (m->nbLig % 2 == 0 || m->nbLig < 0);
 
-    matrix = malloc(*lig * sizeof(int));
-    for (int i = 0; i < *lig; i++)
-        (*matrix)[i] = malloc(*col * sizeof(int));
+    /* Create the matrix, generate the path */
+    generateStaticMatrix(m);
+    //displayMatrix(m);
+
+    m->name = malloc(MAP_NAME_SIZE * sizeof(char));
+//    do {
+    printf("Nom du labyrinthe (20 car. max): ");
+    fgets(m->name, 20, stdin);
+//    } while (strlen(m->name) <= 0 || strlen(m->name) > 20);
+//
+//    if (saveMap(m))
+//        printf("Labyrinthe enregistré avec succès.\n");
+//    else
+//        printf("Impossible de sauvegarder le labyrinthe.\n");
+
+
+
+}
+
+void clearBuffer() {
+    int c;
+    do {
+        c = getchar();
+    } while (c != '\n' && c != EOF);
 }

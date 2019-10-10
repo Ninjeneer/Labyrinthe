@@ -9,9 +9,10 @@
 
 enum { CREATE, OPEN, PLAY, QUIT};
 
-void displayMatrix(int matrix[NB_LIG][NB_COL]);
+void displayMatrix(Map *m);
 int displayMenu();
-void createMatrix(int *lig, int *col, int **matrix);
+void createMatrix(Map *m);
+void clearBuffer();
 
 
 #endif //PROJET1_DISPLAY_H
