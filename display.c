@@ -8,14 +8,17 @@
 #include "includes/display.h"
 #include "includes/labyrinthe.h"
 #include "includes/file.h"
+#include "includes/game.h"
 
 
-void displayMatrix(Map *m) {
+void displayGame(Map *m, Player p) {
     for (int i = 0; i < m->nbLig; i++) {
         for (int j = 0; j < m->nbCol; j++)
 //            printf("%2d|", matrix[i][j]);
             if (m->matrix[i][j] == MUR)
                 printf("#");
+            else if (p.pos.lig == i && p.pos.col == j)
+                printf("o");
             else
                 printf(" ");
 
@@ -33,6 +36,7 @@ int displayMenu() {
         printf("Choix : ");
     }
 
+    clearBuffer();
 
     return choice - 1;
 }
@@ -54,24 +58,20 @@ void createMatrix(Map *m) {
 
     /* Create the matrix, generate the path */
     generateStaticMatrix(m);
-    displayMatrix(m);
 
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
     do {
         printf("Nom du labyrinthe (3 -> 20 car.): ");
-        fgets(m->name, 20, stdin);
-   } while (strlen(m->name) < 3 || strlen(m->name) > 20);
+        fgets(m->name, MAP_NAME_SIZE, stdin);
+   } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE);
 
-   printf("%ld", strlen(m->name));
+   m->name[strlen(m->name)-1] = '\0';
 
 
     if (saveMap(m))
-        printf("Labyrinthe enregistré avec succès.\n");
+        printf("Labyrinthe enregistré et chargé avec succès.\n");
     else
         printf("Impossible de sauvegarder le labyrinthe.\n");
-
-
-
 }
 
 void clearBuffer() {

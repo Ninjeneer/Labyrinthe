@@ -6,10 +6,11 @@
 #define PROJET1_DISPLAY_H
 
 #include "labyrinthe.h"
+#include "game.h"
 
 enum { CREATE, OPEN, PLAY, QUIT};
 
-void displayMatrix(Map *m);
+void displayGame(Map *m, Player p);
 int displayMenu();
 void createMatrix(Map *m);
 void clearBuffer();

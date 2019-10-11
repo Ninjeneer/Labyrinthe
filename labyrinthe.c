@@ -76,7 +76,7 @@ void generatePath(Map *m) {
     }
 
     /* Matrix entrance */
-    updateCase(m, 1, 0, VIDE, true);
+    updateCase(m, MATRIX_START_LIG, MATRIX_START_COL, VIDE, true);
 
     /* Matrix exit */
     updateCase(m, m->nbLig - 2, m->nbCol - 1, VIDE, true);

@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
+#include "includes/game.h"
 
 int main() {
 
@@ -20,6 +21,7 @@ int main() {
                 break;
 
             case PLAY:
+                play(&m);
                 break;
 
             case QUIT:

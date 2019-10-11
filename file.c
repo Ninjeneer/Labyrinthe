@@ -28,7 +28,7 @@ int saveMap(Map *m) {
     }
 
     /* Write the map name */
-    fprintf(file, "%s", m->name);
+    fprintf(file, "%s\n", m->name);
     /* Write the map's dimensions */
     fprintf(file, "%d %d\n", m->nbLig, m->nbCol);
 
@@ -43,4 +43,21 @@ int saveMap(Map *m) {
     fclose(file);
 
     return 1;
+}
+
+int readMap(Map *m, char *filename) {
+
+    char *fullPath = (char*)malloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION) * sizeof(char)));
+    strcat(fullPath, MAP_FOLDER_NAME);
+    strcat(fullPath, m->name);
+    strcat(fullPath, MAP_FILE_EXTENSION);
+
+    FILE *file = fopen(fullPath, "r");
+
+    if (file == NULL) {
+        printf("Impossible de lire le fichier : %s", fullPath);
+        return 0;
+    }
+
+
 }
