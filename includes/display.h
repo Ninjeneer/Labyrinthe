@@ -15,7 +15,7 @@ int displayMenu();
 void createMap(Map *m);
 void openMap(Map *m);
 void clearBuffer();
-void clearMap(Map *m);
+void showFileList();
 
 
 #endif //PROJET1_DISPLAY_H

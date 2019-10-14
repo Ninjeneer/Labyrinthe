@@ -10,7 +10,6 @@
 #include "includes/display.h"
 
 
-
 /**
  * Save a map into a file
  * @param m  Map
@@ -18,7 +17,13 @@
  */
 int saveMap(Map *m) {
 
-    char *filename = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION)), sizeof(char));
+    if (hasIllegalCharacters(m->name)) {
+        printf("Erreur : nom de fichier invalide !\n");
+        return 0;
+    }
+
+    char *filename = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION)),
+                                     sizeof(char));
     strcat(filename, MAP_FOLDER_NAME);
     strcat(filename, m->name);
     strcat(filename, MAP_FILE_EXTENSION);
@@ -58,7 +63,8 @@ int saveMap(Map *m) {
  */
 int readMap(Map *m, char *filename) {
 
-    char *fullPath = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION)), sizeof(char));
+    char *fullPath = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION)),
+                                     sizeof(char));
     strcat(fullPath, MAP_FOLDER_NAME);
     strcat(fullPath, filename);
     strcat(fullPath, MAP_FILE_EXTENSION);
@@ -92,7 +98,8 @@ int readMap(Map *m, char *filename) {
 
 int saveScore(Map *m, Player *p) {
 
-    char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)), sizeof(char));
+    char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
+                                     sizeof(char));
     strcat(filename, SCORE_FOLDER_NAME);
     strcat(filename, m->name);
     strcat(filename, SCORE_FILE_EXTENSION);
@@ -118,7 +125,8 @@ int saveScore(Map *m, Player *p) {
 
 int readScore(Map *m) {
 
-    char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)), sizeof(char));
+    char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
+                                     sizeof(char));
     strcat(filename, SCORE_FOLDER_NAME);
     strcat(filename, m->name);
     strcat(filename, SCORE_FILE_EXTENSION);
@@ -140,4 +148,15 @@ int readScore(Map *m) {
     free(filename);
 
     return 1;
+}
+
+int hasIllegalCharacters(char *str) {
+    char illegalCharacters[] = "/.\\~:";
+
+    for (int i = 0; i < strlen(str); i++)
+        for (int j = 0; j < strlen(illegalCharacters); j++)
+            if (str[i] == illegalCharacters[j])
+                return 1;
+
+    return 0;
 }

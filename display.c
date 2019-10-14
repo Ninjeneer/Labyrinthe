@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <dirent.h>
 #include "includes/display.h"
 #include "includes/labyrinthe.h"
 #include "includes/file.h"
@@ -94,8 +95,7 @@ void createMap(Map *m) {
     if (saveMap(m)) {
         printf("Labyrinthe enregistré et chargé avec succès.\n\n");
         m->loaded = 1;
-    }
-    else {
+    } else {
         printf("Impossible de sauvegarder le labyrinthe.\n\n");
         m->loaded = 0;
     }
@@ -107,6 +107,10 @@ void createMap(Map *m) {
  * @param m Map
  */
 void openMap(Map *m) {
+    /* Show maps list */
+    printf("Liste des maps disponibles :\n");
+    showFileList();
+
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
     do {
@@ -135,4 +139,19 @@ void clearBuffer() {
     do {
         c = getchar();
     } while (c != '\n' && c != EOF);
+}
+
+void showFileList() {
+    DIR *d;
+    struct dirent *dir;
+    d = opendir(MAP_FOLDER_NAME);
+
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
+                printf("\t%s\n", dir->d_name);
+        }
+
+        closedir(d);
+    }
 }

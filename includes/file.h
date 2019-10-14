@@ -19,6 +19,7 @@
 int saveMap(Map *m);
 int readMap(Map *m, char *filename);
 int saveScore(Map *m, Player *p);
+int hasIllegalCharacters(char *str);
 
 
 
