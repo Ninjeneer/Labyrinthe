@@ -42,7 +42,6 @@ void play(Map *m) {
             /* Test objects */
             testCase(m, &p);
         }
-
     }
 
     printf("/!\\ Bravo ! Vous êtes sorti du labyrinthe !\n");

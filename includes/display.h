@@ -12,8 +12,10 @@ enum { CREATE, OPEN, PLAY, QUIT};
 
 void displayGame(Map *m, Player p);
 int displayMenu();
-void createMatrix(Map *m);
+void createMap(Map *m);
+void openMap(Map *m);
 void clearBuffer();
+void clearMap(Map *m);
 
 
 #endif //PROJET1_DISPLAY_H

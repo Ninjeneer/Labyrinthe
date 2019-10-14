@@ -57,7 +57,7 @@ int displayMenu() {
  * Ask for map information, create it and save it
  * @param m Map
  */
-void createMatrix(Map *m) {
+void createMap(Map *m) {
     printf("=== Création d'un labyrinthe :\n");
 
     /* Ask for the width of the map */
@@ -95,6 +95,25 @@ void createMatrix(Map *m) {
         printf("Impossible de sauvegarder le labyrinthe.\n");
 }
 
+void openMap(Map *m) {
+    /* Ask for the name of the map */
+    m->name = malloc(MAP_NAME_SIZE * sizeof(char));
+    do {
+        printf("Nom du labyrinthe à ouvrir : ");
+        fgets(m->name, MAP_NAME_SIZE, stdin);
+        fflush(stdin);
+    } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE);
+
+    m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
+
+    if (readMap(m, m->name))
+        printf("Labyrinthe chargé avec succès!\n");
+    else
+        printf("Erreur dans le chargement du labyrinthe !\n");
+}
+
+
+
 /**
  * Clear the stdin buffer
  */
@@ -103,4 +122,8 @@ void clearBuffer() {
     do {
         c = getchar();
     } while (c != '\n' && c != EOF);
+}
+
+void clearMap(Map *m) {
+    free(m->name);
 }

@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdbool.h>
+#include <malloc.h>
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
 #include "includes/game.h"
@@ -8,16 +9,15 @@ int main() {
 
     Map m;
 
-    int nbLig = 0, nbCol = 0;
-
     while (true) {
         int playerChoice = displayMenu();
         switch (playerChoice) {
             case CREATE:
-                createMatrix(&m);
+                createMap(&m);
                 break;
 
             case OPEN:
+                openMap(&m);
                 break;
 
             case PLAY:
@@ -32,6 +32,4 @@ int main() {
                 break;
         }
     }
-
-    return 0;
 }

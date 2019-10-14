@@ -6,10 +6,8 @@
 #include <string.h>
 #include <bits/types/FILE.h>
 #include <stdlib.h>
-#include <dirent.h>
-#include <sys/stat.h>
-#include <zconf.h>
 #include "includes/file.h"
+#include "includes/display.h"
 
 /**
  * Save a map into a file
@@ -18,16 +16,16 @@
  */
 int saveMap(Map *m) {
 
-    char *filename = (char*)malloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION) * sizeof(char)));
+    char *filename = (char *) malloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION)) * sizeof(char));
     strcat(filename, MAP_FOLDER_NAME);
     strcat(filename, m->name);
     strcat(filename, MAP_FILE_EXTENSION);
 
-    FILE* file = fopen(filename, "w+");
+    FILE *file = fopen(filename, "w+");
 
     /* Test file existence */
     if (file == NULL) {
-        printf("Impossible d'ouvrir le fichier : %s", m->name);
+        printf("Impossible d'ouvrir le fichier : %s\n", filename);
         return 0;
     }
 
@@ -56,16 +54,33 @@ int saveMap(Map *m) {
  * @return 0 if fail, 1 if success
  */
 int readMap(Map *m, char *filename) {
-
-    char *fullPath = (char*)malloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION) * sizeof(char)));
+    char *fullPath = (char *) malloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION)) * sizeof(char));
     strcat(fullPath, MAP_FOLDER_NAME);
-    strcat(fullPath, m->name);
+    strcat(fullPath, filename);
     strcat(fullPath, MAP_FILE_EXTENSION);
 
     FILE *file = fopen(fullPath, "r");
 
     if (file == NULL) {
-        printf("Impossible de lire le fichier : %s", fullPath);
+        printf("Impossible de lire le fichier : %s\n", fullPath);
         return 0;
     }
+
+    fscanf(file, "%*s\n");
+    fscanf(file, "%d %d\n", &m->nbLig, &m->nbCol);
+
+    m->matrix = (int **) malloc(m->nbLig * sizeof(int *));
+    for (int i = 0; i < m->nbLig; i++)
+        m->matrix[i] = (int *) malloc(m->nbCol * sizeof(int));
+
+    for (int i = 0; i < m->nbLig; i++) {
+        for (int j = 0; j < m->nbCol; j++)
+            fscanf(file, "%d ", &m->matrix[i][j]);
+
+        fscanf(file, "\n");
+    }
+
+    fclose(file);
+
+    return 1;
 }

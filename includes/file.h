@@ -12,5 +12,6 @@
 #define MAP_FILE_EXTENSION ".cfg"
 
 int saveMap(Map *m);
+int readMap(Map *m, char *filename);
 
 #endif //PROJET1_FILE_H
