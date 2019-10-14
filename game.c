@@ -19,7 +19,7 @@ void play(Map *m) {
     p.pos = (Coordinate) {MATRIX_START_LIG, MATRIX_START_COL};
 
     /* Set default player score */
-    p.score = (m->nbLig) / 2 * (m->nbCol) / 2;
+    p.score = m->nbLig * m->nbCol;
 
     /* Game loop */
     while (p.pos.lig != m->nbLig - 2 || p.pos.col != m->nbCol - 1) {

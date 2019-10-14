@@ -11,6 +11,7 @@ int main() {
 
     while (true) {
         int playerChoice = displayMenu();
+
         switch (playerChoice) {
             case CREATE:
                 createMap(&m);
@@ -25,10 +26,11 @@ int main() {
                 break;
 
             case QUIT:
+                printf("Au revoir !\n");
                 return 0;
 
             default:
-                printf("Unknown choice.");
+                printf("Choix inconnu\n");
                 break;
         }
     }

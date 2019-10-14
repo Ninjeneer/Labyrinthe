@@ -16,7 +16,7 @@
  */
 int saveMap(Map *m) {
 
-    char *filename = (char *) malloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION)) * sizeof(char));
+    char *filename = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION)), sizeof(char));
     strcat(filename, MAP_FOLDER_NAME);
     strcat(filename, m->name);
     strcat(filename, MAP_FILE_EXTENSION);
@@ -54,7 +54,10 @@ int saveMap(Map *m) {
  * @return 0 if fail, 1 if success
  */
 int readMap(Map *m, char *filename) {
-    char *fullPath = (char *) malloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION)) * sizeof(char));
+
+    printf("Received filename ==> %s\n", filename);
+
+    char *fullPath = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION)), sizeof(char));
     strcat(fullPath, MAP_FOLDER_NAME);
     strcat(fullPath, filename);
     strcat(fullPath, MAP_FILE_EXTENSION);

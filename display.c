@@ -96,7 +96,6 @@ void createMap(Map *m) {
 }
 
 void openMap(Map *m) {
-    clearMap(m);
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
     do {
