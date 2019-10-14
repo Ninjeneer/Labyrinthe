@@ -12,8 +12,8 @@
 
 /**
  * Save a map into a file
- * @param m  Map
- * @return  0 if fail, 1 if success
+ * @param m Map
+ * @return 0 if fail, 1 if success
  */
 int saveMap(Map *m) {
 
@@ -22,6 +22,7 @@ int saveMap(Map *m) {
         return 0;
     }
 
+    /* Map file creation */
     char *filename = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(m->name) + strlen(MAP_FILE_EXTENSION)),
                                      sizeof(char));
     strcat(filename, MAP_FOLDER_NAME);
@@ -32,7 +33,7 @@ int saveMap(Map *m) {
 
     /* Test file existence */
     if (file == NULL) {
-        printf("Impossible d'ouvrir le fichier : %s\n", filename);
+        printf("Impossible de créer le fichier de map : %s\n", filename);
         return 0;
     }
 
@@ -51,6 +52,20 @@ int saveMap(Map *m) {
 
     fclose(file);
     free(filename);
+
+    /* Score file creation */
+    char *scoreFilename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
+                                     sizeof(char));
+    strcat(scoreFilename, SCORE_FOLDER_NAME);
+    strcat(scoreFilename, m->name);
+    strcat(scoreFilename, SCORE_FILE_EXTENSION);
+
+    FILE *scoreFile = fopen(scoreFilename, "w+");
+    if (scoreFile == NULL) {
+        printf("Impossible de créer le fichier de score : %s\n", scoreFilename);
+        return 0;
+    }
+    fclose(scoreFile);
 
     return 1;
 }
@@ -123,7 +138,7 @@ int saveScore(Map *m, Player *p) {
     return 1;
 }
 
-int readScore(Map *m) {
+int readScore(Map *m, Player **bestScores) {
 
     char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
                                      sizeof(char));
@@ -139,10 +154,21 @@ int readScore(Map *m) {
         return 0;
     }
 
-    Player bestScores[SCORE_NB_BY_FILE];
-    for (int i = 0; i < SCORE_NB_BY_FILE; i++) {
-        fscanf(file, "%s %d", bestScores[i].name, &bestScores[i].score);
-    }
+
+    int nbEntry = 0;
+    for (char c = getc(file); c != EOF; c = getc(file))
+        if (c == '\n')
+            nbEntry = nbEntry + 1;
+
+        printf("%d", nbEntry);
+    if (nbEntry > 0) {
+        (*bestScores) = (Player *)malloc(nbEntry * sizeof(Player));
+        for (int i = 0; i < nbEntry; i++) {
+            fscanf(file, "%s %d", (*bestScores[i]).name, *bestScores[i].score);
+        }
+    } else
+        bestScores = NULL;
+
 
     fclose(file);
     free(filename);
@@ -150,6 +176,11 @@ int readScore(Map *m) {
     return 1;
 }
 
+/**
+ * Check if a string contains illegal characters
+ * @param str string to test
+ * @return 0 if string is clean
+ */
 int hasIllegalCharacters(char *str) {
     char illegalCharacters[] = "/.\\~:";
 

@@ -96,7 +96,6 @@ void createMap(Map *m) {
         printf("Labyrinthe enregistré et chargé avec succès.\n\n");
         m->loaded = 1;
     } else {
-        printf("Impossible de sauvegarder le labyrinthe.\n\n");
         m->loaded = 0;
     }
 
@@ -125,7 +124,6 @@ void openMap(Map *m) {
         printf("Labyrinthe chargé avec succès!\n\n");
         m->loaded = 1;
     } else {
-        printf("Erreur dans le chargement du labyrinthe !\n\n");
         m->loaded = 0;
     }
 }

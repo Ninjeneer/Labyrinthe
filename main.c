@@ -4,35 +4,44 @@
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
 #include "includes/game.h"
+#include "includes/file.h"
 
 int main() {
 
+//    Map m;
+//    m.loaded = false;
+//
+//    while (true) {
+//        int playerChoice = displayMenu();
+//
+//        switch (playerChoice) {
+//            case CREATE:
+//                createMap(&m);
+//                break;
+//
+//            case OPEN:
+//                openMap(&m);
+//                break;
+//
+//            case PLAY:
+//                play(&m);
+//                break;
+//
+//            case QUIT:
+//                printf("Au revoir !\n");
+//                return 0;
+//
+//            default:
+//                printf("Choix inconnu\n");
+//                break;
+//        }
+//    }
+
     Map m;
-    m.loaded = false;
+    m.name = "test1";
 
-    while (true) {
-        int playerChoice = displayMenu();
+    Player *bestScores = NULL;
+    readScore(&m, bestScores);
 
-        switch (playerChoice) {
-            case CREATE:
-                createMap(&m);
-                break;
-
-            case OPEN:
-                openMap(&m);
-                break;
-
-            case PLAY:
-                play(&m);
-                break;
-
-            case QUIT:
-                printf("Au revoir !\n");
-                return 0;
-
-            default:
-                printf("Choix inconnu\n");
-                break;
-        }
-    }
+    printf("%s %d", bestScores[0].name, bestScores[0].score);
 }
