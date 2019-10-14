@@ -96,6 +96,7 @@ void createMap(Map *m) {
 }
 
 void openMap(Map *m) {
+    clearMap(m);
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
     do {
@@ -113,7 +114,6 @@ void openMap(Map *m) {
 }
 
 
-
 /**
  * Clear the stdin buffer
  */
@@ -125,5 +125,16 @@ void clearBuffer() {
 }
 
 void clearMap(Map *m) {
-    free(m->name);
+    if (m->name != NULL)
+        free(m->name);
+
+    if (m->matrix != NULL) {
+        for (int i = 0; i < m->nbLig; i++)
+            free(m->matrix[i]);
+
+        free(m->matrix);
+    }
+
+    m->nbLig = 0;
+    m->nbCol = 0;
 }
