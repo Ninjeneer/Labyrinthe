@@ -32,6 +32,8 @@ void displayGame(Map *m, Player p) {
 
         printf("\n");
     }
+
+    printf("Score : %d\n", p.score);
 }
 
 /**
@@ -44,7 +46,7 @@ int displayMenu() {
     int choice = 0;
     //TODO test valeur
     printf("Choix : ");
-    while (scanf("%d", &choice) != 1) {
+    while (scanf("%d", &choice) != 1 || choice < 1 || choice > 4) {
         printf("Choix : ");
     }
 
@@ -54,7 +56,7 @@ int displayMenu() {
 }
 
 /**
- * Ask for map information, create it and save it
+ * Ask for map information, create it, save it and load it
  * @param m Map
  */
 void createMap(Map *m) {
@@ -89,12 +91,21 @@ void createMap(Map *m) {
 
 
     /* Save the map in a file */
-    if (saveMap(m))
-        printf("Labyrinthe enregistré et chargé avec succès.\n");
-    else
-        printf("Impossible de sauvegarder le labyrinthe.\n");
+    if (saveMap(m)) {
+        printf("Labyrinthe enregistré et chargé avec succès.\n\n");
+        m->loaded = 1;
+    }
+    else {
+        printf("Impossible de sauvegarder le labyrinthe.\n\n");
+        m->loaded = 0;
+    }
+
 }
 
+/**
+ * Ask for map name and load it
+ * @param m Map
+ */
 void openMap(Map *m) {
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
@@ -106,10 +117,13 @@ void openMap(Map *m) {
 
     m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
-    if (readMap(m, m->name))
-        printf("Labyrinthe chargé avec succès!\n");
-    else
-        printf("Erreur dans le chargement du labyrinthe !\n");
+    if (readMap(m, m->name)) {
+        printf("Labyrinthe chargé avec succès!\n\n");
+        m->loaded = 1;
+    } else {
+        printf("Erreur dans le chargement du labyrinthe !\n\n");
+        m->loaded = 0;
+    }
 }
 
 
@@ -121,19 +135,4 @@ void clearBuffer() {
     do {
         c = getchar();
     } while (c != '\n' && c != EOF);
-}
-
-void clearMap(Map *m) {
-    if (m->name != NULL)
-        free(m->name);
-
-    if (m->matrix != NULL) {
-        for (int i = 0; i < m->nbLig; i++)
-            free(m->matrix[i]);
-
-        free(m->matrix);
-    }
-
-    m->nbLig = 0;
-    m->nbCol = 0;
 }

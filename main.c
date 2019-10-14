@@ -8,6 +8,7 @@
 int main() {
 
     Map m;
+    m.loaded = false;
 
     while (true) {
         int playerChoice = displayMenu();

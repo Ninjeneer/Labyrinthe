@@ -52,7 +52,6 @@ void generatePath(Map *m) {
     deck.size = getWalls(m, &deck.walls);
 
     int nbBreakWall = 0;
-    int nbMaxWall = deck.size;
 
     srand(time(NULL));
     while (nbBreakWall < (m->nbLig / 2) * (m->nbCol / 2) - 1) {

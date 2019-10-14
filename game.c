@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <ctype.h>
+#include <stdlib.h>
 #include "includes/game.h"
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
@@ -13,6 +14,12 @@
  * @param m Map
  */
 void play(Map *m) {
+    if (m->loaded == 0) {
+        printf("Erreur : aucune map n'est chargée !\n");
+        return;
+    }
+
+
     Player p;
 
     /* Place player at the begging of the map */
@@ -44,8 +51,7 @@ void play(Map *m) {
         }
     }
 
-    printf("/!\\ Bravo ! Vous êtes sorti du labyrinthe !\n");
-    printf("Score : %d\n\n", p.score);
+    printf("/!\\ Bravo ! Vous êtes sorti du labyrinthe, avec un score de %d !\n\n", p.score);
 }
 
 /**
@@ -62,24 +68,28 @@ int movePlayer(Map *m, Player *p, int direction) {
                 p->pos.lig--;
                 return 1;
             }
+            return 0;
 
         case 'Q':
             if (m->matrix[p->pos.lig][p->pos.col - 1] != WALL && p->pos.col - 1 >= 0) {
                 p->pos.col--;
                 return 1;
             }
+            return 0;
 
         case 'S':
             if (m->matrix[p->pos.lig + 1][p->pos.col] != WALL) {
                 p->pos.lig++;
                 return 1;
             }
+            return 0;
 
         case 'D':
             if (m->matrix[p->pos.lig][p->pos.col + 1] != WALL && p->pos.col + 1 < m->nbCol) {
                 p->pos.col++;
                 return 1;
             }
+            return 0;
 
         default:
             return 0;
@@ -96,5 +106,4 @@ void testCase(Map *m, Player *p) {
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
         printf("Vous avez trouvé un trésor, vous gagnez %d points !\n", TREASURE_VALUE);
     }
-
 }

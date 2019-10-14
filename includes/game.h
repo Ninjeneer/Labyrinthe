@@ -13,6 +13,7 @@
 typedef struct {
     Coordinate pos;
     int score;
+    char *name;
 } Player;
 
 void play(Map *m);

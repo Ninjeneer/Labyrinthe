@@ -23,6 +23,7 @@ typedef struct {
     int **matrix;
     int nbLig;
     int nbCol;
+    int loaded;
 } Map;
 
 

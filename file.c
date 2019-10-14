@@ -9,6 +9,8 @@
 #include "includes/file.h"
 #include "includes/display.h"
 
+
+
 /**
  * Save a map into a file
  * @param m  Map
@@ -43,6 +45,7 @@ int saveMap(Map *m) {
     }
 
     fclose(file);
+    free(filename);
 
     return 1;
 }
@@ -54,8 +57,6 @@ int saveMap(Map *m) {
  * @return 0 if fail, 1 if success
  */
 int readMap(Map *m, char *filename) {
-
-    printf("Received filename ==> %s\n", filename);
 
     char *fullPath = (char *) calloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION)), sizeof(char));
     strcat(fullPath, MAP_FOLDER_NAME);
@@ -84,6 +85,59 @@ int readMap(Map *m, char *filename) {
     }
 
     fclose(file);
+    free(fullPath);
+
+    return 1;
+}
+
+int saveScore(Map *m, Player *p) {
+
+    char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)), sizeof(char));
+    strcat(filename, SCORE_FOLDER_NAME);
+    strcat(filename, m->name);
+    strcat(filename, SCORE_FILE_EXTENSION);
+
+    FILE *file = fopen(filename, "w+");
+
+    /* Test file existence */
+    if (file == NULL) {
+        printf("Impossible d'ouvrir le fichier de socre : %s\n", filename);
+        return 0;
+    }
+
+    /* Write the map name */
+    fprintf(file, "%s\n", m->name);
+    /* Write the map's dimensions */
+    fprintf(file, "%d %d\n", m->nbLig, m->nbCol);
+
+    fclose(file);
+    free(filename);
+
+    return 1;
+}
+
+int readScore(Map *m) {
+
+    char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)), sizeof(char));
+    strcat(filename, SCORE_FOLDER_NAME);
+    strcat(filename, m->name);
+    strcat(filename, SCORE_FILE_EXTENSION);
+
+    FILE *file = fopen(filename, "r");
+
+    /* Test file existence */
+    if (file == NULL) {
+        printf("Impossible d'ouvrir le fichier de socre : %s\n", filename);
+        return 0;
+    }
+
+    Player bestScores[SCORE_NB_BY_FILE];
+    for (int i = 0; i < SCORE_NB_BY_FILE; i++) {
+        fscanf(file, "%s %d", bestScores[i].name, &bestScores[i].score);
+    }
+
+    fclose(file);
+    free(filename);
 
     return 1;
 }
