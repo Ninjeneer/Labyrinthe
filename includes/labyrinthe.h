@@ -5,11 +5,13 @@
 #ifndef PROJET1_LABYRINTHE_H
 #define PROJET1_LABYRINTHE_H
 
-#define VIDE 0
-#define MUR -1
+#define WALL -1
+enum {EMPTY, TREASURE, TRAP};
 
 #define MATRIX_START_LIG 1
 #define MATRIX_START_COL 0
+
+#define OBJECT_RATE 0.02
 
 typedef struct {
     int lig;
@@ -30,5 +32,6 @@ void generatePath(Map *m);
 int breakWall(Map *m, Coordinate cWall, Coordinate shift);
 void updateCase(Map *m, int lig, int col, int value, int override);
 int getWalls(Map *m, Coordinate **walls);
+void generateObjects(Map *m);
 
 #endif //PROJET1_LABYRINTHE_H

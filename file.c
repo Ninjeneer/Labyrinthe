@@ -6,6 +6,9 @@
 #include <string.h>
 #include <bits/types/FILE.h>
 #include <stdlib.h>
+#include <dirent.h>
+#include <sys/stat.h>
+#include <zconf.h>
 #include "includes/file.h"
 
 /**
@@ -22,6 +25,7 @@ int saveMap(Map *m) {
 
     FILE* file = fopen(filename, "w+");
 
+    /* Test file existence */
     if (file == NULL) {
         printf("Impossible d'ouvrir le fichier : %s", m->name);
         return 0;
@@ -45,6 +49,12 @@ int saveMap(Map *m) {
     return 1;
 }
 
+/**
+ * Read a map file
+ * @param m Map
+ * @param filename path of the file
+ * @return 0 if fail, 1 if success
+ */
 int readMap(Map *m, char *filename) {
 
     char *fullPath = (char*)malloc((strlen(MAP_FOLDER_NAME) + strlen(filename) + strlen(MAP_FILE_EXTENSION) * sizeof(char)));
@@ -58,6 +68,4 @@ int readMap(Map *m, char *filename) {
         printf("Impossible de lire le fichier : %s", fullPath);
         return 0;
     }
-
-
 }

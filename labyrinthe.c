@@ -24,25 +24,30 @@ void generateStaticMatrix(Map *m) {
     for (int i = 0; i < m->nbLig; i++)
         for (int j = 0; j < m->nbCol; j++)
             if (i == 0 || i == m->nbLig - 1 || j == 0 || j == m->nbCol - 1)
-                m->matrix[i][j] = MUR;
+                m->matrix[i][j] = WALL;
             else
                 m->matrix[i][j] = i * m->nbLig + j;
 
     /* Inner horizontal wall construction */
     for (int i = 2; i < m->nbLig; i += 2)
         for (int j = 0; j < m->nbCol; j++)
-            m->matrix[i][j] = MUR;
+            m->matrix[i][j] = WALL;
 
     /* Inner vertical wall construction */
     for (int i = 0; i < m->nbLig; i++)
         for (int j = 2; j < m->nbCol; j += 2)
-            m->matrix[i][j] = MUR;
+            m->matrix[i][j] = WALL;
 
 
     generatePath(m);
 }
 
+/**
+ * Generate the path through the matrix
+ * @param m Map
+ */
 void generatePath(Map *m) {
+    /* List of walls */
     Deck deck;
     deck.size = getWalls(m, &deck.walls);
 
@@ -51,9 +56,11 @@ void generatePath(Map *m) {
 
     srand(time(NULL));
     while (nbBreakWall < (m->nbLig / 2) * (m->nbCol / 2) - 1) {
+        /* Pick a random wall */
         int wallIndex = rand() % deck.size;
         Coordinate wall = deckPick(wallIndex, &deck);
 
+        /* Test if wall is breakable and break it */
         if (wall.lig % 2 != 0 && wall.col % 2 == 0) {
             if (breakWall(m, wall, (Coordinate) {0, -1})) {
                 deckRemove(wallIndex, &deck);
@@ -76,12 +83,22 @@ void generatePath(Map *m) {
     }
 
     /* Matrix entrance */
-    updateCase(m, MATRIX_START_LIG, MATRIX_START_COL, VIDE, true);
+    updateCase(m, MATRIX_START_LIG, MATRIX_START_COL, EMPTY, true);
 
     /* Matrix exit */
-    updateCase(m, m->nbLig - 2, m->nbCol - 1, VIDE, true);
+    updateCase(m, m->nbLig - 2, m->nbCol - 1, EMPTY, true);
+
+    /* Generate treasures and traps */
+    generateObjects(m);
 }
 
+/**
+ * Break a given wall
+ * @param m Map
+ * @param cWall Wall coordinates
+ * @param shift Case coordinates relative to the wall
+ * @return 0 if fail, 1 if success
+ */
 int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
     /* Avoid breaking border walls */
     if (cWall.lig + shift.lig == 0 || cWall.lig + shift.lig == m->nbLig - 1 ||
@@ -89,8 +106,7 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
         printf("Can't break border %d;%d\n", cWall.lig, cWall.col);
         return 0;
     }
-
-
+    
     /* Avoid breaking a wall having the same case value on the other side */
     if (m->matrix[cWall.lig + shift.lig][cWall.col + shift.col] ==
         m->matrix[cWall.lig - shift.lig][cWall.col - shift.col]) {
@@ -98,7 +114,7 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
     }
 
     /* Break the wall */
-    if (m->matrix[cWall.lig][cWall.col] == MUR) {
+    if (m->matrix[cWall.lig][cWall.col] == WALL) {
         m->matrix[cWall.lig][cWall.col] = m->matrix[cWall.lig + shift.lig][cWall.col + shift.col];
         updateCase(m, cWall.lig, cWall.col, m->matrix[cWall.lig][cWall.col], false);
         return 1;
@@ -116,7 +132,7 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
  * @param value
  */
 void updateCase(Map *m, int lig, int col, int value, int override) {
-    if (m->matrix[lig][col] == MUR && !override)
+    if (m->matrix[lig][col] == WALL && !override)
         return;
 
     m->matrix[lig][col] = value;
@@ -144,7 +160,7 @@ int getWalls(Map *m, Coordinate **walls) {
 
     for (int i = 1; i < m->nbLig - 1; i++)
         for (int j = 1; j < m->nbCol - 1; j++)
-            if (m->matrix[i][j] == MUR)
+            if (m->matrix[i][j] == WALL)
                 if (i % 2 != 0 || j % 2 != 0)
                     nbWalls++;
 
@@ -154,10 +170,31 @@ int getWalls(Map *m, Coordinate **walls) {
     int indexWall = 0;
     for (int i = 1; i < m->nbLig - 1; i++)
         for (int j = 1; j < m->nbCol - 1; j++)
-            if (m->matrix[i][j] == MUR) {
+            if (m->matrix[i][j] == WALL) {
                 if (i % 2 != 0 || j % 2 != 0)
                     (*walls)[indexWall++] = (Coordinate) {i, j};
             }
 
     return nbWalls;
+}
+
+void generateObjects(Map *m) {
+    int nbObjects = (int) (m->nbLig * m->nbCol * OBJECT_RATE);
+
+
+    srand(time(NULL));
+    while (nbObjects > 0) {
+        Coordinate c;
+
+        c.lig = 1 + rand() % (m->nbLig - 2);
+        c.col = 1 + rand() % (m->nbCol - 2);
+
+        if (m->matrix[c.lig][c.col] == EMPTY) {
+            int objectType = 1 + rand() % 2;
+            m->matrix[c.lig][c.col] = objectType;
+
+            nbObjects--;
+        }
+    }
+
 }
