@@ -1,4 +1,0 @@
-/home/loan/softwares/CLion/bin/cmake/linux/bin/cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/gcc -G "CodeBlocks - Unix Makefiles" /home/loan/cours/ensicaen/1a/introProg/projet-c-1
--- Configuring done
--- Generating done
--- Build files have been written to: /home/loan/cours/ensicaen/1a/introProg/projet-c-1/cmake-build-debug

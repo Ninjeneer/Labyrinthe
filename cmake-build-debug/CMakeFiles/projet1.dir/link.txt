@@ -1,1 +1,0 @@
-/usr/bin/gcc -g   CMakeFiles/projet1.dir/main.c.o CMakeFiles/projet1.dir/labyrinthe.c.o CMakeFiles/projet1.dir/display.c.o CMakeFiles/projet1.dir/deck.c.o CMakeFiles/projet1.dir/file.c.o  -o projet1 
