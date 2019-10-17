@@ -98,10 +98,10 @@ void generatePath(Map *m) {
             /* Pick a random wall */
             int wallIndex = rand() % deck.size;
             Coordinate wall = deckRemove(wallIndex, &deck);
-            //updateCase(m->)
-
+            updateCase(m, wall.lig, wall.col, EMPTY, true);
+            printf("Broke : %d;%d\n", wall.lig, wall.col);
+            nbBreakWall++;
         }
-
     }
 }
 

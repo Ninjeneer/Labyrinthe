@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <dirent.h>
+#include <ctype.h>
 #include "includes/display.h"
 #include "includes/labyrinthe.h"
 #include "includes/file.h"
@@ -65,6 +66,15 @@ int displayMenu(Map m) {
 void createMap(Map *m) {
     printf("=== Création d'un labyrinthe :\n");
 
+    /* Ask for game difficulty */
+    char difficulty;
+    do {
+        printf("Difficulté [F]acile / [D]ifficile : ");
+        scanf("%c", &difficulty);
+        clearBuffer();
+    } while (toupper(difficulty) != 'F' && toupper(difficulty) != 'D');
+    m->difficulty = (difficulty == 'F') ? EASY : HARD;
+
     /* Ask for the width of the map */
     do {
         printf("\tLargeur (impair) : ");
@@ -92,14 +102,8 @@ void createMap(Map *m) {
 
     m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
-    /* Ask for game difficulty */
-    char difficulty;
-    do {
-        printf("Difficulté [F]acile / [D]ifficile : ");
-        scanf("%c", &difficulty);
-        clearBuffer();
-    } while (difficulty != 'F' && difficulty != 'D');
-    m->difficulty = (difficulty == 'F') ? EASY : HARD;
+
+
 
     /* Save the map in a file */
     if (saveMap(m)) {

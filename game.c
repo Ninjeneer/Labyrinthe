@@ -33,8 +33,6 @@ void play(Map *m) {
     Leaderboard leaderboard;
     readScore(m, &leaderboard);
 
-    printf("nb players : %d", leaderboard.nbPlayer);
-    printf("lowest score : %d", leaderboard.bestScores[leaderboard.nbPlayer-1].score);
 
     /* Game loop */
     while (p.pos.lig != m->nbLig - 2 || p.pos.col != m->nbCol - 1) {
