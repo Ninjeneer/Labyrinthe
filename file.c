@@ -55,7 +55,7 @@ int saveMap(Map *m) {
 
     /* Score file creation */
     char *scoreFilename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
-                                     sizeof(char));
+                                          sizeof(char));
     strcat(scoreFilename, SCORE_FOLDER_NAME);
     strcat(scoreFilename, m->name);
     strcat(scoreFilename, SCORE_FILE_EXTENSION);
@@ -138,6 +138,12 @@ int saveScore(Map *m, Player *p) {
     return 1;
 }
 
+/**
+ * Read a score file
+ * @param m Map
+ * @param bestScores Array of players
+ * @return 0 if fail reading, 1 if success
+ */
 int readScore(Map *m, Player **bestScores) {
 
     char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
@@ -154,17 +160,31 @@ int readScore(Map *m, Player **bestScores) {
         return 0;
     }
 
-
+    /* Read the number of saved scores */
     int nbEntry = 0;
     for (char c = getc(file); c != EOF; c = getc(file))
         if (c == '\n')
             nbEntry = nbEntry + 1;
 
-        printf("%d", nbEntry);
+
     if (nbEntry > 0) {
-        (*bestScores) = (Player *)malloc(nbEntry * sizeof(Player));
+        (*bestScores) = (Player *) malloc(nbEntry * sizeof(Player));
+
+        /* Reset file cursor */
+        fseek(file, 0, SEEK_SET);
+
+        /* Read the scores and fill the array */
         for (int i = 0; i < nbEntry; i++) {
-            fscanf(file, "%s %d", (*bestScores[i]).name, *bestScores[i].score);
+            char buffer[SCORE_PSEUDO_SIZE] = {0};
+            int s;
+            fscanf(file, "%s %d\n", buffer, &s);
+
+            /* Retrieve player name */
+            (*bestScores)[i].name = (char*)malloc(SCORE_PSEUDO_SIZE * sizeof(char));
+            strcpy((*bestScores)[i].name, buffer);
+
+            /* Retrieve player score */
+            (*bestScores)[i].score = s;
         }
     } else
         bestScores = NULL;

@@ -14,7 +14,8 @@
 
 #define SCORE_FOLDER_NAME "scores/"
 #define SCORE_FILE_EXTENSION ".score"
-#define SCORE_NB_BY_FILE 10
+#define SCORE_PSEUDO_SIZE 25
+#define SCORE_NB_MAX 10
 
 int saveMap(Map *m);
 int readMap(Map *m, char *filename);

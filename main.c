@@ -41,7 +41,7 @@ int main() {
     m.name = "test1";
 
     Player *bestScores = NULL;
-    readScore(&m, bestScores);
+    readScore(&m, &bestScores);
 
     printf("%s %d", bestScores[0].name, bestScores[0].score);
 }
