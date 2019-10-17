@@ -10,11 +10,18 @@
 #define TREASURE_VALUE 15
 #define TRAP_VALUE 10
 
+enum { OGRE, GHOST };
+
 typedef struct {
     Coordinate pos;
     int score;
     char *name;
 } Player;
+
+typedef struct {
+    Coordinate pos;
+    int type;
+} Monster;
 
 typedef struct {
     Player *bestScores;

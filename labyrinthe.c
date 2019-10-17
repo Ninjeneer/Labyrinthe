@@ -209,5 +209,8 @@ void generateObjects(Map *m) {
             nbObjects--;
         }
     }
+}
 
+void generateMonsters(Map *m) {
+    int nbMonsters = (int)((m->nbLig * m->nbCol) * 0.02);
 }

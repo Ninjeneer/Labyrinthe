@@ -5,6 +5,8 @@
 #ifndef PROJET1_LABYRINTHE_H
 #define PROJET1_LABYRINTHE_H
 
+
+
 enum {WALL, EMPTY, TREASURE, TRAP};
 enum {EASY, HARD};
 
