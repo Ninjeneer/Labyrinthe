@@ -12,7 +12,7 @@ int main() {
     m.loaded = false;
 
     while (true) {
-        int playerChoice = displayMenu();
+        int playerChoice = displayMenu(m);
 
         switch (playerChoice) {
             case CREATE:
@@ -25,6 +25,10 @@ int main() {
 
             case PLAY:
                 play(&m);
+                break;
+
+            case LEADERBOARD:
+                showLeaderboard(m);
                 break;
 
             case QUIT:

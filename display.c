@@ -41,13 +41,15 @@ void displayGame(Map *m, Player p) {
  * Display the menu
  * @return User's choice
  */
-int displayMenu() {
-    printf("=== Labyrinthe ===\nMenu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Quitter\n\n");
+int displayMenu(Map m) {
+    printf("=== Labyrinthe ===\nMenu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");
 
     int choice = 0;
+    int maxChoice = (m.loaded) ? 5:4;
+
     //TODO test valeur
     printf("Choix : ");
-    while (scanf("%d", &choice) != 1 || choice < 1 || choice > 4) {
+    while (scanf("%d", &choice) != 1 || choice < 1 || choice > maxChoice) {
         printf("Choix : ");
     }
 
@@ -168,4 +170,20 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard) {
     leaderboard->bestScores[leaderboard->nbPlayer++] = *p;
 
     saveScore(m, leaderboard);
+}
+
+void showLeaderboard(Map m) {
+    if (!m.loaded) {
+        printf("Erreur : aucune map n'est chargée !\n");
+        return;
+    }
+
+    Leaderboard l;
+    readScore(&m, &l);
+
+    printf("== Tableau des scores de : %s ==\n", m.name);
+    for (int i = 0; i < l.nbPlayer; i++)
+        printf("\t[%2d] => %s : %d\n", (i+1), l.bestScores[i].name, l.bestScores[i].score);
+
+    printf("\n");
 }
