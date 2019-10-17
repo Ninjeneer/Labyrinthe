@@ -111,7 +111,7 @@ int readMap(Map *m, char *filename) {
     return 1;
 }
 
-int saveScore(Map *m, Player *p) {
+int saveScore(Map *m, Leaderboard *leaderboard) {
 
     char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
                                      sizeof(char));
@@ -127,10 +127,11 @@ int saveScore(Map *m, Player *p) {
         return 0;
     }
 
-    /* Write the map name */
-    fprintf(file, "%s\n", m->name);
-    /* Write the map's dimensions */
-    fprintf(file, "%d %d\n", m->nbLig, m->nbCol);
+    qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), comparePlayer);
+
+    for (int i = 0; i < leaderboard->nbPlayer; i++) {
+        fprintf(file, "%s %d\n", leaderboard->bestScores[i].name, leaderboard->bestScores[i].score);
+    }
 
     fclose(file);
     free(filename);
@@ -139,12 +140,12 @@ int saveScore(Map *m, Player *p) {
 }
 
 /**
- * Read a score file
+ * Reads a score file
  * @param m Map
  * @param bestScores Array of players
  * @return 0 if fail reading, 1 if success
  */
-int readScore(Map *m, Player **bestScores) {
+int readScore(Map *m, Leaderboard *leaderboard) {
 
     char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
                                      sizeof(char));
@@ -154,40 +155,44 @@ int readScore(Map *m, Player **bestScores) {
 
     FILE *file = fopen(filename, "r");
 
-    /* Test file existence */
+    /* Tests file existence */
     if (file == NULL) {
-        printf("Impossible d'ouvrir le fichier de socre : %s\n", filename);
+        printf("Impossible d'ouvrir le fichier de score : %s\n", filename);
         return 0;
     }
 
-    /* Read the number of saved scores */
+    /* Reads the number of saved scores */
     int nbEntry = 0;
     for (char c = getc(file); c != EOF; c = getc(file))
         if (c == '\n')
             nbEntry = nbEntry + 1;
 
+    leaderboard->bestScores = (Player *) malloc(SCORE_NB_MAX * sizeof(Player));
+    leaderboard->nbPlayer = nbEntry;
 
     if (nbEntry > 0) {
-        (*bestScores) = (Player *) malloc(nbEntry * sizeof(Player));
 
-        /* Reset file cursor */
+
+        /* Resets file cursor */
         fseek(file, 0, SEEK_SET);
 
-        /* Read the scores and fill the array */
+        /* Reads the scores and fill the array */
         for (int i = 0; i < nbEntry; i++) {
             char buffer[SCORE_PSEUDO_SIZE] = {0};
             int s;
             fscanf(file, "%s %d\n", buffer, &s);
 
-            /* Retrieve player name */
-            (*bestScores)[i].name = (char*)malloc(SCORE_PSEUDO_SIZE * sizeof(char));
-            strcpy((*bestScores)[i].name, buffer);
+            /* Retrieves player name */
+            leaderboard->bestScores[i].name = (char*)malloc(SCORE_PSEUDO_SIZE * sizeof(char));
+            strcpy(leaderboard->bestScores[i].name, buffer);
 
-            /* Retrieve player score */
-            (*bestScores)[i].score = s;
+            /* Retrieves player score */
+            leaderboard->bestScores[i].score = s;
         }
-    } else
-        bestScores = NULL;
+
+        int (*pf)(const Player*, const Player*) = &comparePlayer;
+        qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), comparePlayer);
+    }
 
 
     fclose(file);

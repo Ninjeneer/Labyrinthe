@@ -16,8 +16,15 @@ typedef struct {
     char *name;
 } Player;
 
+typedef struct {
+    Player *bestScores;
+    int nbPlayer;
+    int index;
+} Leaderboard;
+
 void play(Map *m);
 int movePlayer(Map *m, Player *p, int direction);
 void testCase(Map *m, Player *p);
+int comparePlayer(const Player *p1, const Player *p2);
 
 #endif //PROJET1_GAME_H

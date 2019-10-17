@@ -8,6 +8,7 @@
 #include "includes/game.h"
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
+#include "includes/file.h"
 
 /**
  * Start the game
@@ -28,6 +29,13 @@ void play(Map *m) {
     /* Set default player score */
     p.score = m->nbLig * m->nbCol;
 
+    /* Leaderboard initialization*/
+    Leaderboard leaderboard;
+    readScore(m, &leaderboard);
+
+    printf("nb players : %d", leaderboard.nbPlayer);
+    printf("lowest score : %d", leaderboard.bestScores[leaderboard.nbPlayer-1].score);
+
     /* Game loop */
     while (p.pos.lig != m->nbLig - 2 || p.pos.col != m->nbCol - 1) {
         displayGame(m, p);
@@ -41,6 +49,8 @@ void play(Map *m) {
             direction = (char) toupper(direction);
         } while (direction != 'Z' && direction != 'Q' && direction != 'S' && direction != 'D');
 
+
+
         /* Try to move player */
         if (movePlayer(m, &p, direction)) {
             /* Decrease player score each step */
@@ -50,6 +60,10 @@ void play(Map *m) {
             testCase(m, &p);
         }
     }
+
+    /* If the number of registered scores is < SCORE_NB_MAX */
+    if (leaderboard.nbPlayer < SCORE_NB_MAX || p.score > leaderboard.bestScores[leaderboard.nbPlayer-1].score)
+        askScore(m, &p, &leaderboard);
 
     printf("/!\\ Bravo ! Vous êtes sorti du labyrinthe, avec un score de %d !\n\n", p.score);
 }
@@ -106,4 +120,13 @@ void testCase(Map *m, Player *p) {
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
         printf("Vous avez trouvé un trésor, vous gagnez %d points !\n", TREASURE_VALUE);
     }
+}
+
+int comparePlayer(const Player *p1, const Player *p2) {
+    if (p1->score > p2->score)
+        return -1;
+    if (p1->score < p2->score)
+        return 1;
+
+    return 0;
 }

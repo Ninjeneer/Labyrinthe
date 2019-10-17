@@ -83,7 +83,7 @@ void createMap(Map *m) {
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
     do {
-        printf("Nom du labyrinthe (3 -> 20 car.): ");
+        printf("Nom du labyrinthe (3 -> %d car.): ", MAP_NAME_SIZE);
         fgets(m->name, MAP_NAME_SIZE, stdin);
         fflush(stdin);
     } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE);
@@ -152,4 +152,20 @@ void showFileList() {
 
         closedir(d);
     }
+}
+
+void askScore(Map *m, Player *p, Leaderboard *leaderboard) {
+    printf("Félicitation, vous faites partie du top 10 des scores !\n");
+
+    p->name = malloc(SCORE_PSEUDO_SIZE * sizeof(char));
+
+    do {
+        printf("Entrez votre pseudo (3 -> %d car.): ", SCORE_PSEUDO_SIZE);
+        fgets(p->name, SCORE_PSEUDO_SIZE, stdin);
+    } while (strlen(p->name) < 3 || strlen(p->name) > SCORE_PSEUDO_SIZE);
+    p->name[strlen(p->name) - 1] = '\0'; /* Removes last \n */
+
+    leaderboard->bestScores[leaderboard->nbPlayer++] = *p;
+
+    saveScore(m, leaderboard);
 }

@@ -16,6 +16,7 @@ void createMap(Map *m);
 void openMap(Map *m);
 void clearBuffer();
 void showFileList();
+void askScore(Map *m, Player *p, Leaderboard *l);
 
 
 #endif //PROJET1_DISPLAY_H
