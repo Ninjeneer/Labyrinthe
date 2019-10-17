@@ -5,8 +5,8 @@
 #ifndef PROJET1_LABYRINTHE_H
 #define PROJET1_LABYRINTHE_H
 
-#define WALL -1
-enum {EMPTY, TREASURE, TRAP};
+enum {WALL, EMPTY, TREASURE, TRAP};
+enum {EASY, HARD};
 
 #define MATRIX_START_LIG 1
 #define MATRIX_START_COL 0
@@ -24,6 +24,7 @@ typedef struct {
     int nbLig;
     int nbCol;
     int loaded;
+    int difficulty;
 } Map;
 
 

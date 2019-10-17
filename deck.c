@@ -19,8 +19,7 @@ Coordinate deckPick(int index, Deck *deck) {
 Coordinate deckRemove(int index, Deck *deck) {
     Coordinate pickedWall = deck->walls[index];
 
-    for (int i = index; i < deck->size; i++)
-        deck->walls[i] = deck->walls[i + 1];
+    deck->walls[index] = deck->walls[deck->size-1];
 
     deck->size--;
 

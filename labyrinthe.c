@@ -89,6 +89,20 @@ void generatePath(Map *m) {
 
     /* Generate treasures and traps */
     generateObjects(m);
+
+    if (m->difficulty == HARD) {
+        int nbBreakMax = (int)(deck.size * 0.2); /* Removes 20% of the remaining walls */
+        nbBreakWall = 0;
+
+        while (nbBreakWall < nbBreakMax) {
+            /* Pick a random wall */
+            int wallIndex = rand() % deck.size;
+            Coordinate wall = deckRemove(wallIndex, &deck);
+            //updateCase(m->)
+
+        }
+
+    }
 }
 
 /**
@@ -105,7 +119,7 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
         printf("Can't break border %d;%d\n", cWall.lig, cWall.col);
         return 0;
     }
-    
+
     /* Avoid breaking a wall having the same case value on the other side */
     if (m->matrix[cWall.lig + shift.lig][cWall.col + shift.col] ==
         m->matrix[cWall.lig - shift.lig][cWall.col - shift.col]) {
@@ -189,7 +203,7 @@ void generateObjects(Map *m) {
         c.col = 1 + rand() % (m->nbCol - 2);
 
         if (m->matrix[c.lig][c.col] == EMPTY) {
-            int objectType = 1 + rand() % 2;
+            int objectType = EMPTY + rand() % 2;
             m->matrix[c.lig][c.col] = objectType;
 
             nbObjects--;

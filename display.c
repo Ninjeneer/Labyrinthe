@@ -45,7 +45,7 @@ int displayMenu(Map m) {
     printf("=== Labyrinthe ===\nMenu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");
 
     int choice = 0;
-    int maxChoice = (m.loaded) ? 5:4;
+    int maxChoice = (m.loaded) ? 5 : 4;
 
     //TODO test valeur
     printf("Choix : ");
@@ -92,6 +92,14 @@ void createMap(Map *m) {
 
     m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
+    /* Ask for game difficulty */
+    char difficulty;
+    do {
+        printf("Difficulté [F]acile / [D]ifficile : ");
+        scanf("%c", &difficulty);
+        clearBuffer();
+    } while (difficulty != 'F' && difficulty != 'D');
+    m->difficulty = (difficulty == 'F') ? EASY : HARD;
 
     /* Save the map in a file */
     if (saveMap(m)) {
@@ -183,7 +191,7 @@ void showLeaderboard(Map m) {
 
     printf("== Tableau des scores de : %s ==\n", m.name);
     for (int i = 0; i < l.nbPlayer; i++)
-        printf("\t[%2d] => %s : %d\n", (i+1), l.bestScores[i].name, l.bestScores[i].score);
+        printf("\t[%2d] => %s : %d\n", (i + 1), l.bestScores[i].name, l.bestScores[i].score);
 
     printf("\n");
 }
