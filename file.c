@@ -50,6 +50,8 @@ int saveMap(Map *m) {
         fprintf(file, "\n");
     }
 
+    fprintf(file, "%d", m->difficulty);
+
     fclose(file);
     free(filename);
 
@@ -104,6 +106,8 @@ int readMap(Map *m, char *filename) {
 
         fscanf(file, "\n");
     }
+
+    fscanf(file, "%d", &m->difficulty);
 
     fclose(file);
     free(fullPath);

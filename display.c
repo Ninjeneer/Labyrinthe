@@ -28,7 +28,7 @@ void displayGame(Map *m, Player p) {
                 printf("T");
             else if (m->matrix[i][j] == TRAP)
                 printf("P");
-            else if (!displayMonsters(m, i, j))
+            else if (m->difficulty == EASY || !displayMonsters(m, i, j))
                 printf(" ");
         }
 
@@ -95,7 +95,7 @@ void createMap(Map *m) {
         scanf("%c", &difficulty);
         clearBuffer();
     } while (toupper(difficulty) != 'F' && toupper(difficulty) != 'D');
-    m->difficulty = (difficulty == 'F') ? EASY : HARD;
+    m->difficulty = (toupper(difficulty) == 'F') ? EASY : HARD;
 
     /* Ask for the width of the map */
     do {
@@ -159,6 +159,9 @@ void openMap(Map *m) {
     if (readMap(m, m->name)) {
         printf("Labyrinthe chargé avec succès!\n\n");
         m->loaded = 1;
+
+        if (m->difficulty == HARD)
+            generateMonsters(m);
     } else {
         m->loaded = 0;
     }
