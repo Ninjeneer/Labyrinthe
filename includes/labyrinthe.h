@@ -6,7 +6,6 @@
 #define PROJET1_LABYRINTHE_H
 
 
-
 enum {WALL, EMPTY, TREASURE, TRAP};
 enum {EASY, HARD};
 
@@ -27,6 +26,8 @@ typedef struct {
     int nbCol;
     int loaded;
     int difficulty;
+    struct Monster *monsters; /* Forward declaration */
+    int nbMonsters;
 } Map;
 
 
@@ -37,5 +38,6 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift);
 void updateCase(Map *m, int lig, int col, int value, int override);
 int getWalls(Map *m, Coordinate **walls);
 void generateObjects(Map *m);
+void generateMonsters(Map *m);
 
 #endif //PROJET1_LABYRINTHE_H

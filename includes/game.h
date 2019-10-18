@@ -11,6 +11,7 @@
 #define TRAP_VALUE 10
 
 enum { OGRE, GHOST };
+enum { NORTH, EAST, SOUTH, WEST };
 
 typedef struct {
     Coordinate pos;
@@ -18,7 +19,7 @@ typedef struct {
     char *name;
 } Player;
 
-typedef struct {
+typedef struct Monster {
     Coordinate pos;
     int type;
 } Monster;
@@ -31,6 +32,9 @@ typedef struct {
 
 void play(Map *m);
 int movePlayer(Map *m, Player *p, int direction);
+void moveMonsters(Map *m);
+void moveMonsterByType(Map *m, Monster *monster, int direction);
+int getEligibleDirections(Map *m, Monster monster, int **tabDirections);
 void testCase(Map *m, Player *p);
 int comparePlayer(const Player *p1, const Player *p2);
 

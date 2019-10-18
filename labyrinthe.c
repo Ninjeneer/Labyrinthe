@@ -6,9 +6,11 @@
 #include <stdio.h>
 #include <time.h>
 #include <stdbool.h>
+#include "includes/game.h"
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
 #include "includes/deck.h"
+
 
 /**
  * Generate a static size matrix
@@ -87,9 +89,10 @@ void generatePath(Map *m) {
     /* Matrix exit */
     updateCase(m, m->nbLig - 2, m->nbCol - 1, EMPTY, true);
 
-    /* Generate treasures and traps */
+    /* Generates treasures and traps */
     generateObjects(m);
 
+    /* Breaks more walls if difficulty set to HARD */
     if (m->difficulty == HARD) {
         int nbBreakMax = (int)(deck.size * 0.2); /* Removes 20% of the remaining walls */
         nbBreakWall = 0;
@@ -99,9 +102,10 @@ void generatePath(Map *m) {
             int wallIndex = rand() % deck.size;
             Coordinate wall = deckRemove(wallIndex, &deck);
             updateCase(m, wall.lig, wall.col, EMPTY, true);
-            printf("Broke : %d;%d\n", wall.lig, wall.col);
             nbBreakWall++;
         }
+
+        generateMonsters(m);
     }
 }
 
@@ -167,6 +171,12 @@ void updateCase(Map *m, int lig, int col, int value, int override) {
         updateCase(m, lig, col + 1, value, false);
 }
 
+/**
+ * Return a wall array and its size
+ * @param m Map
+ * @param walls Wall array
+ * @return wall array size
+ */
 int getWalls(Map *m, Coordinate **walls) {
 
     int nbWalls = 0;
@@ -191,19 +201,23 @@ int getWalls(Map *m, Coordinate **walls) {
     return nbWalls;
 }
 
+/**
+ * Generate objects on the map
+ * @param m Map
+ */
 void generateObjects(Map *m) {
     int nbObjects = (int) (m->nbLig * m->nbCol * OBJECT_RATE);
-
 
     srand(time(NULL));
     while (nbObjects > 0) {
         Coordinate c;
 
+        /* Random position */
         c.lig = 1 + rand() % (m->nbLig - 2);
         c.col = 1 + rand() % (m->nbCol - 2);
 
         if (m->matrix[c.lig][c.col] == EMPTY) {
-            int objectType = EMPTY + rand() % 2;
+            int objectType = TREASURE + rand() % 2; /* Random type */
             m->matrix[c.lig][c.col] = objectType;
 
             nbObjects--;
@@ -212,5 +226,35 @@ void generateObjects(Map *m) {
 }
 
 void generateMonsters(Map *m) {
-    int nbMonsters = (int)((m->nbLig * m->nbCol) * 0.02);
+    int nbMonstersMax = 1;
+//    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * 0.02);
+    int nbMonsterCreated = 0;
+
+    printf("Nb monsters : %d\n", nbMonstersMax);
+
+    m->monsters = (Monster *)malloc(nbMonstersMax * sizeof(Monster));
+
+    while (nbMonsterCreated < nbMonstersMax) {
+
+        Monster monster;
+
+        /* Random position */
+        monster.pos.lig = 1 + rand() % (m->nbLig - 2);
+        monster.pos.col = 1 + rand() % (m->nbCol - 2);
+
+        /* Random monster type */
+        monster.type = rand() % 2;
+
+        monster.lastDirection = -1;
+
+        if (m->matrix[monster.pos.lig][monster.pos.col] == EMPTY) {
+            m->monsters[nbMonsterCreated] = monster;
+            nbMonsterCreated++;
+            printf("\t created monster %d\n", monster.type);
+        }
+    }
+
+    m->nbMonsters = nbMonsterCreated;
+    printf("Nb monster created : %d\n", nbMonsterCreated);
+
 }

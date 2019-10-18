@@ -9,6 +9,7 @@
 #include "includes/labyrinthe.h"
 #include "includes/display.h"
 #include "includes/file.h"
+#include "includes/monsters.h"
 
 /**
  * Start the game
@@ -56,12 +57,18 @@ void play(Map *m) {
 
             /* Test objects */
             testCase(m, &p);
+
+            /* Move all the monsters */
+            moveMonsters(m);
         }
     }
 
     /* If the number of registered scores is < SCORE_NB_MAX */
-    if (leaderboard.nbPlayer < SCORE_NB_MAX || p.score > leaderboard.bestScores[leaderboard.nbPlayer-1].score)
-        askScore(m, &p, &leaderboard);
+    if (leaderboard.nbPlayer < SCORE_NB_MAX) {
+        askScore(m, &p, &leaderboard, 1);
+    } else if (p.score > leaderboard.bestScores[leaderboard.nbPlayer - 1].score) {
+        askScore(m, &p, &leaderboard, 0);
+    }
 
     printf("/!\\ Bravo ! Vous êtes sorti du labyrinthe, avec un score de %d !\n\n", p.score);
 }
@@ -106,6 +113,44 @@ int movePlayer(Map *m, Player *p, int direction) {
         default:
             return 0;
     }
+}
+
+void moveMonsters(Map *m) {
+    for (int i = 0; i < m->nbMonsters; i++) {
+        int *eligibleDirections;
+        int nbDirections = getEligibleDirections(m, m->monsters[i], &eligibleDirections);
+        int direction = eligibleDirections[rand() % nbDirections];
+
+        if (m->monsters[i].type == OGRE)
+
+    }
+}
+
+int getEligibleDirections(Map *m, Monster monster, int **tabDirections) {
+    int nbDirections = 0;
+
+    if (m->matrix[monster.pos.lig - 1][monster.pos.col] != WALL)
+        nbDirections++;
+    if (m->matrix[monster.pos.lig + 1][monster.pos.col] != WALL)
+        nbDirections++;
+    if (m->matrix[monster.pos.lig][monster.pos.col - 1] != WALL)
+        nbDirections++;
+    if (m->matrix[monster.pos.lig][monster.pos.col + 1] != WALL)
+        nbDirections++;
+
+    (*tabDirections) = (int *) calloc(nbDirections, sizeof(int));
+    int index = 0;
+
+    if (m->matrix[monster.pos.lig - 1][monster.pos.col] != WALL)
+        (*tabDirections)[index++] = NORTH;
+    if (m->matrix[monster.pos.lig + 1][monster.pos.col] != WALL)
+        (*tabDirections)[index++] = SOUTH;
+    if (m->matrix[monster.pos.lig][monster.pos.col - 1] != WALL)
+        (*tabDirections)[index++] = WEST;
+    if (m->matrix[monster.pos.lig][monster.pos.col + 1] != WALL)
+        (*tabDirections)[index++] = EAST;
+
+    return nbDirections;
 }
 
 void testCase(Map *m, Player *p) {

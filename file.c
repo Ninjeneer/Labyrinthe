@@ -172,7 +172,6 @@ int readScore(Map *m, Leaderboard *leaderboard) {
 
     if (nbEntry > 0) {
 
-
         /* Resets file cursor */
         fseek(file, 0, SEEK_SET);
 
@@ -207,7 +206,7 @@ int readScore(Map *m, Leaderboard *leaderboard) {
  * @return 0 if string is clean
  */
 int hasIllegalCharacters(char *str) {
-    char illegalCharacters[] = "/.\\~:";
+    char illegalCharacters[] = "|/.\\~:";
 
     for (int i = 0; i < strlen(str); i++)
         for (int j = 0; j < strlen(illegalCharacters); j++)

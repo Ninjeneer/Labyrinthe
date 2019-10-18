@@ -19,8 +19,7 @@
  */
 void displayGame(Map *m, Player p) {
     for (int i = 0; i < m->nbLig; i++) {
-        for (int j = 0; j < m->nbCol; j++)
-//            printf("%2d|", matrix[i][j]);
+        for (int j = 0; j < m->nbCol; j++) {
             if (m->matrix[i][j] == WALL)
                 printf("#");
             else if (p.pos.lig == i && p.pos.col == j)
@@ -29,13 +28,29 @@ void displayGame(Map *m, Player p) {
                 printf("T");
             else if (m->matrix[i][j] == TRAP)
                 printf("P");
-            else
+            else if (!displayMonsters(m, i, j))
                 printf(" ");
+        }
 
         printf("\n");
     }
 
     printf("Score : %d\n", p.score);
+}
+
+int displayMonsters(Map *m, int lig, int col) {
+    int displayed = 0;
+    for (int i = 0; i < m->nbMonsters; i++) {
+        if (m->monsters[i].pos.lig == lig && m->monsters[i].pos.col == col) {
+            displayed = 1;
+            if (m->monsters[i].type == GHOST)
+                printf("F");
+            else if (m->monsters[i].type == OGRE)
+                printf("O");
+        }
+    }
+
+    return displayed;
 }
 
 /**
@@ -153,6 +168,9 @@ void clearBuffer() {
     } while (c != '\n' && c != EOF);
 }
 
+/**
+ * Display the map folder content
+ */
 void showFileList() {
     DIR *d;
     struct dirent *dir;
@@ -168,8 +186,18 @@ void showFileList() {
     }
 }
 
-void askScore(Map *m, Player *p, Leaderboard *leaderboard) {
-    printf("Félicitation, vous faites partie du top 10 des scores !\n");
+/**
+ * Ask for the player pseudo in case of saving his score
+ * @param m Played map
+ * @param p Player
+ * @param leaderboard Maps's leaderboard
+ * @param add 1 to add a new entry, 0 to replace a player score
+ */
+void askScore(Map *m, Player *p, Leaderboard *leaderboard, int add) {
+    if (add)
+        printf("Vous faites partie des %d premiers à jouer ce labyrinthe\n", SCORE_NB_MAX);
+    else
+        printf("Félicitation, vous faites partie du top %d des scores !\n", SCORE_NB_MAX);
 
     p->name = malloc(SCORE_PSEUDO_SIZE * sizeof(char));
 
@@ -179,11 +207,19 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard) {
     } while (strlen(p->name) < 3 || strlen(p->name) > SCORE_PSEUDO_SIZE);
     p->name[strlen(p->name) - 1] = '\0'; /* Removes last \n */
 
-    leaderboard->bestScores[leaderboard->nbPlayer++] = *p;
+    if (add)
+        leaderboard->bestScores[leaderboard->nbPlayer++] = *p;
+    else
+        leaderboard->bestScores[leaderboard->nbPlayer - 1] = *p;
+
 
     saveScore(m, leaderboard);
 }
 
+/**
+ * Display a specific leaderboard
+ * @param m Leaderboard's map
+ */
 void showLeaderboard(Map m) {
     if (!m.loaded) {
         printf("Erreur : aucune map n'est chargée !\n");
