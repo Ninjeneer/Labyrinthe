@@ -10,5 +10,7 @@
 
 void moveGhost(Map *m, Monster *monster, int direction);
 void moveOgre(Map *m, Monster *monster, int direction);
+int getEligibleDirections(Map *m, Monster monster, int **tabDirections);
+void move(Map *m, Monster *monster, void (*moveFunction)(Map*, Monster*, int));
 
 #endif //PROJET1_MONSTERS_H

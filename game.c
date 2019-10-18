@@ -115,44 +115,25 @@ int movePlayer(Map *m, Player *p, int direction) {
     }
 }
 
+/**
+ * Move monsters on the map
+ * @param m Map
+ */
 void moveMonsters(Map *m) {
     for (int i = 0; i < m->nbMonsters; i++) {
-        int *eligibleDirections;
-        int nbDirections = getEligibleDirections(m, m->monsters[i], &eligibleDirections);
-        int direction = eligibleDirections[rand() % nbDirections];
-
         if (m->monsters[i].type == OGRE)
-
+            move(m, &m->monsters[i], &moveOgre);
+        else if (m->monsters[i].type == GHOST)
+            move(m, &m->monsters[i], &moveGhost);
     }
 }
 
-int getEligibleDirections(Map *m, Monster monster, int **tabDirections) {
-    int nbDirections = 0;
 
-    if (m->matrix[monster.pos.lig - 1][monster.pos.col] != WALL)
-        nbDirections++;
-    if (m->matrix[monster.pos.lig + 1][monster.pos.col] != WALL)
-        nbDirections++;
-    if (m->matrix[monster.pos.lig][monster.pos.col - 1] != WALL)
-        nbDirections++;
-    if (m->matrix[monster.pos.lig][monster.pos.col + 1] != WALL)
-        nbDirections++;
-
-    (*tabDirections) = (int *) calloc(nbDirections, sizeof(int));
-    int index = 0;
-
-    if (m->matrix[monster.pos.lig - 1][monster.pos.col] != WALL)
-        (*tabDirections)[index++] = NORTH;
-    if (m->matrix[monster.pos.lig + 1][monster.pos.col] != WALL)
-        (*tabDirections)[index++] = SOUTH;
-    if (m->matrix[monster.pos.lig][monster.pos.col - 1] != WALL)
-        (*tabDirections)[index++] = WEST;
-    if (m->matrix[monster.pos.lig][monster.pos.col + 1] != WALL)
-        (*tabDirections)[index++] = EAST;
-
-    return nbDirections;
-}
-
+/**
+ * Test weither the player is on a treasure or on a trap and update score
+ * @param m Map
+ * @param p Player
+ */
 void testCase(Map *m, Player *p) {
     if (m->matrix[p->pos.lig][p->pos.col] == TRAP) {
         p->score -= TRAP_VALUE;
@@ -165,6 +146,12 @@ void testCase(Map *m, Player *p) {
     }
 }
 
+/**
+ * Compare 2 players, useful in score sorting
+ * @param p1 Player 1
+ * @param p2 Player 2
+ * @return 1 if player 1 has the highest score, -1 if player 1 has the lowest score, 0 if same
+ */
 int comparePlayer(const Player *p1, const Player *p2) {
     if (p1->score > p2->score)
         return -1;

@@ -38,6 +38,13 @@ void displayGame(Map *m, Player p) {
     printf("Score : %d\n", p.score);
 }
 
+/**
+ * Display a monster on a case
+ * @param m Map
+ * @param lig Current line displayed
+ * @param col Current column displayed
+ * @return 1 if a monster is displayed at lig;col position
+ */
 int displayMonsters(Map *m, int lig, int col) {
     int displayed = 0;
     for (int i = 0; i < m->nbMonsters; i++) {
