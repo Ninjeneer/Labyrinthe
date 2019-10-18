@@ -1,7 +1,8 @@
-//
-// Created by lalouache on 11/10/19.
-//
-
+/**
+ * \file game.c
+ * \brief Contains the main game functions and game logic.
+ * \author Loan Alouache
+ */
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>

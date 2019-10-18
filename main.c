@@ -1,3 +1,9 @@
+/**
+ * \file main.c
+ * \brief Game entry point.
+ * \author Loan Alouache
+ */
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <malloc.h>

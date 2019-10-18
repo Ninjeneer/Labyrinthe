@@ -1,6 +1,11 @@
-//
-// Created by loan on 07/10/19.
-//
+/**
+ * \file deck.c
+ * \brief Dynamic data structure.
+ * \author Loan Alouache
+ *
+ * It makes easier the manipulation of arrays
+ *
+ */
 
 #include <stddef.h>
 #include <stdio.h>

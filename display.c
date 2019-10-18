@@ -1,6 +1,8 @@
-//
-// Created by lalouache on 02/10/19.
-//
+/**
+ * \file display.c
+ * \brief Contains all the functions about display and user interaction.
+ * \author Loan Alouache
+ */
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,17 +101,17 @@ void createMap(Map *m) {
 
     /* Ask for the width of the map */
     do {
-        printf("\tLargeur (impair) : ");
+        printf("\tLargeur (impair >= 3) : ");
         scanf("%d", &m->nbCol);
         clearBuffer();
-    } while (m->nbCol % 2 == 0 || m->nbCol < 0);
+    } while (m->nbCol % 2 == 0 || m->nbCol < 0 || m->nbCol < 3);
 
     /* Ask for the height of the map */
     do {
-        printf("\tHauteur (impair) : ");
+        printf("\tHauteur (impair >= 3) : ");
         scanf("%d", &m->nbLig);
         clearBuffer();
-    } while (m->nbLig % 2 == 0 || m->nbLig < 0);
+    } while (m->nbLig % 2 == 0 || m->nbLig < 0 || m->nbCol < 3);
 
     /* Create the matrix, generate the path */
     generateStaticMatrix(m);

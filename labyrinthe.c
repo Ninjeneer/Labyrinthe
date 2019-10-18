@@ -1,6 +1,11 @@
-//
-// Created by lalouache on 02/10/19.
-//
+/**
+ * \file labyrinthe.c
+ * \brief Contains all the function about the map structure.
+ * \author Loan Alouache
+ *
+ * Contains all the function about the map structure.
+ *
+ */
 
 #include <stdlib.h>
 #include <stdio.h>

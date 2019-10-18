@@ -1,6 +1,8 @@
-//
-// Created by loan on 10/10/2019.
-//
+/**
+ * \file file.c
+ * \brief Contains all the functions about manipulating files.
+ * \author Loan Alouache
+ */
 
 #include <stdio.h>
 #include <string.h>

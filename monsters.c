@@ -1,6 +1,8 @@
-//
-// Created by lalouache on 18/10/19.
-//
+/**
+ * \file monsters.c
+ * \brief Contains all the functions allowing to move monsters.
+ * \author Loan Alouache
+ */
 
 #include <stdlib.h>
 #include "includes/monsters.h"
