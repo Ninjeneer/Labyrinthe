@@ -149,8 +149,11 @@ void createMap(Map *m) {
  */
 void openMap(Map *m) {
     /* Show maps list */
-    printf("Liste des maps disponibles :\n");
-    showFileList();
+
+    if (!showFileList()) {
+        printf("Aucune map n'est enregistrée\n");
+        return;
+    }
 
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE * sizeof(char));
@@ -187,11 +190,26 @@ void clearBuffer() {
 /**
  * Display the map folder content
  */
-void showFileList() {
+int showFileList() {
     DIR *d;
     struct dirent *dir;
-    d = opendir(MAP_FOLDER_NAME);
+    int nbFile = 0;
 
+    d = opendir(MAP_FOLDER_NAME);
+    if (d) {
+        while ((dir = readdir(d)) != NULL) {
+            if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
+                nbFile++;
+        }
+
+        closedir(d);
+    }
+
+    if (nbFile == 0)
+        return 0;
+
+    printf("Liste des maps disponibles :\n");
+    d = opendir(MAP_FOLDER_NAME);
     if (d) {
         while ((dir = readdir(d)) != NULL) {
             if (strcmp(dir->d_name, ".") != 0 && strcmp(dir->d_name, "..") != 0)
@@ -200,6 +218,8 @@ void showFileList() {
 
         closedir(d);
     }
+
+    return 1;
 }
 
 /**

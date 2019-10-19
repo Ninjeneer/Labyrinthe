@@ -15,7 +15,7 @@ int displayMenu(Map m);
 void createMap(Map *m);
 void openMap(Map *m);
 void clearBuffer();
-void showFileList();
+int showFileList();
 void askScore(Map *m, Player *p, Leaderboard *l, int add);
 void showLeaderboard(Map m);
 int displayMonsters(Map *m, int lig, int col);
