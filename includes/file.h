@@ -2,7 +2,7 @@
 // Created by loan on 10/10/2019.
 //
 
-#include "labyrinthe.h"
+#include "labyrinth.h"
 #include "game.h"
 
 #ifndef PROJET1_FILE_H

@@ -10,7 +10,7 @@
 #include <dirent.h>
 #include <ctype.h>
 #include "includes/display.h"
-#include "includes/labyrinthe.h"
+#include "includes/labyrinth.h"
 #include "includes/file.h"
 #include "includes/game.h"
 

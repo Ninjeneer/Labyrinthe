@@ -12,7 +12,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include "includes/game.h"
-#include "includes/labyrinthe.h"
+#include "includes/labyrinth.h"
 #include "includes/display.h"
 #include "includes/deck.h"
 
@@ -235,7 +235,7 @@ void generateObjects(Map *m) {
  * @param m Map
  */
 void generateMonsters(Map *m) {
-    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * 0.02);
+    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * MONSTER_RATE);
     int nbMonsterCreated = 0;
 
     m->monsters = (Monster *)malloc(nbMonstersMax * sizeof(Monster));
@@ -249,8 +249,8 @@ void generateMonsters(Map *m) {
         monster.pos.col = 1 + rand() % (m->nbCol - 2);
 
         /* Random monster type */
-//        monster.type = rand() % 2;
-        monster.type = GHOST;
+        monster.type = rand() % 2;
+//        monster.type = GHOST;
 
 
         if (m->matrix[monster.pos.lig][monster.pos.col] == EMPTY) {

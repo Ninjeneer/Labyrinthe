@@ -5,10 +5,11 @@
 #ifndef PROJET1_GAME_H
 #define PROJET1_GAME_H
 
-#include "labyrinthe.h"
+#include "labyrinth.h"
 
 #define TREASURE_VALUE 15
 #define TRAP_VALUE 10
+#define MONSTER_VALUE 20
 
 enum { OGRE, GHOST };
 enum { NORTH, EAST, SOUTH, WEST };

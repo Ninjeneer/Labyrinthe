@@ -5,7 +5,7 @@
 #ifndef PROJET1_DECK_H
 #define PROJET1_DECK_H
 
-#include "labyrinthe.h"
+#include "labyrinth.h"
 
 typedef struct {
     Coordinate *walls;

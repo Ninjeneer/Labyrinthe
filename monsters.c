@@ -41,12 +41,12 @@ void moveOgre(Map *m, Monster *monster, int direction) {
 
         case EAST:
             if (m->matrix[monster->pos.lig][monster->pos.col + 1] != WALL)
-                monster->pos.lig++;
+                monster->pos.col++;
             break;
 
         case WEST:
             if (m->matrix[monster->pos.lig][monster->pos.col - 1] != WALL)
-                monster->pos.lig--;
+                monster->pos.col--;
             break;
 
         default:

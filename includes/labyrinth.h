@@ -13,6 +13,7 @@ enum {EASY, HARD};
 #define MATRIX_START_COL 0
 
 #define OBJECT_RATE 0.02
+#define MONSTER_RATE 0.02
 
 typedef struct {
     int lig;

@@ -5,7 +5,7 @@
 #ifndef PROJET1_DISPLAY_H
 #define PROJET1_DISPLAY_H
 
-#include "labyrinthe.h"
+#include "labyrinth.h"
 #include "game.h"
 
 enum { CREATE, OPEN, PLAY, LEADERBOARD, QUIT};

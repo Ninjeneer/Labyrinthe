@@ -7,7 +7,7 @@
 #include <ctype.h>
 #include <stdlib.h>
 #include "includes/game.h"
-#include "includes/labyrinthe.h"
+#include "includes/labyrinth.h"
 #include "includes/display.h"
 #include "includes/file.h"
 #include "includes/monsters.h"
@@ -56,11 +56,13 @@ void play(Map *m) {
             /* Decrease player score each step */
             p.score--;
 
+            /* Move all the monsters */
+            moveMonsters(m);
+
             /* Test objects */
             testCase(m, &p);
 
-            /* Move all the monsters */
-            moveMonsters(m);
+
         }
     }
 
@@ -131,7 +133,7 @@ void moveMonsters(Map *m) {
 
 
 /**
- * Test weither the player is on a treasure or on a trap and update score
+ * Test whether the player is on an object or a monster
  * @param m Map
  * @param p Player
  */
@@ -144,6 +146,14 @@ void testCase(Map *m, Player *p) {
         p->score += TREASURE_VALUE;
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
         printf("Vous avez trouvé un trésor, vous gagnez %d points !\n", TREASURE_VALUE);
+    }
+
+    for (int i = 0; i < m->nbMonsters; i++) {
+        Monster monster = m->monsters[i];
+        if (p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) {
+            p->score -= MONSTER_VALUE;
+            printf("Vous avez été touché par un monstre ! Vous perdez %d points !\n", MONSTER_VALUE);
+        }
     }
 }
 
