@@ -64,25 +64,25 @@ void generatePath(Map *m) {
     while (nbBreakWall < (m->nbLig / 2) * (m->nbCol / 2) - 1) {
         /* Pick a random wall */
         int wallIndex = rand() % deck.size;
-        Coordinate wall = deckPick(wallIndex, &deck);
+        Coordinate wall = deckRemove(wallIndex, &deck);
 
         /* Test if wall is breakable and break it */
         if (wall.lig % 2 != 0 && wall.col % 2 == 0) {
             if (breakWall(m, wall, (Coordinate) {0, -1})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
             if (breakWall(m, wall, (Coordinate) {0, +1})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
         } else if (wall.lig % 2 == 0 && wall.col % 2 != 0) {
             if (breakWall(m, wall, (Coordinate) {-1, 0})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
             if (breakWall(m, wall, (Coordinate) {+1, 0})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
         }
