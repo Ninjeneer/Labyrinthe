@@ -67,7 +67,15 @@ int displayMonsters(Map *m, int lig, int col) {
  * @return User's choice
  */
 int displayMenu(Map m) {
-    printf("=== Labyrinthe ===\nMenu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");
+    system("clear || cls");
+    printf("████████╗██╗  ██╗███████╗    ██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗███╗   ██╗████████╗██╗  ██╗\n");
+    printf("╚══██╔══╝██║  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██║████╗  ██║╚══██╔══╝██║  ██║\n");
+    printf("   ██║   ███████║█████╗      ██║     ███████║██████╔╝ ╚████╔╝ ██████╔╝██║██╔██╗ ██║   ██║   ███████║\n");
+    printf("   ██║   ██╔══██║██╔══╝      ██║     ██╔══██║██╔══██╗  ╚██╔╝  ██╔══██╗██║██║╚██╗██║   ██║   ██╔══██║\n");
+    printf("   ██║   ██║  ██║███████╗    ███████╗██║  ██║██████╔╝   ██║   ██║  ██║██║██║ ╚████║   ██║   ██║  ██║\n");
+    printf("   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═\n");
+
+    printf("Menu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");
 
     int choice = 0;
     int maxChoice = (m.loaded) ? 5 : 4;
