@@ -133,7 +133,7 @@ int saveScore(Map *m, Leaderboard *leaderboard) {
         return 0;
     }
 
-    qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), comparePlayer);
+    qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), (__compar_fn_t) comparePlayer);
 
     for (int i = 0; i < leaderboard->nbPlayer; i++) {
         fprintf(file, "%s %d\n", leaderboard->bestScores[i].name, leaderboard->bestScores[i].score);
@@ -196,7 +196,7 @@ int readScore(Map *m, Leaderboard *leaderboard) {
         }
 
         int (*pf)(const Player*, const Player*) = &comparePlayer;
-        qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), comparePlayer);
+        qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), (__compar_fn_t) comparePlayer);
     }
 
 

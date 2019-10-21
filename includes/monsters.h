@@ -2,7 +2,7 @@
 // Created by lalouache on 18/10/19.
 //
 
-#include "labyrinthe.h"
+#include "labyrinth.h"
 #include "game.h"
 
 #ifndef PROJET1_MONSTERS_H

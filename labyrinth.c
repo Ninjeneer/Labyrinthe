@@ -12,7 +12,7 @@
 #include <time.h>
 #include <stdbool.h>
 #include "includes/game.h"
-#include "includes/labyrinthe.h"
+#include "includes/labyrinth.h"
 #include "includes/display.h"
 #include "includes/deck.h"
 
@@ -64,25 +64,25 @@ void generatePath(Map *m) {
     while (nbBreakWall < (m->nbLig / 2) * (m->nbCol / 2) - 1) {
         /* Pick a random wall */
         int wallIndex = rand() % deck.size;
-        Coordinate wall = deckPick(wallIndex, &deck);
+        Coordinate wall = deckRemove(wallIndex, &deck);
 
         /* Test if wall is breakable and break it */
         if (wall.lig % 2 != 0 && wall.col % 2 == 0) {
             if (breakWall(m, wall, (Coordinate) {0, -1})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
             if (breakWall(m, wall, (Coordinate) {0, +1})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
         } else if (wall.lig % 2 == 0 && wall.col % 2 != 0) {
             if (breakWall(m, wall, (Coordinate) {-1, 0})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
             if (breakWall(m, wall, (Coordinate) {+1, 0})) {
-                deckRemove(wallIndex, &deck);
+                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
         }
@@ -235,7 +235,7 @@ void generateObjects(Map *m) {
  * @param m Map
  */
 void generateMonsters(Map *m) {
-    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * 0.02);
+    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * MONSTER_RATE);
     int nbMonsterCreated = 0;
 
     m->monsters = (Monster *)malloc(nbMonstersMax * sizeof(Monster));
@@ -249,8 +249,8 @@ void generateMonsters(Map *m) {
         monster.pos.col = 1 + rand() % (m->nbCol - 2);
 
         /* Random monster type */
-//        monster.type = rand() % 2;
-        monster.type = GHOST;
+        monster.type = rand() % 2;
+//        monster.type = GHOST;
 
 
         if (m->matrix[monster.pos.lig][monster.pos.col] == EMPTY) {
