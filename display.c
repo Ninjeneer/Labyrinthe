@@ -19,25 +19,35 @@
  * @param m Map
  * @param p Player
  */
-void displayGame(Map *m, Player p) {
+void displayGame(Map *m, Player p, const char message[MESSAGE_BUFFER_SIZE]) {
+    displayTitle();
+    printf("\n\n");
+
     for (int i = 0; i < m->nbLig; i++) {
         for (int j = 0; j < m->nbCol; j++) {
             if (m->matrix[i][j] == WALL)
-                printf("#");
-            else if (p.pos.lig == i && p.pos.col == j)
+                printf("█");
+            else if (p.pos.lig == i && p.pos.col == j) {
+                printf(BLUE);
                 printf("o");
-            else if (m->matrix[i][j] == TREASURE)
+            } else if (m->matrix[i][j] == TREASURE) {
+                printf(YELLOW);
                 printf("T");
-            else if (m->matrix[i][j] == TRAP)
+            } else if (m->matrix[i][j] == TRAP) {
+                printf(RED);
                 printf("P");
-            else if (m->difficulty == EASY || !displayMonsters(m, i, j))
+            } else if (m->difficulty == EASY || !displayMonsters(m, i, j))
                 printf(" ");
+
+
+            printf(RESET);
         }
+
 
         printf("\n");
     }
-
-    printf("Score : %d\n", p.score);
+    printf("%s\n", message);
+    printf("\n\nScore : %d\n", p.score);
 }
 
 /**
@@ -48,18 +58,34 @@ void displayGame(Map *m, Player p) {
  * @return 1 if a monster is displayed at lig;col position
  */
 int displayMonsters(Map *m, int lig, int col) {
-    int displayed = 0;
     for (int i = 0; i < m->nbMonsters; i++) {
         if (m->monsters[i].pos.lig == lig && m->monsters[i].pos.col == col) {
-            displayed = 1;
-            if (m->monsters[i].type == GHOST)
+            if (m->monsters[i].type == GHOST) {
+                printf(MAGENTA);
                 printf("F");
-            else if (m->monsters[i].type == OGRE)
+            } else if (m->monsters[i].type == OGRE) {
+                printf(GREEN);
                 printf("O");
+            }
+
+            return 1;
         }
     }
 
-    return displayed;
+    return 0;
+
+
+}
+
+void displayTitle() {
+    system("clear || cls");
+    printf("\n");
+    printf(" ████████╗██╗  ██╗███████╗    ██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗███╗   ██╗████████╗██╗  ██╗\n");
+    printf(" ╚══██╔══╝██║  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██║████╗  ██║╚══██╔══╝██║  ██║\n");
+    printf("    ██║   ███████║█████╗      ██║     ███████║██████╔╝ ╚████╔╝ ██████╔╝██║██╔██╗ ██║   ██║   ███████║\n");
+    printf("    ██║   ██╔══██║██╔══╝      ██║     ██╔══██║██╔══██╗  ╚██╔╝  ██╔══██╗██║██║╚██╗██║   ██║   ██╔══██║\n");
+    printf("    ██║   ██║  ██║███████╗    ███████╗██║  ██║██████╔╝   ██║   ██║  ██║██║██║ ╚████║   ██║   ██║  ██║\n");
+    printf("    ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═\n");
 }
 
 /**
@@ -67,14 +93,8 @@ int displayMonsters(Map *m, int lig, int col) {
  * @return User's choice
  */
 int displayMenu(Map m) {
-    system("clear || cls");
-    printf("████████╗██╗  ██╗███████╗    ██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗███╗   ██╗████████╗██╗  ██╗\n");
-    printf("╚══██╔══╝██║  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██║████╗  ██║╚══██╔══╝██║  ██║\n");
-    printf("   ██║   ███████║█████╗      ██║     ███████║██████╔╝ ╚████╔╝ ██████╔╝██║██╔██╗ ██║   ██║   ███████║\n");
-    printf("   ██║   ██╔══██║██╔══╝      ██║     ██╔══██║██╔══██╗  ╚██╔╝  ██╔══██╗██║██║╚██╗██║   ██║   ██╔══██║\n");
-    printf("   ██║   ██║  ██║███████╗    ███████╗██║  ██║██████╔╝   ██║   ██║  ██║██║██║ ╚████║   ██║   ██║  ██║\n");
-    printf("   ╚═╝   ╚═╝  ╚═╝╚══════╝    ╚══════╝╚═╝  ╚═╝╚═════╝    ╚═╝   ╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝   ╚═╝  ╚═\n");
 
+    displayTitle();
     printf("Menu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");
 
     int choice = 0;
@@ -96,12 +116,12 @@ int displayMenu(Map m) {
  * @param m Map
  */
 void createMap(Map *m) {
-    printf("=== Création d'un labyrinthe :\n");
+    printf("► Création d'un labyrinthe :\n");
 
     /* Ask for game difficulty */
     char difficulty;
     do {
-        printf("Difficulté [F]acile / [D]ifficile : ");
+        printf("\tDifficulté [F]acile / [D]ifficile : ");
         scanf("%c", &difficulty);
         clearBuffer();
     } while (toupper(difficulty) != 'F' && toupper(difficulty) != 'D');
@@ -135,11 +155,10 @@ void createMap(Map *m) {
     m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
 
-
-
     /* Save the map in a file */
     if (saveMap(m)) {
         printf("Labyrinthe enregistré et chargé avec succès.\n\n");
+        pressAnyKey();
         m->loaded = 1;
     } else {
         m->loaded = 0;
@@ -155,7 +174,8 @@ void openMap(Map *m) {
     /* Show maps list */
 
     if (!showFileList()) {
-        printf("Aucune map n'est enregistrée\n");
+        printf("Aucune map n'est enregistrée !\n");
+        pressAnyKey();
         return;
     }
 
@@ -171,6 +191,7 @@ void openMap(Map *m) {
 
     if (readMap(m, m->name)) {
         printf("Labyrinthe chargé avec succès!\n\n");
+        pressAnyKey();
         m->loaded = 1;
 
         if (m->difficulty == HARD)
@@ -263,15 +284,23 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard, int add) {
 void showLeaderboard(Map m) {
     if (!m.loaded) {
         printf("Erreur : aucune map n'est chargée !\n");
+        pressAnyKey();
         return;
     }
 
     Leaderboard l;
     readScore(&m, &l);
 
-    printf("== Tableau des scores de : %s ==\n", m.name);
+    displayTitle();
+    printf("\n\n╠══ Tableau des scores de : %s ══╣\n", m.name);
     for (int i = 0; i < l.nbPlayer; i++)
-        printf("\t[%2d] => %s : %d\n", (i + 1), l.bestScores[i].name, l.bestScores[i].score);
+        printf("\t[%2d] → %s : %d points\n", (i + 1), l.bestScores[i].name, l.bestScores[i].score);
 
     printf("\n");
+    pressAnyKey();
+}
+
+void pressAnyKey() {
+    printf("Appuyez sur ENTRÉE pour revenir au menu...");
+    getchar();
 }

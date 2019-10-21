@@ -14,36 +14,44 @@
 
 int main() {
 
-    Map m;
-    m.loaded = false;
+    int error = 1;
+    int foo = 0;
+    do {
+        printf("lol : ");
+        error = scanf("%d", &foo);
+        clearBuffer();
+    } while (!error || foo < 0 || foo > 4);
 
-    while (true) {
-        int playerChoice = displayMenu(m);
-
-        switch (playerChoice) {
-            case CREATE:
-                createMap(&m);
-                break;
-
-            case OPEN:
-                openMap(&m);
-                break;
-
-            case PLAY:
-                play(&m);
-                break;
-
-            case LEADERBOARD:
-                showLeaderboard(m);
-                break;
-
-            case QUIT:
-                printf("Au revoir !\n");
-                return 0;
-
-            default:
-                printf("Choix inconnu\n");
-                break;
-        }
-    }
+//    Map m;
+//    m.loaded = false;
+//
+//    while (true) {
+//        int playerChoice = displayMenu(m);
+//
+//        switch (playerChoice) {
+//            case CREATE:
+//                createMap(&m);
+//                break;
+//
+//            case OPEN:
+//                openMap(&m);
+//                break;
+//
+//            case PLAY:
+//                play(&m);
+//                break;
+//
+//            case LEADERBOARD:
+//                showLeaderboard(m);
+//                break;
+//
+//            case QUIT:
+//                printf("Au revoir !\n");
+//                return 0;
+//
+//            default:
+//                printf("Choix inconnu\n");
+//                break;
+//        }
+//    }
 }

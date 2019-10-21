@@ -21,6 +21,7 @@ int saveMap(Map *m) {
 
     if (hasIllegalCharacters(m->name)) {
         printf("Erreur : nom de fichier invalide !\n");
+        pressAnyKey();
         return 0;
     }
 
@@ -36,6 +37,7 @@ int saveMap(Map *m) {
     /* Test file existence */
     if (file == NULL) {
         printf("Impossible de créer le fichier de map : %s\n", filename);
+        pressAnyKey();
         return 0;
     }
 
@@ -67,6 +69,7 @@ int saveMap(Map *m) {
     FILE *scoreFile = fopen(scoreFilename, "w+");
     if (scoreFile == NULL) {
         printf("Impossible de créer le fichier de score : %s\n", scoreFilename);
+        pressAnyKey();
         return 0;
     }
     fclose(scoreFile);
@@ -92,6 +95,7 @@ int readMap(Map *m, char *filename) {
 
     if (file == NULL) {
         printf("Impossible de lire le fichier : %s\n", fullPath);
+        pressAnyKey();
         return 0;
     }
 
@@ -130,6 +134,7 @@ int saveScore(Map *m, Leaderboard *leaderboard) {
     /* Test file existence */
     if (file == NULL) {
         printf("Impossible d'ouvrir le fichier de socre : %s\n", filename);
+        pressAnyKey();
         return 0;
     }
 

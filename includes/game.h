@@ -34,7 +34,7 @@ typedef struct {
 void play(Map *m);
 int movePlayer(Map *m, Player *p, int direction);
 void moveMonsters(Map *m);
-void testCase(Map *m, Player *p);
+void testCase(Map *m, Player *p, char message[255]);
 int comparePlayer(const Player *p1, const Player *p2);
 
 #endif //PROJET1_GAME_H

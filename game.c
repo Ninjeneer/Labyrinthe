@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
 #include "includes/game.h"
 #include "includes/labyrinth.h"
 #include "includes/display.h"
@@ -19,6 +20,7 @@
 void play(Map *m) {
     if (m->loaded == 0) {
         printf("Erreur : aucune map n'est chargée !\n");
+        pressAnyKey();
         return;
     }
 
@@ -35,10 +37,14 @@ void play(Map *m) {
     Leaderboard leaderboard;
     readScore(m, &leaderboard);
 
+    /* User message */
+    char message[MESSAGE_BUFFER_SIZE];
+    strcpy(message, " ");
 
     /* Game loop */
     while (p.pos.lig != m->nbLig - 2 || p.pos.col != m->nbCol - 1) {
-        displayGame(m, p);
+        displayGame(m, p, message);
+        sprintf(message, " ");
 
         /* Ask for player direction */
         char direction = ' ';
@@ -60,11 +66,12 @@ void play(Map *m) {
             moveMonsters(m);
 
             /* Test objects */
-            testCase(m, &p);
-
-
+            testCase(m, &p, message);
         }
     }
+
+    sprintf(message, "/!\\ Bravo ! Vous êtes sorti du labyrinthe !");
+    displayGame(m, p, message);
 
     /* If the number of registered scores is < SCORE_NB_MAX */
     if (leaderboard.nbPlayer < SCORE_NB_MAX) {
@@ -72,8 +79,6 @@ void play(Map *m) {
     } else if (p.score > leaderboard.bestScores[leaderboard.nbPlayer - 1].score) {
         askScore(m, &p, &leaderboard, 0);
     }
-
-    printf("/!\\ Bravo ! Vous êtes sorti du labyrinthe, avec un score de %d !\n\n", p.score);
 }
 
 /**
@@ -137,22 +142,23 @@ void moveMonsters(Map *m) {
  * @param m Map
  * @param p Player
  */
-void testCase(Map *m, Player *p) {
+void testCase(Map *m, Player *p, char message[255]) {
     if (m->matrix[p->pos.lig][p->pos.col] == TRAP) {
         p->score -= TRAP_VALUE;
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
-        printf("Vous êtes tombé dans un piège, vous perdez %d points !\n", TRAP_VALUE);
+        sprintf(message, "Vous êtes tombé dans un piège, vous perdez %d points !", TRAP_VALUE);
     } else if (m->matrix[p->pos.lig][p->pos.col] == TREASURE) {
         p->score += TREASURE_VALUE;
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
-        printf("Vous avez trouvé un trésor, vous gagnez %d points !\n", TREASURE_VALUE);
+        //printf("Vous avez trouvé un trésor, vous gagnez %d points !\n", TREASURE_VALUE);
+        sprintf(message, "Vous avez trouvé un trésor, vous gagnez %d points !", TREASURE_VALUE);
     }
 
     for (int i = 0; i < m->nbMonsters; i++) {
         Monster monster = m->monsters[i];
         if (p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) {
             p->score -= MONSTER_VALUE;
-            printf("Vous avez été touché par un monstre ! Vous perdez %d points !\n", MONSTER_VALUE);
+            sprintf(message, "Vous avez été touché par un monstre ! Vous perdez %d points !", MONSTER_VALUE);
         }
     }
 }
