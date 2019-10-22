@@ -78,6 +78,9 @@ int displayMonsters(Map *m, int lig, int col) {
 
 }
 
+/**
+ * Clear the console and print the game title
+ */
 void displayTitle() {
     system("clear || cls");
     printf("\n");
