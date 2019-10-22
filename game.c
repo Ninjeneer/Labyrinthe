@@ -47,13 +47,14 @@ void play(Map *m) {
         sprintf(message, " ");
 
         /* Ask for player direction */
+        int validInput = 1;
         char direction = ' ';
         do {
             printf("Direction : ");
-            scanf("%c", &direction);
+            validInput = scanf("%c", &direction);
             clearBuffer();
             direction = (char) toupper(direction);
-        } while (direction != 'Z' && direction != 'Q' && direction != 'S' && direction != 'D');
+        } while (!validInput || (direction != 'Z' && direction != 'Q' && direction != 'S' && direction != 'D'));
 
 
 

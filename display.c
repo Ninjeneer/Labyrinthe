@@ -24,6 +24,7 @@ void displayGame(Map *m, Player p, const char message[MESSAGE_BUFFER_SIZE]) {
     printf("\n\n");
 
     for (int i = 0; i < m->nbLig; i++) {
+        printf("\t");
         for (int j = 0; j < m->nbCol; j++) {
             if (m->matrix[i][j] == WALL)
                 printf("█");
@@ -98,13 +99,14 @@ int displayMenu(Map m) {
     printf("Menu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");
 
     int choice = 0;
-    int maxChoice = (m.loaded) ? 5 : 4;
 
-    //TODO test valeur
-    printf("Choix : ");
-    while (scanf("%d", &choice) != 1 || choice < 1 || choice > maxChoice) {
+    int valid = 1;
+    do {
         printf("Choix : ");
-    }
+        valid = scanf("%d", &choice);
+        if (!valid)
+            clearBuffer();
+    } while (!valid || choice < 1 || choice > 5);
 
     clearBuffer();
 
@@ -118,28 +120,32 @@ int displayMenu(Map m) {
 void createMap(Map *m) {
     printf("► Création d'un labyrinthe :\n");
 
+    int validInput = 1;
+
     /* Ask for game difficulty */
     char difficulty;
     do {
         printf("\tDifficulté [F]acile / [D]ifficile : ");
-        scanf("%c", &difficulty);
+        validInput = scanf("%c", &difficulty);
         clearBuffer();
-    } while (toupper(difficulty) != 'F' && toupper(difficulty) != 'D');
+    } while (!validInput || (toupper(difficulty) != 'F' && toupper(difficulty) != 'D'));
     m->difficulty = (toupper(difficulty) == 'F') ? EASY : HARD;
 
+    validInput = 1;
     /* Ask for the width of the map */
     do {
         printf("\tLargeur (impair >= 3) : ");
-        scanf("%d", &m->nbCol);
+        validInput = scanf("%d", &m->nbCol);
         clearBuffer();
-    } while (m->nbCol % 2 == 0 || m->nbCol < 0 || m->nbCol < 3);
+    } while (!validInput || m->nbCol % 2 == 0 || m->nbCol < 0 || m->nbCol < 3);
 
+    validInput = 1;
     /* Ask for the height of the map */
     do {
         printf("\tHauteur (impair >= 3) : ");
-        scanf("%d", &m->nbLig);
+        validInput = scanf("%d", &m->nbLig);
         clearBuffer();
-    } while (m->nbLig % 2 == 0 || m->nbLig < 0 || m->nbCol < 3);
+    } while (!validInput || m->nbLig % 2 == 0 || m->nbLig < 0 || m->nbCol < 3);
 
     /* Create the matrix, generate the path */
     generateStaticMatrix(m);

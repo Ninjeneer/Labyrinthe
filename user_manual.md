@@ -1,6 +1,8 @@
 # Labyrinthe - Manuel utilisateur
 ## Démarrer le jeu
 Afin de démarrer le jeu, il suffit de lancer l'exécutable XXX via la commande `./XXXX` dans le répertoire du jeu.
+Le jeu utilisant une table ASCII étendue propre aux systèmes UNIX, celui-ci ne peut s'exécuter que dans un environnement UNIX.
+Pour une expérience graphique plus agréable, assurez-vous de posséeder un terminal ayant une largeur plus grande que 101 caractères.
 
 Une fois le jeu lancé, un menu apparaîtra et vous demandera de faire un choix :
 
