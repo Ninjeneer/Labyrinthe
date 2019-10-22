@@ -1,4 +1,6 @@
 # Labyrinthe - Manuel développeur
+## Compilation
+Pour compiler le projet, entrez la commande suivante `gcc *.c -o game`
 ## Tâches réalisées
 - Génération d'un labyrinthe parfait de taille dynamique
 - Déplacement du joueur dans celui-ci
