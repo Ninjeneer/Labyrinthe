@@ -14,14 +14,6 @@
 
 int main() {
 
-//    int error = 1;
-//    int foo = 0;
-//    do {
-//        printf("lol : ");
-//        error = scanf("%d", &foo);
-//        clearBuffer();
-//    } while (!error || foo < 0 || foo > 4);
-
     Map m;
     m.loaded = false;
 

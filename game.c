@@ -80,6 +80,8 @@ void play(Map *m) {
     } else if (p.score > leaderboard.bestScores[leaderboard.nbPlayer - 1].score) {
         askScore(m, &p, &leaderboard, 0);
     }
+
+    readMap(m, m->name);
 }
 
 /**
@@ -93,6 +95,7 @@ int movePlayer(Map *m, Player *p, int direction) {
     switch (direction) {
         case 'Z':
             if (m->matrix[p->pos.lig - 1][p->pos.col] != WALL) {
+                p->lastPos = p->pos;
                 p->pos.lig--;
                 return 1;
             }
@@ -100,6 +103,7 @@ int movePlayer(Map *m, Player *p, int direction) {
 
         case 'Q':
             if (m->matrix[p->pos.lig][p->pos.col - 1] != WALL && p->pos.col - 1 >= 0) {
+                p->lastPos = p->pos;
                 p->pos.col--;
                 return 1;
             }
@@ -107,6 +111,7 @@ int movePlayer(Map *m, Player *p, int direction) {
 
         case 'S':
             if (m->matrix[p->pos.lig + 1][p->pos.col] != WALL) {
+                p->lastPos = p->pos;
                 p->pos.lig++;
                 return 1;
             }
@@ -114,6 +119,7 @@ int movePlayer(Map *m, Player *p, int direction) {
 
         case 'D':
             if (m->matrix[p->pos.lig][p->pos.col + 1] != WALL && p->pos.col + 1 < m->nbCol) {
+                p->lastPos = p->pos;
                 p->pos.col++;
                 return 1;
             }
@@ -157,7 +163,7 @@ void testCase(Map *m, Player *p, char message[255]) {
 
     for (int i = 0; i < m->nbMonsters; i++) {
         Monster monster = m->monsters[i];
-        if (p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) {
+        if ((p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) || (comparePos(p->pos, monster.lastPos) && comparePos(monster.pos, p->lastPos)) ) {
             p->score -= MONSTER_VALUE;
             sprintf(message, "Vous avez été touché par un monstre ! Vous perdez %d points !", MONSTER_VALUE);
         }
@@ -177,4 +183,11 @@ int comparePlayer(const Player *p1, const Player *p2) {
         return 1;
 
     return 0;
+}
+
+int comparePos(const Coordinate c1, const Coordinate c2) {
+    if (c1.lig == c2.lig && c1.col == c2.col)
+        return 1;
+    else
+        return 0;
 }

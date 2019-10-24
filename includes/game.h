@@ -16,12 +16,14 @@ enum { NORTH, EAST, SOUTH, WEST };
 
 typedef struct Player {
     Coordinate pos;
+    Coordinate lastPos;
     int score;
     char *name;
 } Player;
 
 typedef struct Monster {
     Coordinate pos;
+    Coordinate lastPos;
     int type;
 } Monster;
 
@@ -36,5 +38,6 @@ int movePlayer(Map *m, Player *p, int direction);
 void moveMonsters(Map *m);
 void testCase(Map *m, Player *p, char message[255]);
 int comparePlayer(const Player *p1, const Player *p2);
+int comparePos(Coordinate c1, Coordinate c2);
 
 #endif //PROJET1_GAME_H

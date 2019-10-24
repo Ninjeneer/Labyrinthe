@@ -30,23 +30,32 @@ void move(Map *m, Monster *monster, void (*moveFunction)(Map*, Monster*, int)) {
 void moveOgre(Map *m, Monster *monster, int direction) {
     switch (direction) {
         case NORTH:
-            if (m->matrix[monster->pos.lig - 1][monster->pos.col] != WALL)
+            if (m->matrix[monster->pos.lig - 1][monster->pos.col] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.lig--;
+            }
             break;
 
         case SOUTH:
-            if (m->matrix[monster->pos.lig + 1][monster->pos.col] != WALL)
+            if (m->matrix[monster->pos.lig + 1][monster->pos.col] != WALL) {
+
+                monster->lastPos = monster->pos;
                 monster->pos.lig++;
+            }
             break;
 
         case EAST:
-            if (m->matrix[monster->pos.lig][monster->pos.col + 1] != WALL)
+            if (m->matrix[monster->pos.lig][monster->pos.col + 1] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.col++;
+            }
             break;
 
         case WEST:
-            if (m->matrix[monster->pos.lig][monster->pos.col - 1] != WALL)
+            if (m->matrix[monster->pos.lig][monster->pos.col - 1] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.col--;
+            }
             break;
 
         default:
@@ -63,31 +72,48 @@ void moveOgre(Map *m, Monster *monster, int direction) {
 void moveGhost(Map *m, Monster *monster, int direction) {
     switch (direction) {
         case NORTH:
-            if (m->matrix[monster->pos.lig - 1][monster->pos.col] != WALL)
+            if (m->matrix[monster->pos.lig - 1][monster->pos.col] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.lig--;
-            else if (monster->pos.lig - 2 > 0 && m->matrix[monster->pos.lig - 2][monster->pos.col] == EMPTY)
+            }
+            else if (monster->pos.lig - 2 > 0 && m->matrix[monster->pos.lig - 2][monster->pos.col] == EMPTY) {
+                monster->lastPos = monster->pos;
                 monster->pos.lig -= 2;
+            }
             break;
 
         case SOUTH:
-            if (m->matrix[monster->pos.lig + 1][monster->pos.col] != WALL)
+            if (m->matrix[monster->pos.lig + 1][monster->pos.col] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.lig++;
-            else if (monster->pos.lig + 2 < m->nbLig - 1 && m->matrix[monster->pos.lig + 2][monster->pos.col] == EMPTY)
+            }
+
+            else if (monster->pos.lig + 2 < m->nbLig - 1 && m->matrix[monster->pos.lig + 2][monster->pos.col] == EMPTY) {
+                monster->lastPos = monster->pos;
                 monster->pos.lig += 2;
+            }
             break;
 
         case EAST:
-            if (m->matrix[monster->pos.lig][monster->pos.col + 1] != WALL)
+            if (m->matrix[monster->pos.lig][monster->pos.col + 1] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.col++;
-            else if (monster->pos.col + 1 < m-> nbCol - 1 && m->matrix[monster->pos.lig][monster->pos.col + 2] == EMPTY)
+            }
+            else if (monster->pos.col + 1 < m-> nbCol - 1 && m->matrix[monster->pos.lig][monster->pos.col + 2] == EMPTY) {
+                monster->lastPos = monster->pos;
                 monster->pos.col += 2;
+            }
             break;
 
         case WEST:
-            if (m->matrix[monster->pos.lig][monster->pos.col - 1] != WALL)
+            if (m->matrix[monster->pos.lig][monster->pos.col - 1] != WALL) {
+                monster->lastPos = monster->pos;
                 monster->pos.col--;
-            else if (monster->pos.col - 2 > 0 && m->matrix[monster->pos.lig][monster->pos.col - 2] == EMPTY)
+            }
+            else if (monster->pos.col - 2 > 0 && m->matrix[monster->pos.lig][monster->pos.col - 2] == EMPTY) {
+                monster->lastPos = monster->pos;
                 monster->pos.col -= 2;
+            }
             break;
 
         default:

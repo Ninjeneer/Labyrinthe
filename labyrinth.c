@@ -250,17 +250,14 @@ void generateMonsters(Map *m) {
 
         /* Random monster type */
         monster.type = rand() % 2;
-//        monster.type = GHOST;
 
 
         if (m->matrix[monster.pos.lig][monster.pos.col] == EMPTY) {
             m->monsters[nbMonsterCreated] = monster;
             nbMonsterCreated++;
-            printf("\t created monster %d\n", monster.type);
         }
     }
 
     m->nbMonsters = nbMonsterCreated;
-    printf("Nb monster created : %d\n", nbMonsterCreated);
 
 }
