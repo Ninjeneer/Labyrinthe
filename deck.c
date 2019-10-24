@@ -34,7 +34,7 @@ Coordinate deckRemove(int index, Deck *deck) {
 void deckDisplay(Deck d) {
     printf("(%d) => ", d.size);
     for (int i = 0; i < d.size; i++)
-        printf("[%d;%d] ", d.walls[i].lig, d.walls[i].col);
+        printf("[%d;%d] ", d.walls[i].row, d.walls[i].col);
 
     printf("\n");
 }

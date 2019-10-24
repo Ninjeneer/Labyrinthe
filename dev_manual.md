@@ -11,10 +11,17 @@ Pour compiler le projet, entrez la commande suivante `gcc *.c -o game`
 - Tests unitaires
 - Documentation entière Doxygen
 - Manuel utilisateur
+- Déplacement des ogres en fonction d'un trésor croisé
+
+   - Les ogres se déplacent dans leur périmètre autour de leur point d'apparition. Lorsqu'ils croisent un trésor, le centre de leur périmètre devient le trésor.
+- Déplacement des monstres : paramètre d'étendue de mobilité
+
+    - Les ogres restent dans leurs périmètres
+    - Les fantômes restent dans leurs périmètres et peuvent traverser les murs
 
 ## Tâches restantes
-- Déplacement des ogres en fonction d'un trésor croisé
-- Déplacement des monstres : paramètre d'étendue de mobilité
+
+- Déplacement des fantômes : fonctionne parfaitement, mais il arrive que les fantômes ne bougent pas à certains tours.
 
 ## Fonctionnement des points clés
 
@@ -38,7 +45,7 @@ Durant le développement, j'ai rencontré un problème de dépendances circulair
 typedef struct {  
 	char *name;  
 	int **matrix;  
-	int nbLig;  
+	int nbRow;  
 	int nbCol;  
 	int loaded;  
 	int difficulty;  

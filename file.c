@@ -44,10 +44,10 @@ int saveMap(Map *m) {
     /* Write the map name */
     fprintf(file, "%s\n", m->name);
     /* Write the map's dimensions */
-    fprintf(file, "%d %d\n", m->nbLig, m->nbCol);
+    fprintf(file, "%d %d\n", m->nbRow, m->nbCol);
 
     /* Write the map's matrix */
-    for (int i = 0; i < m->nbLig; i++) {
+    for (int i = 0; i < m->nbRow; i++) {
         for (int j = 0; j < m->nbCol; j++)
             fprintf(file, "%d ", m->matrix[i][j]);
 
@@ -100,13 +100,13 @@ int readMap(Map *m, char *filename) {
     }
 
     fscanf(file, "%*s\n");
-    fscanf(file, "%d %d\n", &m->nbLig, &m->nbCol);
+    fscanf(file, "%d %d\n", &m->nbRow, &m->nbCol);
 
-    m->matrix = (int **) malloc(m->nbLig * sizeof(int *));
-    for (int i = 0; i < m->nbLig; i++)
+    m->matrix = (int **) malloc(m->nbRow * sizeof(int *));
+    for (int i = 0; i < m->nbRow; i++)
         m->matrix[i] = (int *) malloc(m->nbCol * sizeof(int));
 
-    for (int i = 0; i < m->nbLig; i++) {
+    for (int i = 0; i < m->nbRow; i++) {
         for (int j = 0; j < m->nbCol; j++)
             fscanf(file, "%d ", &m->matrix[i][j]);
 

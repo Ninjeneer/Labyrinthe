@@ -12,8 +12,6 @@
 #include "includes/game.h"
 #include "includes/file.h"
 
-#include "includes/monsters.h"
-
 int main() {
 
     Map m;

@@ -16,14 +16,14 @@ enum {EASY, HARD};
 #define MONSTER_RATE 0.02
 
 typedef struct {
-    int lig;
+    int row;
     int col;
 } Coordinate;
 
 typedef struct {
     char *name;
     int **matrix;
-    int nbLig;
+    int nbRow;
     int nbCol;
     int loaded;
     int difficulty;

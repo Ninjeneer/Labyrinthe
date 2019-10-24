@@ -23,13 +23,13 @@ void displayGame(Map *m, Player p, const char message[MESSAGE_BUFFER_SIZE]) {
     displayTitle();
     printf("\n\n");
 
-    for (int i = 0; i < m->nbLig; i++) {
+    for (int i = 0; i < m->nbRow; i++) {
         printf("\t");
         for (int j = 0; j < m->nbCol; j++) {
 //            printf("%2d|", m->matrix[i][j]);
             if (m->matrix[i][j] == WALL)
                 printf("█");
-            else if (p.pos.lig == i && p.pos.col == j) {
+            else if (p.pos.row == i && p.pos.col == j) {
                 printf(BLUE);
                 printf("o");
             } else if (m->matrix[i][j] == TREASURE) {
@@ -61,7 +61,7 @@ void displayGame(Map *m, Player p, const char message[MESSAGE_BUFFER_SIZE]) {
  */
 int displayMonsters(Map *m, int lig, int col) {
     for (int i = 0; i < m->nbMonsters; i++) {
-        if (m->monsters[i].pos.lig == lig && m->monsters[i].pos.col == col) {
+        if (m->monsters[i].pos.row == lig && m->monsters[i].pos.col == col) {
             if (m->monsters[i].type == GHOST) {
                 printf(MAGENTA);
                 printf("F");
@@ -83,7 +83,7 @@ int displayMonsters(Map *m, int lig, int col) {
  * Clear the console and print the game title
  */
 void displayTitle() {
-    //system("clear || cls");
+//    system("clear || cls");
     printf("\n");
     printf(" ████████╗██╗  ██╗███████╗    ██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗███╗   ██╗████████╗██╗  ██╗\n");
     printf(" ╚══██╔══╝██║  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██║████╗  ██║╚══██╔══╝██║  ██║\n");
@@ -147,9 +147,9 @@ void createMap(Map *m) {
     /* Ask for the height of the map */
     do {
         printf("\tHauteur (impair >= 3) : ");
-        validInput = scanf("%d", &m->nbLig);
+        validInput = scanf("%d", &m->nbRow);
         clearBuffer();
-    } while (!validInput || m->nbLig % 2 == 0 || m->nbLig < 0 || m->nbCol < 3);
+    } while (!validInput || m->nbRow % 2 == 0 || m->nbRow < 0 || m->nbCol < 3);
 
     /* Create the matrix, generate the path */
     generateStaticMatrix(m);
@@ -157,7 +157,7 @@ void createMap(Map *m) {
     /* Ask for the name of the map */
     m->name = malloc(MAP_NAME_SIZE_MAX * sizeof(char));
     do {
-        printf("Nom du labyrinthe (3 -> %d car.): ", MAP_NAME_SIZE_MAX);
+        printf("Nom du labyrinthe (2 -> %d car.): ", MAP_NAME_SIZE_MAX);
         fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
         fflush(stdin);
     } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
@@ -274,7 +274,7 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard, int add) {
     p->name = malloc(SCORE_PSEUDO_SIZE * sizeof(char));
 
     do {
-        printf("Entrez votre pseudo (3 -> %d car.): ", SCORE_PSEUDO_SIZE);
+        printf("Entrez votre pseudo (2 -> %d car.): ", SCORE_PSEUDO_SIZE);
         fgets(p->name, SCORE_PSEUDO_SIZE, stdin);
     } while (strlen(p->name) < 3 || strlen(p->name) > SCORE_PSEUDO_SIZE);
     p->name[strlen(p->name) - 1] = '\0'; /* Removes last \n */

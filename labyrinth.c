@@ -23,25 +23,25 @@
  */
 void generateStaticMatrix(Map *m) {
     /* Matrix memory allocation */
-    m->matrix = (int **) malloc(m->nbLig * sizeof(int *));
-    for (int i = 0; i < m->nbLig; i++)
+    m->matrix = (int **) malloc(m->nbRow * sizeof(int *));
+    for (int i = 0; i < m->nbRow; i++)
         m->matrix[i] = (int *) malloc(m->nbCol * sizeof(int));
 
     /* Matrix initialization and border wall construction */
-    for (int i = 0; i < m->nbLig; i++)
+    for (int i = 0; i < m->nbRow; i++)
         for (int j = 0; j < m->nbCol; j++)
-            if (i == 0 || i == m->nbLig - 1 || j == 0 || j == m->nbCol - 1)
+            if (i == 0 || i == m->nbRow - 1 || j == 0 || j == m->nbCol - 1)
                 m->matrix[i][j] = WALL;
             else
-                m->matrix[i][j] = i * m->nbLig + j;
+                m->matrix[i][j] = i * m->nbRow + j;
 
     /* Inner horizontal wall construction */
-    for (int i = 2; i < m->nbLig; i += 2)
+    for (int i = 2; i < m->nbRow; i += 2)
         for (int j = 0; j < m->nbCol; j++)
             m->matrix[i][j] = WALL;
 
     /* Inner vertical wall construction */
-    for (int i = 0; i < m->nbLig; i++)
+    for (int i = 0; i < m->nbRow; i++)
         for (int j = 2; j < m->nbCol; j += 2)
             m->matrix[i][j] = WALL;
 
@@ -61,13 +61,13 @@ void generatePath(Map *m) {
     int nbBreakWall = 0;
 
     srand(time(NULL));
-    while (nbBreakWall < (m->nbLig / 2) * (m->nbCol / 2) - 1) {
+    while (nbBreakWall < (m->nbRow / 2) * (m->nbCol / 2) - 1) {
         /* Pick a random wall */
         int wallIndex = rand() % deck.size;
         Coordinate wall = deckRemove(wallIndex, &deck);
 
         /* Test if wall is breakable and break it */
-        if (wall.lig % 2 != 0 && wall.col % 2 == 0) {
+        if (wall.row % 2 != 0 && wall.col % 2 == 0) {
             if (breakWall(m, wall, (Coordinate) {0, -1})) {
                 //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
@@ -76,7 +76,7 @@ void generatePath(Map *m) {
                 //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
-        } else if (wall.lig % 2 == 0 && wall.col % 2 != 0) {
+        } else if (wall.row % 2 == 0 && wall.col % 2 != 0) {
             if (breakWall(m, wall, (Coordinate) {-1, 0})) {
                 //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
@@ -92,21 +92,21 @@ void generatePath(Map *m) {
     updateCase(m, MATRIX_START_LIG, MATRIX_START_COL, EMPTY, true);
 
     /* Matrix exit */
-    updateCase(m, m->nbLig - 2, m->nbCol - 1, EMPTY, true);
+    updateCase(m, m->nbRow - 2, m->nbCol - 1, EMPTY, true);
 
     /* Generates treasures and traps */
     generateObjects(m);
 
     /* Breaks more walls if difficulty set to HARD */
     if (m->difficulty == HARD) {
-        int nbBreakMax = (int)(deck.size * 0.2); /* Removes 20% of the remaining walls */
+        int nbBreakMax = (int) (deck.size * 0.2); /* Removes 20% of the remaining walls */
         nbBreakWall = 0;
 
         while (nbBreakWall < nbBreakMax) {
             /* Pick a random wall */
             int wallIndex = rand() % deck.size;
             Coordinate wall = deckRemove(wallIndex, &deck);
-            updateCase(m, wall.lig, wall.col, EMPTY, true);
+            updateCase(m, wall.row, wall.col, EMPTY, true);
             nbBreakWall++;
         }
 
@@ -123,22 +123,22 @@ void generatePath(Map *m) {
  */
 int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
     /* Avoid breaking border walls */
-    if (cWall.lig + shift.lig == 0 || cWall.lig + shift.lig == m->nbLig - 1 ||
+    if (cWall.row + shift.row == 0 || cWall.row + shift.row == m->nbRow - 1 ||
         cWall.col + shift.col == 0 || cWall.col + shift.col == m->nbCol - 1) {
-        printf("Can't break border %d;%d\n", cWall.lig, cWall.col);
+        printf("Can't break border %d;%d\n", cWall.row, cWall.col);
         return 0;
     }
 
     /* Avoid breaking a wall having the same case value on the other side */
-    if (m->matrix[cWall.lig + shift.lig][cWall.col + shift.col] ==
-        m->matrix[cWall.lig - shift.lig][cWall.col - shift.col]) {
+    if (m->matrix[cWall.row + shift.row][cWall.col + shift.col] ==
+        m->matrix[cWall.row - shift.row][cWall.col - shift.col]) {
         return 0;
     }
 
     /* Break the wall */
-    if (m->matrix[cWall.lig][cWall.col] == WALL) {
-        m->matrix[cWall.lig][cWall.col] = m->matrix[cWall.lig + shift.lig][cWall.col + shift.col];
-        updateCase(m, cWall.lig, cWall.col, m->matrix[cWall.lig][cWall.col], false);
+    if (m->matrix[cWall.row][cWall.col] == WALL) {
+        m->matrix[cWall.row][cWall.col] = m->matrix[cWall.row + shift.row][cWall.col + shift.col];
+        updateCase(m, cWall.row, cWall.col, m->matrix[cWall.row][cWall.col], false);
         return 1;
     }
 
@@ -164,7 +164,7 @@ void updateCase(Map *m, int lig, int col, int value, int override) {
         updateCase(m, lig - 1, col, value, false);
 
     /* Update lower cases */
-    if (lig + 1 < m->nbLig - 1 && m->matrix[lig + 1][col] != m->matrix[lig][col])
+    if (lig + 1 < m->nbRow - 1 && m->matrix[lig + 1][col] != m->matrix[lig][col])
         updateCase(m, lig + 1, col, value, false);
 
     /* Update left side cases */
@@ -186,7 +186,7 @@ int getWalls(Map *m, Coordinate **walls) {
 
     int nbWalls = 0;
 
-    for (int i = 1; i < m->nbLig - 1; i++)
+    for (int i = 1; i < m->nbRow - 1; i++)
         for (int j = 1; j < m->nbCol - 1; j++)
             if (m->matrix[i][j] == WALL)
                 if (i % 2 != 0 || j % 2 != 0)
@@ -196,7 +196,7 @@ int getWalls(Map *m, Coordinate **walls) {
     (*walls) = malloc(nbWalls * sizeof(Coordinate));
 
     int indexWall = 0;
-    for (int i = 1; i < m->nbLig - 1; i++)
+    for (int i = 1; i < m->nbRow - 1; i++)
         for (int j = 1; j < m->nbCol - 1; j++)
             if (m->matrix[i][j] == WALL) {
                 if (i % 2 != 0 || j % 2 != 0)
@@ -211,19 +211,19 @@ int getWalls(Map *m, Coordinate **walls) {
  * @param m Map
  */
 void generateObjects(Map *m) {
-    int nbObjects = (int) (m->nbLig * m->nbCol * OBJECT_RATE);
+    int nbObjects = (int) (m->nbRow * m->nbCol * OBJECT_RATE);
 
     srand(time(NULL));
     while (nbObjects > 0) {
         Coordinate c;
 
         /* Random position */
-        c.lig = 1 + rand() % (m->nbLig - 2);
+        c.row = 1 + rand() % (m->nbRow - 2);
         c.col = 1 + rand() % (m->nbCol - 2);
 
-        if (m->matrix[c.lig][c.col] == EMPTY) {
+        if (m->matrix[c.row][c.col] == EMPTY) {
             int objectType = TREASURE + rand() % 2; /* Random type */
-            m->matrix[c.lig][c.col] = objectType;
+            m->matrix[c.row][c.col] = objectType;
 
             nbObjects--;
         }
@@ -235,25 +235,34 @@ void generateObjects(Map *m) {
  * @param m Map
  */
 void generateMonsters(Map *m) {
-//    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * MONSTER_RATE);
     int nbMonstersMax = 1;
+//    int nbMonstersMax = (int)((m->nbRow * m->nbCol) * MONSTER_RATE);
     int nbMonsterCreated = 0;
 
-    m->monsters = (Monster *)malloc(nbMonstersMax * sizeof(Monster));
+    m->monsters = (Monster *) malloc(nbMonstersMax * sizeof(Monster));
 
+    srand(time(NULL));
     while (nbMonsterCreated < nbMonstersMax) {
 
         Monster monster;
 
         /* Random position */
-        monster.pos.lig = 1 + rand() % (m->nbLig - 2);
+        monster.pos.row = 1 + rand() % (m->nbRow - 2);
         monster.pos.col = 1 + rand() % (m->nbCol - 2);
+
+        monster.spawn = monster.pos;
+
+        float radiusFactor = ((1 + rand() % 35) / 1000.0);
+//        monster.radius = 2;
+        monster.radius = (int) ((m->nbRow * m->nbCol) * radiusFactor);
+
 
         /* Random monster type */
 //        monster.type = rand() % 2;
-            monster.type = OGRE;
+        monster.type = OGRE;
 
-        if (m->matrix[monster.pos.lig][monster.pos.col] == EMPTY) {
+        if (m->matrix[monster.pos.row][monster.pos.col] == EMPTY) {
+            printf("create with radius : %d", monster.radius);
             m->monsters[nbMonsterCreated] = monster;
             nbMonsterCreated++;
         }
@@ -261,7 +270,5 @@ void generateMonsters(Map *m) {
 
     m->nbMonsters = nbMonsterCreated;
 
-    for (int i = 0; i < m->nbMonsters; i++)
-        m->monsters[i].treasureSeen = (Coordinate){-1, -1};
 
 }

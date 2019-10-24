@@ -31,7 +31,7 @@ void play(Map *m) {
     p.pos = (Coordinate) {MATRIX_START_LIG, MATRIX_START_COL};
 
     /* Set default player score */
-    p.score = m->nbLig * m->nbCol;
+    p.score = m->nbRow * m->nbCol;
 
     /* Leaderboard initialization*/
     Leaderboard leaderboard;
@@ -42,7 +42,7 @@ void play(Map *m) {
     strcpy(message, " ");
 
     /* Game loop */
-    while (p.pos.lig != m->nbLig - 2 || p.pos.col != m->nbCol - 1) {
+    while (p.pos.row != m->nbRow - 2 || p.pos.col != m->nbCol - 1) {
         displayGame(m, p, message);
         sprintf(message, " ");
 
@@ -56,7 +56,6 @@ void play(Map *m) {
             direction = (char) toupper(direction);
         } while (!validInput || (direction != 'Z' && direction != 'Q' && direction != 'S' && direction != 'D'));
 
-        printf("Before move \n");
         /* Try to move player */
         if (movePlayer(m, &p, direction)) {
             /* Decrease player score each step */
@@ -96,15 +95,15 @@ void play(Map *m) {
 int movePlayer(Map *m, Player *p, int direction) {
     switch (direction) {
         case 'Z':
-            if (m->matrix[p->pos.lig - 1][p->pos.col] != WALL) {
+            if (m->matrix[p->pos.row - 1][p->pos.col] != WALL) {
                 p->lastPos = p->pos;
-                p->pos.lig--;
+                p->pos.row--;
                 return 1;
             }
             return 0;
 
         case 'Q':
-            if (p->pos.col - 1 >= 0 && m->matrix[p->pos.lig][p->pos.col - 1] != WALL) {
+            if (p->pos.col - 1 >= 0 && m->matrix[p->pos.row][p->pos.col - 1] != WALL) {
                 p->lastPos = p->pos;
                 p->pos.col--;
                 return 1;
@@ -112,15 +111,15 @@ int movePlayer(Map *m, Player *p, int direction) {
             return 0;
 
         case 'S':
-            if (m->matrix[p->pos.lig + 1][p->pos.col] != WALL) {
+            if (m->matrix[p->pos.row + 1][p->pos.col] != WALL) {
                 p->lastPos = p->pos;
-                p->pos.lig++;
+                p->pos.row++;
                 return 1;
             }
             return 0;
 
         case 'D':
-            if (p->pos.col + 1 < m->nbCol && m->matrix[p->pos.lig][p->pos.col + 1] != WALL) {
+            if (p->pos.col + 1 < m->nbCol && m->matrix[p->pos.row][p->pos.col + 1] != WALL) {
                 p->lastPos = p->pos;
                 p->pos.col++;
                 return 1;
@@ -153,24 +152,24 @@ void moveMonsters(Map *m) {
  */
 void testCase(Map *m, Player *p, char message[255]) {
     /* Test if player is on a trap */
-    if (m->matrix[p->pos.lig][p->pos.col] == TRAP) {
+    if (m->matrix[p->pos.row][p->pos.col] == TRAP) {
         p->score -= TRAP_VALUE;
-        m->matrix[p->pos.lig][p->pos.col] = EMPTY;
+        m->matrix[p->pos.row][p->pos.col] = EMPTY;
         sprintf(message, "Vous êtes tombé dans un piège, vous perdez %d points !", TRAP_VALUE);
     } /* Test if player is on a treasure */
-    else if (m->matrix[p->pos.lig][p->pos.col] == TREASURE) {
+    else if (m->matrix[p->pos.row][p->pos.col] == TREASURE) {
         p->score += TREASURE_VALUE;
-        m->matrix[p->pos.lig][p->pos.col] = EMPTY;
+        m->matrix[p->pos.row][p->pos.col] = EMPTY;
         sprintf(message, "Vous avez trouvé un trésor, vous gagnez %d points !", TREASURE_VALUE);
     }
 
     /* Test if player touches or cross a monster */
     for (int i = 0; i < m->nbMonsters; i++) {
         Monster monster = m->monsters[i];
-        if ((p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) ||
+        if ((p->pos.row == monster.pos.row && p->pos.col == monster.pos.col) ||
             (comparePos(p->pos, monster.lastPos) && comparePos(monster.pos, p->lastPos))) {
-            p->score -= MONSTER_VALUE;
-            sprintf(message, "Vous avez été touché par un monstre ! Vous perdez %d points !", MONSTER_VALUE);
+            p->score -= m->monsters[i].radius;
+            sprintf(message, "Vous avez été touché par un monstre ! Vous perdez %d points !", m->monsters[i].radius);
         }
     }
 }
@@ -197,7 +196,7 @@ int comparePlayer(const Player *p1, const Player *p2) {
  * @return 1 if identical, 0 if different
  */
 int comparePos(const Coordinate c1, const Coordinate c2) {
-    if (c1.lig == c2.lig && c1.col == c2.col)
+    if (c1.row == c2.row && c1.col == c2.col)
         return 1;
     else
         return 0;
