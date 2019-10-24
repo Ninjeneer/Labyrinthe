@@ -155,12 +155,12 @@ void createMap(Map *m) {
     generateStaticMatrix(m);
 
     /* Ask for the name of the map */
-    m->name = malloc(MAP_NAME_SIZE * sizeof(char));
+    m->name = malloc(MAP_NAME_SIZE_MAX * sizeof(char));
     do {
-        printf("Nom du labyrinthe (3 -> %d car.): ", MAP_NAME_SIZE);
-        fgets(m->name, MAP_NAME_SIZE, stdin);
+        printf("Nom du labyrinthe (3 -> %d car.): ", MAP_NAME_SIZE_MAX);
+        fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
         fflush(stdin);
-    } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE);
+    } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
 
     m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
@@ -190,18 +190,19 @@ void openMap(Map *m) {
     }
 
     /* Ask for the name of the map */
-    m->name = malloc(MAP_NAME_SIZE * sizeof(char));
+    m->name = malloc(MAP_NAME_SIZE_MAX * sizeof(char));
     do {
         printf("Nom du labyrinthe à ouvrir : ");
-        fgets(m->name, MAP_NAME_SIZE, stdin);
+        fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
         fflush(stdin);
-    } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE);
+    } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
 
     m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
     if (readMap(m, m->name)) {
         printf("Labyrinthe chargé avec succès!\n\n");
         pressAnyKey();
+        m->nbMonsters = 0;
         m->loaded = 1;
 
         if (m->difficulty == HARD)

@@ -56,19 +56,20 @@ void play(Map *m) {
             direction = (char) toupper(direction);
         } while (!validInput || (direction != 'Z' && direction != 'Q' && direction != 'S' && direction != 'D'));
 
-
-
+        printf("Before move \n");
         /* Try to move player */
         if (movePlayer(m, &p, direction)) {
             /* Decrease player score each step */
             p.score--;
 
             /* Move all the monsters */
-            moveMonsters(m);
+            if (m->difficulty == HARD)
+                moveMonsters(m);
 
             /* Test objects */
             testCase(m, &p, message);
         }
+
     }
 
     sprintf(message, "/!\\ Bravo ! Vous êtes sorti du labyrinthe !");
@@ -79,9 +80,10 @@ void play(Map *m) {
         askScore(m, &p, &leaderboard, 1);
     } else if (p.score > leaderboard.bestScores[leaderboard.nbPlayer - 1].score) {
         askScore(m, &p, &leaderboard, 0);
-    }
+    } else
+        pressAnyKey();
 
-    readMap(m, m->name);
+    readMap(m, m->name); /* Reload the map to its initial state */
 }
 
 /**
@@ -102,7 +104,7 @@ int movePlayer(Map *m, Player *p, int direction) {
             return 0;
 
         case 'Q':
-            if (m->matrix[p->pos.lig][p->pos.col - 1] != WALL && p->pos.col - 1 >= 0) {
+            if (p->pos.col - 1 >= 0 && m->matrix[p->pos.lig][p->pos.col - 1] != WALL) {
                 p->lastPos = p->pos;
                 p->pos.col--;
                 return 1;
@@ -118,7 +120,7 @@ int movePlayer(Map *m, Player *p, int direction) {
             return 0;
 
         case 'D':
-            if (m->matrix[p->pos.lig][p->pos.col + 1] != WALL && p->pos.col + 1 < m->nbCol) {
+            if (p->pos.col + 1 < m->nbCol && m->matrix[p->pos.lig][p->pos.col + 1] != WALL) {
                 p->lastPos = p->pos;
                 p->pos.col++;
                 return 1;
@@ -150,17 +152,19 @@ void moveMonsters(Map *m) {
  * @param p Player
  */
 void testCase(Map *m, Player *p, char message[255]) {
+    /* Test if player is on a trap */
     if (m->matrix[p->pos.lig][p->pos.col] == TRAP) {
         p->score -= TRAP_VALUE;
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
         sprintf(message, "Vous êtes tombé dans un piège, vous perdez %d points !", TRAP_VALUE);
-    } else if (m->matrix[p->pos.lig][p->pos.col] == TREASURE) {
+    } /* Test if player is on a treasure */
+    else if (m->matrix[p->pos.lig][p->pos.col] == TREASURE) {
         p->score += TREASURE_VALUE;
         m->matrix[p->pos.lig][p->pos.col] = EMPTY;
-        //printf("Vous avez trouvé un trésor, vous gagnez %d points !\n", TREASURE_VALUE);
         sprintf(message, "Vous avez trouvé un trésor, vous gagnez %d points !", TREASURE_VALUE);
     }
 
+    /* Test if player touches or cross a monster */
     for (int i = 0; i < m->nbMonsters; i++) {
         Monster monster = m->monsters[i];
         if ((p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) || (comparePos(p->pos, monster.lastPos) && comparePos(monster.pos, p->lastPos)) ) {
@@ -185,6 +189,12 @@ int comparePlayer(const Player *p1, const Player *p2) {
     return 0;
 }
 
+/**
+ * Compare two positions
+ * @param c1 Position 1
+ * @param c2 Position 2
+ * @return 1 if identical, 0 if different
+ */
 int comparePos(const Coordinate c1, const Coordinate c2) {
     if (c1.lig == c2.lig && c1.col == c2.col)
         return 1;

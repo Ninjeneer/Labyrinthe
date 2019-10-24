@@ -9,7 +9,7 @@
 #define PROJET1_FILE_H
 
 #define MAP_FOLDER_NAME "maps/"
-#define MAP_NAME_SIZE 20
+#define MAP_NAME_SIZE_MAX 20
 #define MAP_FILE_EXTENSION ".cfg"
 
 #define SCORE_FOLDER_NAME "scores/"
