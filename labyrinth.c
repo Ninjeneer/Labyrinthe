@@ -235,7 +235,8 @@ void generateObjects(Map *m) {
  * @param m Map
  */
 void generateMonsters(Map *m) {
-    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * MONSTER_RATE);
+//    int nbMonstersMax = (int)((m->nbLig * m->nbCol) * MONSTER_RATE);
+    int nbMonstersMax = 1;
     int nbMonsterCreated = 0;
 
     m->monsters = (Monster *)malloc(nbMonstersMax * sizeof(Monster));
@@ -249,8 +250,8 @@ void generateMonsters(Map *m) {
         monster.pos.col = 1 + rand() % (m->nbCol - 2);
 
         /* Random monster type */
-        monster.type = rand() % 2;
-
+//        monster.type = rand() % 2;
+            monster.type = OGRE;
 
         if (m->matrix[monster.pos.lig][monster.pos.col] == EMPTY) {
             m->monsters[nbMonsterCreated] = monster;
@@ -259,5 +260,8 @@ void generateMonsters(Map *m) {
     }
 
     m->nbMonsters = nbMonsterCreated;
+
+    for (int i = 0; i < m->nbMonsters; i++)
+        m->monsters[i].treasureSeen = (Coordinate){-1, -1};
 
 }

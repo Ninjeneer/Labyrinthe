@@ -167,7 +167,8 @@ void testCase(Map *m, Player *p, char message[255]) {
     /* Test if player touches or cross a monster */
     for (int i = 0; i < m->nbMonsters; i++) {
         Monster monster = m->monsters[i];
-        if ((p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) || (comparePos(p->pos, monster.lastPos) && comparePos(monster.pos, p->lastPos)) ) {
+        if ((p->pos.lig == monster.pos.lig && p->pos.col == monster.pos.col) ||
+            (comparePos(p->pos, monster.lastPos) && comparePos(monster.pos, p->lastPos))) {
             p->score -= MONSTER_VALUE;
             sprintf(message, "Vous avez été touché par un monstre ! Vous perdez %d points !", MONSTER_VALUE);
         }

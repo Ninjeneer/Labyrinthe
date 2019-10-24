@@ -13,4 +13,7 @@ void moveOgre(Map *m, Monster *monster, int direction);
 int getEligibleDirections(Map *m, Monster monster, int **tabDirections);
 void move(Map *m, Monster *monster, void (*moveFunction)(Map*, Monster*, int));
 
+int calcDistance(Coordinate c1, Coordinate c2);
+int canMoveRelativelyToTreasure(Monster *monster, Coordinate nextPos);
+
 #endif //PROJET1_MONSTERS_H

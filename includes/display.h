@@ -22,7 +22,7 @@ enum { CREATE, OPEN, PLAY, LEADERBOARD, QUIT};
 
 void displayGame(Map *m, Player p, const char message[MESSAGE_BUFFER_SIZE]);
 void displayTitle();
-int displayMenu(Map m);
+int displayMenu();
 void createMap(Map *m);
 void openMap(Map *m);
 void clearBuffer();

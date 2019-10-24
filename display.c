@@ -83,7 +83,7 @@ int displayMonsters(Map *m, int lig, int col) {
  * Clear the console and print the game title
  */
 void displayTitle() {
-    system("clear || cls");
+    //system("clear || cls");
     printf("\n");
     printf(" ████████╗██╗  ██╗███████╗    ██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗███╗   ██╗████████╗██╗  ██╗\n");
     printf(" ╚══██╔══╝██║  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██║████╗  ██║╚══██╔══╝██║  ██║\n");
@@ -97,7 +97,7 @@ void displayTitle() {
  * Display the menu
  * @return User's choice
  */
-int displayMenu(Map m) {
+int displayMenu() {
 
     displayTitle();
     printf("Menu :\n\t1. Créer un labyrinthe\n\t2. Charger labyrinthe\n\t3. Jouer\n\t4. Tableau des scores\n\t5. Quitter\n");

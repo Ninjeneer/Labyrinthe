@@ -10,6 +10,7 @@
 #define TREASURE_VALUE 15
 #define TRAP_VALUE 10
 #define MONSTER_VALUE 20
+#define OGRE_TREASURE_DISTANCE 3
 
 enum { OGRE, GHOST };
 enum { NORTH, EAST, SOUTH, WEST };
@@ -25,6 +26,7 @@ typedef struct Monster {
     Coordinate pos;
     Coordinate lastPos;
     int type;
+    Coordinate treasureSeen;
 } Monster;
 
 typedef struct {
