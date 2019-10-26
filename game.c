@@ -22,7 +22,6 @@ void play(Map *m) {
         return;
     }
 
-
     Player p;
 
     /* Place player at the begging of the map */
@@ -67,7 +66,6 @@ void play(Map *m) {
             /* Test objects */
             testCase(m, &p, message);
         }
-
     }
 
     sprintf(message, "/!\\ Bravo ! Vous êtes sorti du labyrinthe !");
@@ -122,8 +120,6 @@ int movePlayer(Map *m, Player *p, int direction) {
     } else {
         return 0;
     }
-
-
 }
 
 /**
