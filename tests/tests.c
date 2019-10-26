@@ -41,8 +41,7 @@ void test_setup() {
 void test_teardown() {}
 
 
-MU_TEST(test_unexisting_map) { mu_check(readMap(&(Map){}, "no_existing_file") == 0); }
-MU_TEST(test_existing_map) { mu_check(readMap(&(Map){}, "testMap") == 1); }
+MU_TEST(test_unexisting_map) { mu_check(readMap(&(Map){}, "no_existing_map") == 0); }
 
 MU_TEST(test_identical_coordinates) { mu_check(comparePos((Coordinate){10, 15}, (Coordinate){10, 15}) == 1); }
 MU_TEST(test_different_coordinates) { mu_check(comparePos((Coordinate){5, 7}, (Coordinate){8, 15}) == 0); }
@@ -64,7 +63,6 @@ MU_TEST(test_replace_none) { mu_check(strcmp(s8, "loanalouache") == 0); }
 MU_TEST_SUITE(test_suite) {
     MU_SUITE_CONFIGURE(&test_setup, &test_teardown);
     MU_RUN_TEST(test_unexisting_map);
-    MU_RUN_TEST(test_existing_map);
 
     MU_RUN_TEST(test_identical_coordinates);
     MU_RUN_TEST(test_different_coordinates);
