@@ -28,6 +28,7 @@ void showLeaderboard(Map m);
 int displayMonsters(Map *m, int lig, int col);
 void pressAnyKey();
 void trim(char *str);
+void replace(char *str, char c1, char c2);
 
 
 #endif /* PROJET1_DISPLAY_H */

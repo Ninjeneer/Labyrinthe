@@ -156,6 +156,7 @@ void createMap(Map *m) {
         printf("Nom du labyrinthe (2 -> %d car.): ", MAP_NAME_SIZE_MAX);
         fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
         trim(m->name);
+        replace(m->name, ' ', '_');
         fflush(stdin);
     } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
 
@@ -188,6 +189,7 @@ void openMap(Map *m) {
         printf("Nom du labyrinthe à ouvrir : ");
         fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
         trim(m->name);
+        replace(m->name, ' ', '_');
         fflush(stdin);
     } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
 
@@ -268,6 +270,7 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard, int add) {
         printf("Entrez votre pseudo (2 -> %d car.): ", SCORE_PSEUDO_SIZE);
         fgets(p->name, SCORE_PSEUDO_SIZE, stdin);
         trim(p->name);
+        replace(p->name, ' ', '_');
         fflush(stdin);
     } while (strlen(p->name) < 3 || strlen(p->name) > SCORE_PSEUDO_SIZE);
 
@@ -329,4 +332,17 @@ void trim(char *str) {
         index--;
 
     str[index+1] = '\0';
+}
+
+/**
+ * Replace a character in a string
+ * @param str string
+ * @param c1 character to replace
+ * @param c2 replacement character
+ */
+void replace(char *str, char c1, char c2) {
+    for (unsigned long i = 0; i < strlen(str); i++) {
+        if (str[i] == c1)
+            str[i] = c2;
+    }
 }
