@@ -72,6 +72,7 @@ int saveMap(Map *m) {
         return 0;
     }
     fclose(scoreFile);
+    free(scoreFilename);
 
     return 1;
 }

@@ -38,6 +38,7 @@ void play(Map *m) {
     /* User message */
     char message[MESSAGE_BUFFER_SIZE];
     strcpy(message, " ");
+    sprintf(message, "monsters : %d\n", m->nbMonsters);
 
     /* Game loop */
     while (p.pos.row != m->nbRow - 2 || p.pos.col != m->nbCol - 1) {

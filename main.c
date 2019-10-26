@@ -12,6 +12,7 @@
 int main() {
 
     Map m;
+    m.nbMonsters = 0;
     m.loaded = false;
 
     while (true) {

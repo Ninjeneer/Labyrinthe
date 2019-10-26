@@ -251,13 +251,10 @@ void generateMonsters(Map *m) {
         monster.type = rand() % 2;
 
         if (m->matrix[monster.pos.row][monster.pos.col] == EMPTY) {
-            printf("create with radius : %d", monster.radius);
             m->monsters[nbMonsterCreated] = monster;
             nbMonsterCreated++;
         }
     }
 
     m->nbMonsters = nbMonsterCreated;
-
-
 }

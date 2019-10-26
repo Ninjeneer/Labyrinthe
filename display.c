@@ -197,7 +197,6 @@ void openMap(Map *m) {
     if (readMap(m, m->name)) {
         printf("Labyrinthe chargé avec succès!\n\n");
         pressAnyKey();
-        m->nbMonsters = 0;
         m->loaded = 1;
 
         if (m->difficulty == HARD)
