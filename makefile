@@ -79,4 +79,4 @@ distclean: clean
 	@rm -f $(EXEC)
 	@rm -f $(TESTS)
 
-.PHONY: all clean distclean run run_test doc
+.PHONY: all clean distclean run run_test doc folders
