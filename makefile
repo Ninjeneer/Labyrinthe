@@ -11,6 +11,9 @@ EXEC=game
 TESTS=testsuite
 DOC_OUTPUT=doc/
 
+FOLDER_MAP=maps/
+FOLDER_SCORE=scores/
+
 # Compile the game
 all: $(EXEC)
 
@@ -18,11 +21,14 @@ $(EXEC): $(EXECOBJS)
 	@$(CC) -o $@ $^ $(CFLAGS)
 	@echo 'Game compiled ! Run "make run" to start the game.'
 	@make -s clean
+	@make -s folders
 
 $(TESTS): $(TESTSOBJ)
 	@$(CC) -o $@ $^ $(CFLAGS)
 	@echo 'Test suite compiled ! Run "make run_test" to start the test suite.'
 	@make -s clean
+	@make -s folders
+
 
 labyrinth.o: labyrinth.c includes/labyrinth.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
@@ -57,6 +63,11 @@ run_test:
 doc:
 	@rm -rf $(DOC_OUTPUT)
 	@doxygen doxyfile
+
+# Create the maps and scores folder
+folders:
+	@if [ ! -d "$(FOLDER_MAP)" ]; then mkdir $(FOLDER_MAP); fi
+	@if [ ! -d "$(FOLDER_SCORE)" ]; then mkdir $(FOLDER_SCORE); fi
 
 # Clean directory of temp. files
 clean:
