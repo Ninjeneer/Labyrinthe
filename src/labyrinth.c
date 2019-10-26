@@ -124,7 +124,6 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
     /* Avoid breaking border walls */
     if (cWall.row + shift.row == 0 || cWall.row + shift.row == m->nbRow - 1 ||
         cWall.col + shift.col == 0 || cWall.col + shift.col == m->nbCol - 1) {
-        printf("Can't break border %d;%d\n", cWall.row, cWall.col);
         return 0;
     }
 

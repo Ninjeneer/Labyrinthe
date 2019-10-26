@@ -85,7 +85,6 @@ void moveGhost(Map *m, Monster *monster, int direction) {
 
     switch (direction) {
         case NORTH:
-            printf("Try NORTH\n");
             if (moveType == 0)
                 nextPos.row--;
             else
@@ -93,18 +92,13 @@ void moveGhost(Map *m, Monster *monster, int direction) {
             break;
 
         case SOUTH:
-            printf("Try SOUTH\n");
-
             if (moveType == 0)
                 nextPos.row++;
             else
                 nextPos.row += 2;
-
             break;
 
         case EAST:
-            printf("Try EAST\n");
-
             if (moveType == 0)
                 nextPos.col++;
             else
@@ -112,8 +106,6 @@ void moveGhost(Map *m, Monster *monster, int direction) {
             break;
 
         case WEST:
-            printf("Try WEST\n");
-
             if (moveType == 0)
                 nextPos.col--;
             else
