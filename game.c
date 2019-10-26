@@ -1,4 +1,11 @@
-/**
+/** ENSICAEN
+ * 6 Boulevard Maréchal Juin
+ * F-14050 Caen Cedex
+ *
+ * This file is owned by ENSICAEN students. No portion of this
+ * document may be reproduced, copied or revised without written
+ * permission of the authors.
+
  * \file game.c
  * \brief Contains the main game functions and game logic.
  * \author Loan Alouache

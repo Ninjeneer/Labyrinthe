@@ -1,4 +1,11 @@
-/**
+/** ENSICAEN
+ * 6 Boulevard Maréchal Juin
+ * F-14050 Caen Cedex
+ *
+ * This file is owned by ENSICAEN students. No portion of this
+ * document may be reproduced, copied or revised without written
+ * permission of the authors.
+
  * \file deck.c
  * \brief Dynamic data structure.
  * \author Loan Alouache
@@ -19,7 +26,7 @@
 Coordinate deckRemove(int index, Deck *deck) {
     Coordinate pickedWall = deck->walls[index];
 
-    deck->walls[index] = deck->walls[deck->size-1];
+    deck->walls[index] = deck->walls[deck->size - 1];
 
     deck->size--;
 
