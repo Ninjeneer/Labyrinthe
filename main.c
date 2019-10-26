@@ -9,8 +9,6 @@
 #include "includes/display.h"
 #include "includes/game.h"
 
-#include <stdlib.h>
-#include <string.h>
 int main() {
 
     Map m;

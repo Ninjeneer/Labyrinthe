@@ -92,42 +92,38 @@ void play(Map *m) {
  * @return 0 if fail, 1 if success
  */
 int movePlayer(Map *m, Player *p, int direction) {
+    Coordinate nextPos = p->pos;
     switch (direction) {
         case 'Z':
-            if (m->matrix[p->pos.row - 1][p->pos.col] != WALL) {
-                p->lastPos = p->pos;
-                p->pos.row--;
-                return 1;
-            }
-            return 0;
+            nextPos.row--;
+            break;
 
         case 'Q':
-            if (p->pos.col - 1 >= 0 && m->matrix[p->pos.row][p->pos.col - 1] != WALL) {
-                p->lastPos = p->pos;
-                p->pos.col--;
-                return 1;
-            }
-            return 0;
+            nextPos.col--;
+            break;
 
         case 'S':
-            if (m->matrix[p->pos.row + 1][p->pos.col] != WALL) {
-                p->lastPos = p->pos;
-                p->pos.row++;
-                return 1;
-            }
-            return 0;
+            nextPos.row++;
+            break;
 
         case 'D':
-            if (p->pos.col + 1 < m->nbCol && m->matrix[p->pos.row][p->pos.col + 1] != WALL) {
-                p->lastPos = p->pos;
-                p->pos.col++;
-                return 1;
-            }
-            return 0;
+            nextPos.col++;
+            break;
 
         default:
             return 0;
     }
+
+    if (m->matrix[nextPos.row][nextPos.col] != WALL &&
+        nextPos.row > 0 && nextPos.row < m->nbRow - 1 && nextPos.col >= 0 && nextPos.col < m->nbCol) {
+        p->lastPos = p->pos;
+        p->pos = nextPos;
+        return 1;
+    } else {
+        return 0;
+    }
+
+
 }
 
 /**
