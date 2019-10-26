@@ -155,11 +155,9 @@ void createMap(Map *m) {
     do {
         printf("Nom du labyrinthe (2 -> %d car.): ", MAP_NAME_SIZE_MAX);
         fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
+        trim(m->name);
         fflush(stdin);
     } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
-
-    m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
-
 
     /* Save the map in a file */
     if (saveMap(m)) {
@@ -189,10 +187,9 @@ void openMap(Map *m) {
     do {
         printf("Nom du labyrinthe à ouvrir : ");
         fgets(m->name, MAP_NAME_SIZE_MAX, stdin);
+        trim(m->name);
         fflush(stdin);
     } while (strlen(m->name) < 3 || strlen(m->name) > MAP_NAME_SIZE_MAX);
-
-    m->name[strlen(m->name) - 1] = '\0'; /* Removes last \n */
 
     if (readMap(m, m->name)) {
         printf("Labyrinthe chargé avec succès!\n\n");
@@ -270,8 +267,9 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard, int add) {
     do {
         printf("Entrez votre pseudo (2 -> %d car.): ", SCORE_PSEUDO_SIZE);
         fgets(p->name, SCORE_PSEUDO_SIZE, stdin);
+        trim(p->name);
+        fflush(stdin);
     } while (strlen(p->name) < 3 || strlen(p->name) > SCORE_PSEUDO_SIZE);
-    p->name[strlen(p->name) - 1] = '\0'; /* Removes last \n */
 
     if (add)
         leaderboard->bestScores[leaderboard->nbPlayer++] = *p;
@@ -304,7 +302,31 @@ void showLeaderboard(Map m) {
     pressAnyKey();
 }
 
+/**
+ * Ask the player to press Enter key
+ */
 void pressAnyKey() {
     printf("Appuyez sur ENTRÉE pour revenir au menu...");
     getchar();
+}
+
+/**
+ * Remove all the spaces before and after a string
+ * @param str string to clean
+ */
+void trim(char *str) {
+    /* Remove the spaces before the string */
+    while (str[0] == ' ') {
+        for (unsigned long i = 1; i < strlen(str); i++)
+            str[i-1] = str[i];
+
+        str[strlen(str)-1] = '\0';
+    }
+
+    /* Remove the spaces after the string */
+    unsigned long index = strlen(str)-1;
+    while (str[index] == ' ' || str[index] == '\n')
+        index--;
+
+    str[index+1] = '\0';
 }

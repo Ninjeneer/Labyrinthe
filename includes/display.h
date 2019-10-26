@@ -27,6 +27,7 @@ void askScore(Map *m, Player *p, Leaderboard *l, int add);
 void showLeaderboard(Map m);
 int displayMonsters(Map *m, int lig, int col);
 void pressAnyKey();
+void trim(char *str);
 
 
 #endif /* PROJET1_DISPLAY_H */
