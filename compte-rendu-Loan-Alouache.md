@@ -3,8 +3,8 @@ Auteur : Loan Alouache
 
 ## Labyrinthe - Manuel utilisateur
 ### Démarrer le jeu
-Afin de démarrer le jeu, il suffit de lancer l'exécutable XXX via la commande `./XXXX` dans le répertoire du jeu.
-Le jeu utilisant une table ASCII étendue propre aux systèmes UNIX, ainsi que des commandes systèmes, celui-ci ne peut s'exécuter que dans un environnement UNIX, différent du terminal CLion.
+Afin de démarrer le jeu, il suffit d'entrer la commande `make run` dans le répertoire du jeu.
+Le jeu utilisant une table ASCII étendue propre aux systèmes UNIX, ainsi que des commandes systèmes, celui-ci ne peut s'exécuter que dans un environnement UNIX **sur un terminal différent de celui de CLion.**
 Pour une expérience graphique plus agréable, assurez-vous de posséeder un terminal ayant une largeur plus grande que 101 caractères.
 
 Une fois le jeu lancé, un menu apparaîtra et vous demandera de faire un choix :
@@ -78,7 +78,15 @@ Ferme le jeu
 ### Compilation
 Pour compiler le projet, entrez la commande suivante 
 
-`gcc -o game *.c -Wall -Wextra -ansi -pedantic -std=c99 -lm`
+`make`
+
+Pour compiler la suite de tests, entrez la commande suivante
+
+`make testsuite` (l'utilisation de MinUnit créera des warnings, celui-ci étant incompatible avec les options de warning utilisés lors de la compilation)
+
+Pour exécuter les tests unitaires, entrez la commande suivante
+
+`make run_test`
 ### Tâches réalisées
 - Génération d'un labyrinthe parfait de taille dynamique
 - Déplacement du joueur dans celui-ci
