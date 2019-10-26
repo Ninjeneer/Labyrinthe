@@ -1,7 +1,3 @@
-//
-// Created by lalouache on 02/10/19.
-//
-
 #ifndef PROJET1_LABYRINTHE_H
 #define PROJET1_LABYRINTHE_H
 
@@ -36,9 +32,9 @@ typedef struct {
 void generateStaticMatrix(Map *m);
 void generatePath(Map *m);
 int breakWall(Map *m, Coordinate cWall, Coordinate shift);
-void updateCase(Map *m, int lig, int col, int value, int override);
+void updateCase(Map *m, int row, int col, int value, int override);
 int getWalls(Map *m, Coordinate **walls);
 void generateObjects(Map *m);
 void generateMonsters(Map *m);
 
-#endif //PROJET1_LABYRINTHE_H
+#endif /* PROJET1_LABYRINTHE_H */

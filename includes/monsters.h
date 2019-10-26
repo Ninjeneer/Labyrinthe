@@ -1,7 +1,3 @@
-//
-// Created by lalouache on 18/10/19.
-//
-
 #include "labyrinth.h"
 #include "game.h"
 
@@ -16,4 +12,4 @@ void move(Map *m, Monster *monster, void (*moveFunction)(Map*, Monster*, int));
 int calcDistance(Coordinate c1, Coordinate c2);
 int canMoveRelativelyToSpawn(Monster *monster, Coordinate nextPos);
 
-#endif //PROJET1_MONSTERS_H
+#endif /* PROJET1_MONSTERS_H */

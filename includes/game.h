@@ -1,7 +1,3 @@
-//
-// Created by lalouache on 11/10/19.
-//
-
 #ifndef PROJET1_GAME_H
 #define PROJET1_GAME_H
 
@@ -42,4 +38,4 @@ void testCase(Map *m, Player *p, char message[255]);
 int comparePlayer(const Player *p1, const Player *p2);
 int comparePos(Coordinate c1, Coordinate c2);
 
-#endif //PROJET1_GAME_H
+#endif /* PROJET1_GAME_H */

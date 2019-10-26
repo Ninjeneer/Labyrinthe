@@ -1,10 +1,7 @@
 /**
- * \file labyrinthe.c
+ * \file labyrinth.c
  * \brief Contains all the function about the map structure.
  * \author Loan Alouache
- *
- * Contains all the function about the map structure.
- *
  */
 
 #include <stdlib.h>
@@ -13,7 +10,6 @@
 #include <stdbool.h>
 #include "includes/game.h"
 #include "includes/labyrinth.h"
-#include "includes/display.h"
 #include "includes/deck.h"
 
 
@@ -69,20 +65,16 @@ void generatePath(Map *m) {
         /* Test if wall is breakable and break it */
         if (wall.row % 2 != 0 && wall.col % 2 == 0) {
             if (breakWall(m, wall, (Coordinate) {0, -1})) {
-                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
             if (breakWall(m, wall, (Coordinate) {0, +1})) {
-                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
         } else if (wall.row % 2 == 0 && wall.col % 2 != 0) {
             if (breakWall(m, wall, (Coordinate) {-1, 0})) {
-                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
             if (breakWall(m, wall, (Coordinate) {+1, 0})) {
-                //deckRemove(wallIndex, &deck);
                 nbBreakWall++;
             }
         }
@@ -148,32 +140,32 @@ int breakWall(Map *m, Coordinate cWall, Coordinate shift) {
 
 /**
  * Recursively update available cases
- * @param matrix
- * @param lig
- * @param col
- * @param value
+ * @param matrix Matrix
+ * @param row row of the case
+ * @param col column of the case
+ * @param value value to set
  */
-void updateCase(Map *m, int lig, int col, int value, int override) {
-    if (m->matrix[lig][col] == WALL && !override)
+void updateCase(Map *m, int row, int col, int value, int override) {
+    if (m->matrix[row][col] == WALL && !override)
         return;
 
-    m->matrix[lig][col] = value;
+    m->matrix[row][col] = value;
 
     /* Update upper cases */
-    if (lig - 1 > 0 && m->matrix[lig - 1][col] != m->matrix[lig][col])
-        updateCase(m, lig - 1, col, value, false);
+    if (row - 1 > 0 && m->matrix[row - 1][col] != m->matrix[row][col])
+        updateCase(m, row - 1, col, value, false);
 
     /* Update lower cases */
-    if (lig + 1 < m->nbRow - 1 && m->matrix[lig + 1][col] != m->matrix[lig][col])
-        updateCase(m, lig + 1, col, value, false);
+    if (row + 1 < m->nbRow - 1 && m->matrix[row + 1][col] != m->matrix[row][col])
+        updateCase(m, row + 1, col, value, false);
 
     /* Update left side cases */
-    if (col - 1 > 0 && m->matrix[lig][col - 1] != m->matrix[lig][col])
-        updateCase(m, lig, col - 1, value, false);
+    if (col - 1 > 0 && m->matrix[row][col - 1] != m->matrix[row][col])
+        updateCase(m, row, col - 1, value, false);
 
     /* Update right side cases */
-    if (col + 1 < m->nbCol - 1 && m->matrix[lig][col + 1] != m->matrix[lig][col])
-        updateCase(m, lig, col + 1, value, false);
+    if (col + 1 < m->nbCol - 1 && m->matrix[row][col + 1] != m->matrix[row][col])
+        updateCase(m, row, col + 1, value, false);
 }
 
 /**
@@ -235,8 +227,7 @@ void generateObjects(Map *m) {
  * @param m Map
  */
 void generateMonsters(Map *m) {
-    int nbMonstersMax = 1;
-//    int nbMonstersMax = (int)((m->nbRow * m->nbCol) * MONSTER_RATE);
+    int nbMonstersMax = (int)((m->nbRow * m->nbCol) * MONSTER_RATE);
     int nbMonsterCreated = 0;
 
     m->monsters = (Monster *) malloc(nbMonstersMax * sizeof(Monster));
@@ -252,14 +243,12 @@ void generateMonsters(Map *m) {
 
         monster.spawn = monster.pos;
 
-        float radiusFactor = ((1 + rand() % 35) / 1000.0);
-//        monster.radius = 2;
+        float radiusFactor = ((1.f + rand() % 35) / 1000.0f);
         monster.radius = (int) ((m->nbRow * m->nbCol) * radiusFactor);
 
 
         /* Random monster type */
-//        monster.type = rand() % 2;
-        monster.type = OGRE;
+        monster.type = rand() % 2;
 
         if (m->matrix[monster.pos.row][monster.pos.col] == EMPTY) {
             printf("create with radius : %d", monster.radius);

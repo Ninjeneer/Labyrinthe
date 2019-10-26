@@ -6,7 +6,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <bits/types/FILE.h>
 #include <stdlib.h>
 #include "includes/file.h"
 #include "includes/display.h"
@@ -121,6 +120,12 @@ int readMap(Map *m, char *filename) {
     return 1;
 }
 
+/**
+ * Save a map's leaderboard into a file
+ * @param m Map
+ * @param leaderboard Map's leaderboard
+ * @return 1 if success, 0 if fail
+ */
 int saveScore(Map *m, Leaderboard *leaderboard) {
 
     char *filename = (char *) calloc((strlen(SCORE_FOLDER_NAME) + strlen(m->name) + strlen(SCORE_FILE_EXTENSION)),
@@ -200,7 +205,6 @@ int readScore(Map *m, Leaderboard *leaderboard) {
             leaderboard->bestScores[i].score = s;
         }
 
-        int (*pf)(const Player*, const Player*) = &comparePlayer;
         qsort(leaderboard->bestScores, leaderboard->nbPlayer, sizeof(Player), (__compar_fn_t) comparePlayer);
     }
 
@@ -219,8 +223,8 @@ int readScore(Map *m, Leaderboard *leaderboard) {
 int hasIllegalCharacters(char *str) {
     char illegalCharacters[] = "|/.\\~:";
 
-    for (int i = 0; i < strlen(str); i++)
-        for (int j = 0; j < strlen(illegalCharacters); j++)
+    for (unsigned long i = 0; i < strlen(str); i++)
+        for (unsigned long j = 0; j < strlen(illegalCharacters); j++)
             if (str[i] == illegalCharacters[j])
                 return 1;
 

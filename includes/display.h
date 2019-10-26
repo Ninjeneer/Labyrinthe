@@ -1,7 +1,3 @@
-//
-// Created by lalouache on 02/10/19.
-//
-
 #ifndef PROJET1_DISPLAY_H
 #define PROJET1_DISPLAY_H
 
@@ -33,4 +29,4 @@ int displayMonsters(Map *m, int lig, int col);
 void pressAnyKey();
 
 
-#endif //PROJET1_DISPLAY_H
+#endif /* PROJET1_DISPLAY_H */

@@ -6,11 +6,8 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include <malloc.h>
-#include "includes/labyrinth.h"
 #include "includes/display.h"
 #include "includes/game.h"
-#include "includes/file.h"
 
 int main() {
 

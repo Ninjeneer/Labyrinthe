@@ -5,10 +5,8 @@
  */
 #include <stdio.h>
 #include <ctype.h>
-#include <stdlib.h>
 #include <string.h>
 #include "includes/game.h"
-#include "includes/labyrinth.h"
 #include "includes/display.h"
 #include "includes/file.h"
 #include "includes/monsters.h"

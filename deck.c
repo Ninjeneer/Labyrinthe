@@ -7,20 +7,15 @@
  *
  */
 
-#include <stddef.h>
 #include <stdio.h>
 #include "includes/deck.h"
 
-void deckAdd(Deck *deck, Coordinate c) {
-    deck->walls[deck->index] = c;
-    deck->index++;
-}
-
-Coordinate deckPick(int index, Deck *deck) {
-    return deck->walls[index];
-
-}
-
+/**
+ * Remove a wall from the deck
+ * @param index index of the wall
+ * @param deck the deck
+ * @return Coordinates of the removed wall
+ */
 Coordinate deckRemove(int index, Deck *deck) {
     Coordinate pickedWall = deck->walls[index];
 
@@ -31,6 +26,10 @@ Coordinate deckRemove(int index, Deck *deck) {
     return pickedWall;
 }
 
+/**
+ * Display the deck's content
+ * @param d deck
+ */
 void deckDisplay(Deck d) {
     printf("(%d) => ", d.size);
     for (int i = 0; i < d.size; i++)

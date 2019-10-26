@@ -1,10 +1,9 @@
-//
-// Created by loan on 18/10/2019.
-//
 
 #include "../includes/minunit.h"
 #include "../includes/file.h"
 #include "../includes/game.h"
+#include "../includes/labyrinth.h"
+
 
 void test_setup() {}
 void test_teardown() {}

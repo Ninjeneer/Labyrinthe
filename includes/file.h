@@ -1,7 +1,3 @@
-//
-// Created by loan on 10/10/2019.
-//
-
 #include "labyrinth.h"
 #include "game.h"
 
@@ -25,4 +21,4 @@ int hasIllegalCharacters(char *str);
 
 
 
-#endif //PROJET1_FILE_H
+#endif /* PROJET1_FILE_H */

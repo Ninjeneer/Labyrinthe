@@ -118,11 +118,9 @@ void moveGhost(Map *m, Monster *monster, int direction) {
     }
 
     if (moveType == 0 && m->matrix[nextPos.row][nextPos.col] != WALL && canMoveRelativelyToSpawn(monster, nextPos)) {
-        printf("GHOST WALK\n");
         monster->lastPos = monster->pos;
         monster->pos = nextPos;
     } else if (moveType == 1 && nextPos.row > 0 && nextPos.row < m->nbRow - 1 && nextPos.col > 0 && nextPos.col < m->nbCol - 1 && m->matrix[nextPos.row][nextPos.col] != WALL && canMoveRelativelyToSpawn(monster, nextPos)) {
-        printf("GHOST JUMP\n");
         monster->lastPos = monster->pos;
         monster->pos = nextPos;
     }
@@ -180,7 +178,6 @@ int calcDistance(Coordinate c1, Coordinate c2) {
  */
 int canMoveRelativelyToSpawn(Monster *monster, Coordinate nextPos) {
     /* A treasure as already been found */
-//        printf("Found treasure ! Sticking to %d;%d ==> (%d)\n", monster->treasureSeen.row, monster->treasureSeen.col, calcDistance(monster->pos, monster->treasureSeen));
     if (calcDistance(nextPos, monster->spawn) <= monster->radius)
         return 1;
     return 0;

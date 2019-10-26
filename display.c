@@ -12,7 +12,6 @@
 #include "includes/display.h"
 #include "includes/labyrinth.h"
 #include "includes/file.h"
-#include "includes/game.h"
 
 /**
  * Display the game
@@ -26,7 +25,6 @@ void displayGame(Map *m, Player p, const char message[MESSAGE_BUFFER_SIZE]) {
     for (int i = 0; i < m->nbRow; i++) {
         printf("\t");
         for (int j = 0; j < m->nbCol; j++) {
-//            printf("%2d|", m->matrix[i][j]);
             if (m->matrix[i][j] == WALL)
                 printf("█");
             else if (p.pos.row == i && p.pos.col == j) {
@@ -75,15 +73,13 @@ int displayMonsters(Map *m, int lig, int col) {
     }
 
     return 0;
-
-
 }
 
 /**
  * Clear the console and print the game title
  */
 void displayTitle() {
-//    system("clear || cls");
+    system("clear || cls");
     printf("\n");
     printf(" ████████╗██╗  ██╗███████╗    ██╗      █████╗ ██████╗ ██╗   ██╗██████╗ ██╗███╗   ██╗████████╗██╗  ██╗\n");
     printf(" ╚══██╔══╝██║  ██║██╔════╝    ██║     ██╔══██╗██╔══██╗╚██╗ ██╔╝██╔══██╗██║████╗  ██║╚══██╔══╝██║  ██║\n");
@@ -173,7 +169,6 @@ void createMap(Map *m) {
     } else {
         m->loaded = 0;
     }
-
 }
 
 /**
@@ -283,7 +278,6 @@ void askScore(Map *m, Player *p, Leaderboard *leaderboard, int add) {
         leaderboard->bestScores[leaderboard->nbPlayer++] = *p;
     else
         leaderboard->bestScores[leaderboard->nbPlayer - 1] = *p;
-
 
     saveScore(m, leaderboard);
 }
