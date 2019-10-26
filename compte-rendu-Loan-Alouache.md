@@ -3,7 +3,7 @@ Auteur : Loan Alouache
 
 ## Labyrinthe - Manuel utilisateur
 ### Démarrer le jeu
-Afin de démarrer le jeu, il suffit d'entrer la commande `make run` dans le répertoire du jeu.
+Afin de démarrer le jeu, il suffit d'entrer la commande `make run` (ou `./game` si celui-ci a déjà été généré) dans le répertoire du jeu.
 Le jeu utilisant une table ASCII étendue propre aux systèmes UNIX, ainsi que des commandes systèmes, celui-ci ne peut s'exécuter que dans un environnement UNIX **sur un terminal différent de celui de CLion.**
 Pour une expérience graphique plus agréable, assurez-vous de posséeder un terminal ayant une largeur plus grande que 101 caractères.
 
@@ -34,7 +34,7 @@ Une liste de labyrinthes déjà créés s'affichera, et vous serez invité à en
 Une fois le labyrinthe chargé, vous serez redirigé vers le menu. Vous pouvez maintenant jouer (voir 3.).
 
 ### 3. Jouer
-Votre mission est de sortir du labyrinthe avec un sort le plus élevé possible. Les murs sont représentés par le caractère `#`. Vous démarrez tout en haut à gauche de la carte, et la sortie se trouve en bas à droite de celle-ci.
+Votre mission est de sortir du labyrinthe avec un sort le plus élevé possible. Vous démarrez tout en haut à gauche de la carte, et la sortie se trouve en bas à droite de celle-ci.
 
 **Touches de déplacement**
 
@@ -45,7 +45,7 @@ Votre mission est de sortir du labyrinthe avec un sort le plus élevé possible.
 Vous trouverez sur votre parcours des *trésors* représentés par le symbole `T` et des *pièges* représentés par le symbole `P`. Ramasser un trésor vous gratifiera de 15 points, et tomber dans un piège vous pénalisera de 10 points. 
 Chaque pas que vous effectuez vous enlève un point : choisissez bien votre trajectoire !
 
-Si vous jouez en mode difficile, vous devez également éviter les monstres qui parcourent le labyrinthe. Vous rencontrerez des ogres représentés par le caractère `O` qui se déplacent normalement, et des fantômes représentés par le caractère `F` qui peuvent traverser les mûrs. Si un de ces monstres vous touche, vous perdez 20 points.
+Si vous jouez en mode difficile, vous devez également éviter les monstres qui parcourent le labyrinthe. Vous rencontrerez des ogres représentés par le caractère `O` qui se déplacent normalement, et des fantômes représentés par le caractère `F` qui peuvent traverser les mûrs. Le ratio Ogres/Fantômes est aléatoire, ainsi il est possible de tomber sur des parties remplies de fantômes ou d'ogres seulement. Si un de ces monstres vous touche, vous perdez autant de point que celui à de liberté de mouvement.
 
 Si vous faites partie des 10 premiers à avoir jouer ce labyrinthe, ou bien des 10 plus hauts scores, il vous sera possible d'enregistrer votre score ainsi que votre pseudonyme (voir 4.).
 
@@ -54,7 +54,7 @@ Si vous faites partie des 10 premiers à avoir jouer ce labyrinthe, ou bien des 
 | Caractère     | Signification   |
 |:-------------:|:---------------:|
 | `o`           | Joueur          |
-| `#`           | Mur             |
+| `█`           | Mur             |
 | `T`           | Trésor          |
 | `P`           | Piège           |
 | `O`           | Ogre            |
@@ -94,7 +94,9 @@ Pour exécuter les tests unitaires, entrez la commande suivante
 - Placement de trésors et de pièges, gestion du score joueur et enregistrement dans des fichiers
 - Différenciation mode facile/difficile, ajout de plusieurs chemins et de monstres en mode difficile
 - Tests unitaires
+- Saisie sécurisée (format de donnée, espaces...)
 - Documentation Doxygen
+- Makefile
 - Déplacement des ogres en fonction d'un trésor croisé
 
    - Les ogres se déplacent dans leur périmètre autour de leur point d'apparition. Lorsqu'ils croisent un trésor, le centre de leur périmètre devient le trésor.
