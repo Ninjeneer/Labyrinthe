@@ -14,8 +14,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "includes/file.h"
-#include "includes/display.h"
+#include "../includes/file.h"
+#include "../includes/display.h"
 
 
 /**

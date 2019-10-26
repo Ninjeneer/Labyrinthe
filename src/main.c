@@ -13,8 +13,8 @@
 
 #include <stdio.h>
 #include <stdbool.h>
-#include "includes/display.h"
-#include "includes/game.h"
+#include "../includes/display.h"
+#include "../includes/game.h"
 
 int main() {
 

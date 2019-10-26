@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "includes/monsters.h"
+#include "../includes/monsters.h"
 
 /**
  * Move any monster

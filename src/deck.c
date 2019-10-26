@@ -15,7 +15,7 @@
  */
 
 #include <stdio.h>
-#include "includes/deck.h"
+#include "../includes/deck.h"
 
 /**
  * Remove a wall from the deck

@@ -11,6 +11,8 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -pedantic -ansi -std=c99 -lm
 
+FOLDER_SRC=src
+FOLDER_INC=includes
 OBJ=labyrinth.o game.o display.o file.o monsters.o deck.o
 EXECOBJS=$(OBJ) main.o
 TESTSOBJ=$(OBJ) tests/tests.o
@@ -38,25 +40,25 @@ $(TESTS): $(TESTSOBJ)
 	@make -s folders
 
 
-labyrinth.o: labyrinth.c includes/labyrinth.h
+labyrinth.o: $(FOLDER_SRC)/labyrinth.c $(FOLDER_INC)/labyrinth.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
-game.o: game.c includes/game.h
+game.o: $(FOLDER_SRC)/game.c $(FOLDER_INC)/game.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
-monsters.o: monsters.c includes/monsters.h
+monsters.o: $(FOLDER_SRC)/monsters.c $(FOLDER_INC)/monsters.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
-display.o: display.c includes/display.h
+display.o: $(FOLDER_SRC)/display.c $(FOLDER_INC)/display.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
-main.o: main.c
+main.o: $(FOLDER_SRC)/main.c
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
-file.o: file.c includes/file.h
+file.o: $(FOLDER_SRC)/file.c $(FOLDER_INC)/file.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
-deck.o: deck.c includes/deck.h
+deck.o: $(FOLDER_SRC)/deck.c $(FOLDER_INC)/deck.h
 	@$(CC) -o $@ -c $< $(CFLAGS)
 
 # Run the game

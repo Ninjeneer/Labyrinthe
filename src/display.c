@@ -16,9 +16,9 @@
 #include <string.h>
 #include <dirent.h>
 #include <ctype.h>
-#include "includes/display.h"
-#include "includes/labyrinth.h"
-#include "includes/file.h"
+#include "../includes/display.h"
+#include "../includes/labyrinth.h"
+#include "../includes/file.h"
 
 /**
  * Display the game

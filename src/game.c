@@ -13,10 +13,10 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-#include "includes/game.h"
-#include "includes/display.h"
-#include "includes/file.h"
-#include "includes/monsters.h"
+#include "../includes/game.h"
+#include "../includes/display.h"
+#include "../includes/file.h"
+#include "../includes/monsters.h"
 
 /**
  * Start the game

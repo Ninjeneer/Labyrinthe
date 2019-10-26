@@ -3,4 +3,4 @@ project(projet1 C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(projet1 main.c labyrinth.c includes/labyrinth.h display.c includes/display.h includes/minunit.h deck.c includes/deck.h file.c includes/file.h game.c includes/game.h monsters.c includes/monsters.h)
+add_executable(projet1 src/main.c src/labyrinth.c includes/labyrinth.h src/display.c includes/display.h includes/minunit.h src/deck.c includes/deck.h src/file.c includes/file.h src/game.c includes/game.h src/monsters.c includes/monsters.h)
