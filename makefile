@@ -78,5 +78,6 @@ clean:
 distclean: clean
 	@rm -f $(EXEC)
 	@rm -f $(TESTS)
+	@rm -rf $(DOC_OUTPUT)
 
 .PHONY: all clean distclean run run_test doc folders $(EXEC) $(TESTS)
